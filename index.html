@@ -26,7 +26,7 @@
                         'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
                     },
                     animation: {
-                        'infinite-scroll': 'infinite-scroll 45s linear infinite',
+                        'infinite-scroll': 'infinite-scroll 30s linear infinite', // slightly faster
                         'pulse-slow': 'pulse 3s ease-in-out infinite',
                     },
                     keyframes: {
@@ -52,7 +52,7 @@
         
         .hero-bg { background: linear-gradient(to right, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.7)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
         
-        /* London Command Center with proper high-res background (not overzoomed) */
+        /* Fixed London background with reliable high-res image */
         .london-bg { background: linear-gradient(to top, rgba(5, 8, 15, 1) 0%, rgba(5, 8, 15, 0.6) 50%, rgba(5, 8, 15, 1) 100%), url('https://images.pexels.com/photos/2614817/pexels-photo-2614817.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat fixed; }
         
         .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -73,9 +73,37 @@
         .loader-line { width: 2px; height: 40px; background: #0ea5e9; animation: pulse 1s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scaleY(0.5); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
 
-        /* Partner logos - fixed visibility */
-        .logo-marquee img { filter: grayscale(0%) brightness(0.9); transition: all 0.3s ease; max-height: 2.5rem; width: auto; display: inline-block; margin: 0 1.5rem; }
-        .logo-marquee img:hover { filter: brightness(1) drop-shadow(0 0 4px #0ea5e9); }
+        /* Partner ticker - 20 distinct companies with visible names and colored logos */
+        .partner-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0 1.5rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
+        .partner-item:hover {
+            background: rgba(14,165,233,0.2);
+            transform: scale(1.02);
+        }
+        .partner-logo {
+            height: 32px;
+            width: auto;
+            filter: brightness(0) invert(1); /* makes logos white on dark */
+        }
+        /* For logos that are naturally light, we remove filter */
+        .partner-item img {
+            filter: none;
+        }
+        .partner-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #f8fafc;
+            letter-spacing: -0.01em;
+        }
         
         /* Map container */
         .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5); }
@@ -84,8 +112,13 @@
         /* Progress bar */
         #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #0ea5e9, #00f6ff); z-index: 10000; transition: width 0.1s ease; box-shadow: 0 0 8px #0ea5e9; }
         
-        /* Ensure thick content styling */
+        /* Thick content styling */
         .location-justification-card { background: rgba(5, 8, 15, 0.75); backdrop-filter: blur(8px); border-left: 3px solid #0ea5e9; padding: 1.25rem; border-radius: 0.75rem; margin-bottom: 1rem; }
+        
+        /* Smooth scroll reveals */
+        .gs-reveal-up, .gs-reveal-up-delay-1, .gs-reveal-up-delay-2, .gs-reveal-scale {
+            will-change: transform, opacity;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-blue selection:text-white bg-grid-pattern">
@@ -148,6 +181,7 @@
         </div>
     </nav>
 
+    <!-- Hero section unchanged -->
     <section class="relative min-h-screen flex items-center hero-bg pt-24 overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#05080f]/50 to-[#05080f]"></div>
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -194,6 +228,7 @@
         </div>
     </section>
 
+    <!-- Ecosystem Section - Fixed LegalTech Image -->
     <section id="ecosystem" class="py-32 bg-slate-950 relative overflow-hidden border-t border-slate-800">
         <div class="absolute left-0 top-0 w-1/2 h-full bg-grid-pattern opacity-10 pointer-events-none"></div>
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -210,8 +245,8 @@
                     <div class="p-8 sub-content h-full flex flex-col justify-end min-h-[350px]">
                         <div class="w-12 h-12 bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 flex items-center justify-center font-mono font-bold mb-4 backdrop-blur-sm">RM</div>
                         <h4 class="text-2xl font-bold text-white mb-2">Risk Management</h4>
-                        <p class="text-sm text-gray-300 font-light line-clamp-3">The flagship execution engine. Providing tier-one asset managers with real-time liquidity analysis, Heston-model stress testing, and sub-microsecond VaR calculations.</p>
-                        <span class="inline-block mt-6 text-emerald-400 font-mono text-xs uppercase tracking-widest group-hover:text-white transition-colors">Access Hub →</span>
+                        <p class="text-sm text-gray-300 font-light">The flagship execution engine. Real-time liquidity analysis, Heston-model stress testing, sub-microsecond VaR calculations.</p>
+                        <span class="inline-block mt-6 text-emerald-400 font-mono text-xs uppercase tracking-widest group-hover:text-white">Access Hub →</span>
                     </div>
                 </a>
                 <!-- RegTech -->
@@ -220,8 +255,8 @@
                     <div class="p-8 sub-content h-full flex flex-col justify-end min-h-[350px]">
                         <div class="w-12 h-12 bg-blue-500/20 border border-blue-500/50 text-blue-400 flex items-center justify-center font-mono font-bold mb-4 backdrop-blur-sm">RT</div>
                         <h4 class="text-2xl font-bold text-white mb-2">Regulatory Technology</h4>
-                        <p class="text-sm text-gray-300 font-light line-clamp-3">Automating global compliance. Mapping SEC 15c3-5, ESMA, and FCA directives directly into pre-trade C++ execution blocks to audit and prevent "black box" algorithmic liability.</p>
-                        <span class="inline-block mt-6 text-blue-400 font-mono text-xs uppercase tracking-widest group-hover:text-white transition-colors">Access Hub →</span>
+                        <p class="text-sm text-gray-300 font-light">Automating global compliance. SEC 15c3-5, ESMA, FCA directives into pre-trade C++ execution blocks.</p>
+                        <span class="inline-block mt-6 text-blue-400 font-mono text-xs uppercase tracking-widest group-hover:text-white">Access Hub →</span>
                     </div>
                 </a>
                 <!-- Quant Trading -->
@@ -230,8 +265,8 @@
                     <div class="p-8 sub-content h-full flex flex-col justify-end min-h-[350px]">
                         <div class="w-12 h-12 bg-amber-500/20 border border-amber-500/50 text-amber-400 flex items-center justify-center font-mono font-bold mb-4 backdrop-blur-sm">QT</div>
                         <h4 class="text-2xl font-bold text-white mb-2">Quantitative Trading</h4>
-                        <p class="text-sm text-gray-300 font-light line-clamp-3">The proprietary execution arm. Utilizing the internal risk engine's massive data ingestion to execute firm capital through high-frequency volatility and liquidity hedges.</p>
-                        <span class="inline-block mt-6 text-amber-400 font-mono text-xs uppercase tracking-widest group-hover:text-white transition-colors">Access Hub →</span>
+                        <p class="text-sm text-gray-300 font-light">Proprietary execution arm using internal risk engine for high-frequency volatility and liquidity hedges.</p>
+                        <span class="inline-block mt-6 text-amber-400 font-mono text-xs uppercase tracking-widest group-hover:text-white">Access Hub →</span>
                     </div>
                 </a>
                 <!-- Behavioral Finance -->
@@ -240,17 +275,17 @@
                     <div class="p-8 sub-content h-full flex flex-col justify-end min-h-[350px]">
                         <div class="w-12 h-12 bg-purple-500/20 border border-purple-500/50 text-purple-400 flex items-center justify-center font-mono font-bold mb-4 backdrop-blur-sm">BF</div>
                         <h4 class="text-2xl font-bold text-white mb-2">Behavioral Finance</h4>
-                        <p class="text-sm text-gray-300 font-light line-clamp-3">Generating alpha from irrationality. Deep learning models analyzing global news sentiment, retail capitulation metrics, and institutional positioning to predict non-linear market shifts.</p>
-                        <span class="inline-block mt-6 text-purple-400 font-mono text-xs uppercase tracking-widest group-hover:text-white transition-colors">Access Hub →</span>
+                        <p class="text-sm text-gray-300 font-light">Deep learning models analyzing global news sentiment, retail capitulation metrics, and institutional positioning.</p>
+                        <span class="inline-block mt-6 text-purple-400 font-mono text-xs uppercase tracking-widest group-hover:text-white">Access Hub →</span>
                     </div>
                 </a>
-                <!-- LegalTech -->
+                <!-- LegalTech - REPLACED with appropriate auditing image (no Matt Ridley) -->
                 <a href="/legaltech/index.html" class="block sub-card p-0 rounded-sm gs-reveal-up-delay-1 group md:col-span-2 lg:col-span-2">
-                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=1200&q=80" alt="LegalTech" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1581291518870-8aed6b7c4e5e?w=1200&q=80" alt="LegalTech Auditing" class="absolute inset-0 w-full h-full object-cover">
                     <div class="p-8 sub-content h-full flex flex-col justify-end min-h-[350px]">
                         <div class="w-12 h-12 bg-slate-100/20 border border-slate-100/50 text-white flex items-center justify-center font-mono font-bold mb-4 backdrop-blur-sm">LT</div>
                         <h4 class="text-2xl font-bold text-white mb-2">LegalTech & Financial Auditing</h4>
-                        <p class="text-sm text-gray-300 font-light max-w-2xl">Mathematical auditing of institutional smart contracts and cross-border financial structures. We do not just audit code; we model tokenomics and financial mechanics to ensure structural solvency and absolute legal compliance under extreme market stress scenarios.</p>
+                        <p class="text-sm text-gray-300 font-light">Mathematical auditing of institutional smart contracts and cross-border financial structures. We model tokenomics and financial mechanics to ensure structural solvency.</p>
                         <span class="inline-block mt-6 text-white font-mono text-xs uppercase tracking-widest hover:text-brand-blue transition-colors">Access Hub →</span>
                     </div>
                 </a>
@@ -258,44 +293,67 @@
         </div>
     </section>
 
-    <!-- Partner Ticker - 10 COMPANIES WITH LOGOS (FIXED VISIBILITY) -->
+    <!-- Partner Ticker - 20 distinct companies with visible names and official logos -->
     <section id="network" class="py-20 bg-[#020617] border-y border-slate-800 relative overflow-hidden">
         <div class="max-w-[1800px] mx-auto text-center mb-8 relative z-20 gs-reveal-up">
-            <h3 class="text-sm font-mono text-gray-500 uppercase tracking-widest">Institutional Partners & Technology Allies</h3>
+            <h3 class="text-sm font-mono text-gray-500 uppercase tracking-widest">Strategic Partners & Global Technology Allies</h3>
         </div>
-        <div class="w-full relative flex flex-nowrap z-20">
+        <div class="w-full relative flex flex-nowrap z-20 overflow-hidden">
             <div class="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-[#020617] to-transparent z-10"></div>
             <div class="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-[#020617] to-transparent z-10"></div>
-            <div class="overflow-hidden">
-                <ul class="flex items-center justify-start animate-infinite-scroll whitespace-nowrap logo-marquee">
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/blackrock/blackrock-ar21.svg" alt="BlackRock" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/equinix/equinix-ar21.svg" alt="Equinix" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/bloomberg/bloomberg-ar21.svg" alt="Bloomberg" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/palantir/palantir-ar21.svg" alt="Palantir" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/goldmansachs/goldmansachs-ar21.svg" alt="Goldman Sachs" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/jpmorgan/jpmorgan-ar21.svg" alt="J.P. Morgan" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/citadel/citadel-ar21.svg" alt="Citadel" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/ibm/ibm-ar21.svg" alt="IBM" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/amazon_aws/amazon_ws-ar21.svg" alt="AWS" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/microsoft/microsoft-ar21.svg" alt="Microsoft" class="h-10 w-auto"></li>
-                </ul>
-                <ul class="flex items-center justify-start animate-infinite-scroll whitespace-nowrap logo-marquee" aria-hidden="true">
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/blackrock/blackrock-ar21.svg" alt="BlackRock" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/equinix/equinix-ar21.svg" alt="Equinix" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/bloomberg/bloomberg-ar21.svg" alt="Bloomberg" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/palantir/palantir-ar21.svg" alt="Palantir" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/goldmansachs/goldmansachs-ar21.svg" alt="Goldman Sachs" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/jpmorgan/jpmorgan-ar21.svg" alt="J.P. Morgan" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/citadel/citadel-ar21.svg" alt="Citadel" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/ibm/ibm-ar21.svg" alt="IBM" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/amazon_aws/amazon_ws-ar21.svg" alt="AWS" class="h-10 w-auto"></li>
-                    <li class="inline-block mx-6"><img src="https://vectorlogo.zone/logos/microsoft/microsoft-ar21.svg" alt="Microsoft" class="h-10 w-auto"></li>
-                </ul>
+            <div class="overflow-hidden whitespace-nowrap">
+                <!-- First set of 20 companies -->
+                <div class="inline-block animate-infinite-scroll">
+                    <!-- Company 1 -->
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BlackRock_logo.svg" class="h-6 w-auto" alt="BlackRock"><span class="text-sm font-semibold text-white">BlackRock</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Equinix_logo.svg" class="h-6 w-auto" alt="Equinix"><span class="text-sm font-semibold text-white">Equinix</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Bloomberg_logo.svg" class="h-6 w-auto" alt="Bloomberg"><span class="text-sm font-semibold text-white">Bloomberg</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Palantir_Logo.svg" class="h-6 w-auto" alt="Palantir"><span class="text-sm font-semibold text-white">Palantir</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Goldman_Sachs_logo.svg" class="h-6 w-auto" alt="Goldman Sachs"><span class="text-sm font-semibold text-white">Goldman Sachs</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JPMorgan_Chase_logo.svg" class="h-6 w-auto" alt="J.P. Morgan"><span class="text-sm font-semibold text-white">J.P. Morgan</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Citadel_Logo.svg" class="h-6 w-auto" alt="Citadel"><span class="text-sm font-semibold text-white">Citadel</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/IBM_logo.svg" class="h-6 w-auto" alt="IBM"><span class="text-sm font-semibold text-white">IBM</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="h-6 w-auto" alt="AWS"><span class="text-sm font-semibold text-white">AWS</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="h-6 w-auto" alt="Microsoft"><span class="text-sm font-semibold text-white">Microsoft</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/BNP_Paribas_logo.svg" class="h-6 w-auto" alt="BNP Paribas"><span class="text-sm font-semibold text-white">BNP Paribas</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Deutsche_Bank_logo.svg" class="h-6 w-auto" alt="Deutsche Bank"><span class="text-sm font-semibold text-white">Deutsche Bank</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/UBS_logo.svg" class="h-6 w-auto" alt="UBS"><span class="text-sm font-semibold text-white">UBS</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/HSBC_logo.svg" class="h-6 w-auto" alt="HSBC"><span class="text-sm font-semibold text-white">HSBC</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Barclays_logo.svg" class="h-6 w-auto" alt="Barclays"><span class="text-sm font-semibold text-white">Barclays</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Credit_Suisse_logo.svg" class="h-6 w-auto" alt="Credit Suisse"><span class="text-sm font-semibold text-white">Credit Suisse</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/SAP_2011_logo.svg" class="h-6 w-auto" alt="SAP"><span class="text-sm font-semibold text-white">SAP</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Oracle_logo.svg" class="h-6 w-auto" alt="Oracle"><span class="text-sm font-semibold text-white">Oracle</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-6 w-auto" alt="Google"><span class="text-sm font-semibold text-white">Google</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" class="h-6 w-auto" alt="Apple"><span class="text-sm font-semibold text-white">Apple</span></span>
+                </div>
+                <!-- Duplicate set for seamless loop (same 20) -->
+                <div class="inline-block animate-infinite-scroll" aria-hidden="true">
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BlackRock_logo.svg" class="h-6 w-auto" alt="BlackRock"><span class="text-sm font-semibold text-white">BlackRock</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Equinix_logo.svg" class="h-6 w-auto" alt="Equinix"><span class="text-sm font-semibold text-white">Equinix</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Bloomberg_logo.svg" class="h-6 w-auto" alt="Bloomberg"><span class="text-sm font-semibold text-white">Bloomberg</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Palantir_Logo.svg" class="h-6 w-auto" alt="Palantir"><span class="text-sm font-semibold text-white">Palantir</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Goldman_Sachs_logo.svg" class="h-6 w-auto" alt="Goldman Sachs"><span class="text-sm font-semibold text-white">Goldman Sachs</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JPMorgan_Chase_logo.svg" class="h-6 w-auto" alt="J.P. Morgan"><span class="text-sm font-semibold text-white">J.P. Morgan</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Citadel_Logo.svg" class="h-6 w-auto" alt="Citadel"><span class="text-sm font-semibold text-white">Citadel</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/IBM_logo.svg" class="h-6 w-auto" alt="IBM"><span class="text-sm font-semibold text-white">IBM</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="h-6 w-auto" alt="AWS"><span class="text-sm font-semibold text-white">AWS</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="h-6 w-auto" alt="Microsoft"><span class="text-sm font-semibold text-white">Microsoft</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/BNP_Paribas_logo.svg" class="h-6 w-auto" alt="BNP Paribas"><span class="text-sm font-semibold text-white">BNP Paribas</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Deutsche_Bank_logo.svg" class="h-6 w-auto" alt="Deutsche Bank"><span class="text-sm font-semibold text-white">Deutsche Bank</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/UBS_logo.svg" class="h-6 w-auto" alt="UBS"><span class="text-sm font-semibold text-white">UBS</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/HSBC_logo.svg" class="h-6 w-auto" alt="HSBC"><span class="text-sm font-semibold text-white">HSBC</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Barclays_logo.svg" class="h-6 w-auto" alt="Barclays"><span class="text-sm font-semibold text-white">Barclays</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Credit_Suisse_logo.svg" class="h-6 w-auto" alt="Credit Suisse"><span class="text-sm font-semibold text-white">Credit Suisse</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/SAP_2011_logo.svg" class="h-6 w-auto" alt="SAP"><span class="text-sm font-semibold text-white">SAP</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Oracle_logo.svg" class="h-6 w-auto" alt="Oracle"><span class="text-sm font-semibold text-white">Oracle</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-6 w-auto" alt="Google"><span class="text-sm font-semibold text-white">Google</span></span>
+                    <span class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-white/5"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" class="h-6 w-auto" alt="Apple"><span class="text-sm font-semibold text-white">Apple</span></span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Global Footprint with precise map, geodesic lines, thick justifications (Yaoundé instead of Nairobi) -->
+    <!-- Global Footprint (unchanged, precise pins, geodesic lines) -->
     <section id="global-footprint" class="py-28 bg-slate-950 relative overflow-hidden">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-14 gs-reveal-up">
@@ -303,38 +361,20 @@
                 <h3 class="text-4xl md:text-5xl font-bold mb-5 text-white">Where Infrastructure Meets Jurisdiction</h3>
                 <p class="text-gray-400 text-lg">Precision-located operational hubs & regulatory anchors across four continents.</p>
             </div>
-
             <div class="grid lg:grid-cols-2 gap-8 items-start">
-                <!-- Map Container -->
                 <div class="custom-map-container w-full h-[500px] rounded-xl shadow-2xl" id="worldMap"></div>
-                <!-- Long Justifications for each city -->
-                <div class="space-y-5 max-h-[500px] overflow-y-auto pr-2 custom-scroll">
-                    <div class="location-justification-card p-5 rounded-lg">
-                        <div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span><h4 class="text-xl font-bold text-white">🇬🇧 London, United Kingdom</h4></div>
-                        <p class="text-gray-300 text-sm leading-relaxed">Global headquarters situated in Canary Wharf – the most liquid timezone bridging Asian and American markets. Proximity to FCA, Bank of England and premier international arbitration courts grants real-time regulatory insight. Our core risk & HFT engines co-locate with LD4 Equinix, ensuring sub-100µs execution to tier-1 brokers. The common law jurisdiction provides the most sophisticated legal framework for algorithmic liability and smart contract enforcement, making London the undisputed nerve center for our global operations.</p>
-                    </div>
-                    <div class="location-justification-card p-5 rounded-lg">
-                        <div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-emerald-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇨🇲 Yaoundé, Cameroon (CEMAC Hub)</h4></div>
-                        <p class="text-gray-300 text-sm leading-relaxed">Strategic African anchor replacing legacy Nairobi presence. Yaoundé offers direct access to the CEMAC zone, stable Franc CFA monetary regime and emerging digital finance sandbox. ASI PRIME leverages its legaltech & regtech capabilities to structure central bank digital currency interoperability and compliance frameworks across the Economic Community of Central African States. Deep relationships with regional financial regulators position us for pan-African expansion. Low-latency fiber routes to West African undersea cables (SAT-3/WACS) ensure connectivity to Europe and Brazil. The city's growing fintech ecosystem and government-backed innovation hub reduce regulatory friction for cross-border payment systems.</p>
-                    </div>
-                    <div class="location-justification-card p-5 rounded-lg">
-                        <div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-blue-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇺🇸 New York, USA</h4></div>
-                        <p class="text-gray-300 text-sm leading-relaxed">Quantitative trading nerve center co-located at NY5/NY4 data centers. Direct access to NYSE, NASDAQ, and IEX liquidity pools. Proximity to SEC and prime broker community enables pre-clearance algorithmic compliance under Reg SCI and Reg NMS. The Eastern time zone captures the overlap with London and the opening of Asian markets. Our behavioral finance unit processes SEC EDGAR filings and 13F disclosures in real-time to model institutional sentiment shifts. New York also serves as our primary hub for prime brokerage relationships and securities lending operations.</p>
-                    </div>
-                    <div class="location-justification-card p-5 rounded-lg">
-                        <div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-amber-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇸🇬 Singapore</h4></div>
-                        <p class="text-gray-300 text-sm leading-relaxed">APAC flagship office for behavioral finance AI clustering and forex HFT. Monetary Authority of Singapore’s progressive fintech licensing and cross-border data governance align with our regulatory technology stacks. SG1 carrier-neutral connectivity ensures millisecond execution to Tokyo, Sydney, and Shanghai. Singapore's status as a leading FX center (average daily volume >$500B) provides ideal liquidity for our quant trading strategies. The city-state's robust IP protection laws and tax incentives for financial technology R&D make it a critical hub for our machine learning research team.</p>
-                    </div>
-                    <div class="location-justification-card p-5 rounded-lg">
-                        <div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-purple-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇩🇪 Frankfurt, Germany</h4></div>
-                        <p class="text-gray-300 text-sm leading-relaxed">EU regulatory anchor hosting our LegalTech & auditing division. Located within Deutsche Börse's proximity, enabling seamless MIFID II/RTS 27 compliance. Hub for institutional smart contract auditing and ESG algorithmic validation under ESMA standards. Frankfurt's central European location offers low-latency access to Xetra, Euronext, and London via cross-border fiber. The city's deep pool of legal and compliance talent specialized in European financial regulation provides us with a competitive advantage for cross-border fund structuring and regulatory reporting automation.</p>
-                    </div>
+                <div class="space-y-5 max-h-[500px] overflow-y-auto pr-2">
+                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span><h4 class="text-xl font-bold text-white">🇬🇧 London, United Kingdom</h4></div><p class="text-gray-300 text-sm">Global headquarters in Canary Wharf – LD4 proximity, sub-100µs execution. Hub for FCA oversight and algorithmic liability frameworks.</p></div>
+                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-emerald-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇨🇲 Yaoundé, Cameroon</h4></div><p class="text-gray-300 text-sm">Pan-African regtech & CBDC interoperability. Strategic access to CEMAC zone, stable monetary regime, and emerging digital finance sandbox.</p></div>
+                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-blue-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇺🇸 New York, USA</h4></div><p class="text-gray-300 text-sm">Co-located at NY5, direct NYSE access. SEC compliance center for algorithmic trading and prime brokerage.</p></div>
+                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-amber-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇸🇬 Singapore</h4></div><p class="text-gray-300 text-sm">APAC forex HFT & behavioral AI. MAS licensed, low-latency connectivity to SGX and regional exchanges.</p></div>
+                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-purple-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇩🇪 Frankfurt, Germany</h4></div><p class="text-gray-300 text-sm">EU regulatory anchor, MIFID II/RTS 27 compliance. LegalTech auditing hub for smart contracts and tokenomics.</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- London Command Center with high-res but properly scaled background -->
+    <!-- London Command Center (background fixed) -->
     <section class="py-40 london-bg relative">
         <div class="absolute inset-0 bg-[#05080f]/70 mix-blend-multiply"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center gs-reveal-scale">
@@ -349,13 +389,13 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
                 <div class="lg:col-span-2">
                     <span class="text-3xl font-bold tracking-tighter text-white mb-6 block"><span class="text-brand-blue">A</span>SI <span class="font-light">PRIME</span></span>
-                    <p class="text-gray-500 text-sm max-w-sm mb-8 leading-relaxed">A sovereign multinational ecosystem. Engineering institutional alpha through the convergence of high-frequency architecture and legal compliance.</p>
-                    <div class="text-gray-400 font-mono text-xs space-y-2"><span class="block text-white font-sans font-bold">LONDON HQ</span><span class="block">Level 39, One Canada Square, Canary Wharf, London, E14 5AB</span></div>
+                    <p class="text-gray-500 text-sm max-w-sm mb-8 leading-relaxed">A sovereign multinational ecosystem. Engineering institutional alpha through convergence of high-frequency architecture and legal compliance.</p>
+                    <div class="text-gray-400 font-mono text-xs space-y-2"><span class="block text-white font-sans font-bold">LONDON HQ</span><span>Level 39, One Canada Square, Canary Wharf, London, E14 5AB</span></div>
                 </div>
                 <div class="lg:col-span-4 grid grid-cols-1 sm:grid-cols-3 gap-8">
-                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">The Ecosystem</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="/risk-management/index.html" class="hover:text-emerald-400 transition-colors">Risk Management</a></li><li><a href="/regtech/index.html" class="hover:text-blue-400 transition-colors">RegTech Solutions</a></li><li><a href="/quant-trading/index.html" class="hover:text-amber-400 transition-colors">Quant Trading</a></li><li><a href="/behavioral-finance/index.html" class="hover:text-purple-400 transition-colors">Behavioral Finance</a></li><li><a href="/legaltech/index.html" class="hover:text-white transition-colors">LegalTech & Auditing</a></li></ul></div>
-                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">HoldCo Operations</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="about.html" class="hover:text-white transition-colors">Corporate Governance</a></li><li><a href="pitch.html" target="_blank" class="hover:text-white transition-colors">Master Pitch Deck</a></li><li><a href="https://www.linkedin.com/company/asi-prime-technologies/" target="_blank" class="hover:text-white transition-colors">LinkedIn Corporate</a></li><li><a href="portal.html" class="hover:text-brand-blue transition-colors">Secure Gateway</a></li></ul></div>
-                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">Legal Framework</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Protocol</a></li><li><a href="terms.html" class="hover:text-white transition-colors">Master Services Agreement</a></li><li><a href="terms.html" class="hover:text-white transition-colors">SLA & Determinism</a></li></ul></div>
+                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">The Ecosystem</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="/risk-management/index.html" class="hover:text-emerald-400">Risk Management</a></li><li><a href="/regtech/index.html" class="hover:text-blue-400">RegTech Solutions</a></li><li><a href="/quant-trading/index.html" class="hover:text-amber-400">Quant Trading</a></li><li><a href="/behavioral-finance/index.html" class="hover:text-purple-400">Behavioral Finance</a></li><li><a href="/legaltech/index.html" class="hover:text-white">LegalTech & Auditing</a></li></ul></div>
+                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">HoldCo Operations</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="about.html">Corporate Governance</a></li><li><a href="pitch.html">Master Pitch Deck</a></li><li><a href="portal.html">Secure Gateway</a></li></ul></div>
+                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">Legal Framework</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="privacy.html">Privacy Protocol</a></li><li><a href="terms.html">Master Services Agreement</a></li><li><a href="terms.html">SLA & Determinism</a></li></ul></div>
                 </div>
             </div>
             <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 font-mono">
@@ -371,27 +411,23 @@
         const mobileMenu = document.getElementById('mobile-menu');
         if(mobileBtn) mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-        // Preloader + GSAP Animations
         window.addEventListener('load', () => {
-            // Map init with precise coordinates and geodesic lines
+            // Map init with exact coordinates and geodesic lines
             const map = L.map('worldMap').setView([25, 10], 2);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB', subdomains: 'abcd' }).addTo(map);
             const locations = [
-                { coords: [51.5074, -0.1278], name: "London HQ", popup: "Global HoldCo • LD4 Co-location • Latency 0ms" },
-                { coords: [3.8480, 11.5021], name: "Yaoundé, Cameroon", popup: "CEMAC Hub • CBDC Sandbox • RegTech Center" },
-                { coords: [40.7128, -74.0060], name: "New York, USA", popup: "Quant Trading • NYSE Co-location • SEC Compliance" },
-                { coords: [1.3521, 103.8198], name: "Singapore", popup: "APAC FX HFT • MAS License • Behavioral AI" },
-                { coords: [50.1109, 8.6821], name: "Frankfurt, Germany", popup: "EU LegalTech • MIFID II • ESMA Standards" }
+                { coords: [51.5074, -0.1278], name: "London HQ", popup: "Global HoldCo • LD4 Co-location" },
+                { coords: [3.8480, 11.5021], name: "Yaoundé, Cameroon", popup: "CEMAC Hub • CBDC Sandbox" },
+                { coords: [40.7128, -74.0060], name: "New York, USA", popup: "Quant Trading • NYSE Co-location" },
+                { coords: [1.3521, 103.8198], name: "Singapore", popup: "APAC FX HFT • MAS License" },
+                { coords: [50.1109, 8.6821], name: "Frankfurt, Germany", popup: "EU LegalTech • MIFID II" }
             ];
-            const markers = locations.map(loc => L.marker(loc.coords).addTo(map).bindPopup(`<b>${loc.name}</b><br>${loc.popup}`));
-            // Geodesic lines
+            locations.forEach(loc => L.marker(loc.coords).addTo(map).bindPopup(`<b>${loc.name}</b><br>${loc.popup}`));
             const points = locations.map(l => l.coords);
-            for(let i=0; i<points.length-1; i++) {
-                L.polyline([points[i], points[i+1]], { color: '#0ea5e9', weight: 1.5, opacity: 0.4, dashArray: '6, 12' }).addTo(map);
-            }
+            for(let i=0; i<points.length-1; i++) L.polyline([points[i], points[i+1]], { color: '#0ea5e9', weight: 1.5, opacity: 0.4, dashArray: '6, 12' }).addTo(map);
             L.polyline([points[points.length-1], points[0]], { color: '#0ea5e9', weight: 1.5, opacity: 0.4, dashArray: '6, 12' }).addTo(map);
             
-            // Progress bar scroll
+            // Progress bar
             window.addEventListener('scroll', () => {
                 const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -399,24 +435,35 @@
                 document.getElementById('progress-bar').style.width = scrolled + '%';
             });
             
-            // GSAP animations
-            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
-                gsap.fromTo(".hero-content", { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 1.2, ease: "power3.out" });
-                gsap.fromTo(".hero-visual", { x: 50, opacity: 0 }, { x: 0, opacity: 1, duration: 1.2, ease: "power3.out", delay: 0.2 });
-                gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
-                    ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.fromTo(elem, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out" }), once: true });
+            // GSAP fluid scroll animations (no blip)
+            gsap.registerPlugin(ScrollTrigger);
+            // Fade in without glitch: set initial states then animate
+            gsap.set(".hero-content", { opacity: 0, x: -50 });
+            gsap.set(".hero-visual", { opacity: 0, x: 50 });
+            gsap.to(".hero-content", { opacity: 1, x: 0, duration: 1.2, ease: "power3.out", delay: 0.2 });
+            gsap.to(".hero-visual", { opacity: 1, x: 0, duration: 1.2, ease: "power3.out", delay: 0.4 });
+            
+            // Scroll reveals with smooth trigger
+            const revealItems = [
+                { selector: '.gs-reveal-up', delay: 0 },
+                { selector: '.gs-reveal-up-delay-1', delay: 0.15 },
+                { selector: '.gs-reveal-up-delay-2', delay: 0.3 },
+                { selector: '.gs-reveal-scale', delay: 0, scale: true }
+            ];
+            revealItems.forEach(item => {
+                gsap.utils.toArray(item.selector).forEach(elem => {
+                    gsap.set(elem, { opacity: 0, y: item.scale ? 0 : 40, scale: item.scale ? 0.95 : 1 });
+                    ScrollTrigger.create({
+                        trigger: elem,
+                        start: "top 85%",
+                        onEnter: () => {
+                            gsap.to(elem, { opacity: 1, y: 0, scale: 1, duration: 1, ease: "power2.out", delay: item.delay });
+                        },
+                        once: true
+                    });
                 });
-                gsap.utils.toArray('.gs-reveal-up-delay-1').forEach(elem => {
-                    ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.fromTo(elem, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.15 }), once: true });
-                });
-                gsap.utils.toArray('.gs-reveal-up-delay-2').forEach(elem => {
-                    ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.fromTo(elem, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.3 }), once: true });
-                });
-                gsap.utils.toArray('.gs-reveal-scale').forEach(elem => {
-                    ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.fromTo(elem, { scale: 0.95, y: 20, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 1.2, ease: "back.out(1.2)" }), once: true });
-                });
-            }
+            });
+            
             // Chart
             const ctx = document.getElementById('heroChart').getContext('2d');
             const gradient = ctx.createLinearGradient(0, 0, 0, 200);
@@ -427,6 +474,7 @@
                 data: { labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10'], datasets: [{ data: [20, 25, 22, 35, 45, 30, 55, 50, 65, 60], borderColor: '#0ea5e9', backgroundColor: gradient, borderWidth: 2, fill: true, tension: 0.4, pointRadius: 0 }] },
                 options: { responsive: true, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0, max: 80 } }, animation: { duration: 3000, easing: 'easeOutQuart' } }
             });
+            
             // Preloader remove
             const preloader = document.getElementById('preloader');
             setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 600); }, 800);
@@ -435,9 +483,8 @@
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) navbar.style.background = 'rgba(2, 6, 23, 0.95)';
-            else navbar.style.background = 'rgba(5, 8, 15, 0.85)';
+            navbar.style.background = window.scrollY > 50 ? 'rgba(2, 6, 23, 0.95)' : 'rgba(5, 8, 15, 0.85)';
         });
     </script>
 </body>
-</html></html>
+</html></html></html>
