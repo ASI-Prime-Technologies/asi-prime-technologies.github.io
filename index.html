@@ -1,308 +1,482 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth bg-[#05080f]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASI PRIME | Risk Management & Global HoldCo</title>
+    <title>ASI PRIME Technologies | Global Infrastructure HoldCo</title>
+    <meta name="description" content="The sovereign ecosystem for institutional finance, regulatory technology, and quantitative execution.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
+                        brand: { blue: '#0ea5e9', light: '#38bdf8', dark: '#0284c7', accent: '#00f6ff' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+                    },
+                    animation: {
+                        'infinite-scroll': 'infinite-scroll 45s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        'infinite-scroll': {
+                            from: { transform: 'translateX(0)' },
+                            to: { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+        body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
+        .glass-nav { background: rgba(5, 8, 15, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
         
-        body { 
-            font-family: 'Space+Grotesk', sans-serif; 
-            background-color: #050505; 
-            color: #e5e5e5; 
-            overflow-x: hidden;
-        }
+        .hero-bg { background: linear-gradient(to right, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.7)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
+        .london-bg { background: linear-gradient(to top, rgba(5, 8, 15, 1) 0%, rgba(5, 8, 15, 0.6) 50%, rgba(5, 8, 15, 1) 100%), url('https://images.unsplash.com/photo-1529655683823-dc58849b380f?ixlib=rb-4.0.3&auto=format&fit=crop&w=3000&q=100') center/cover no-repeat fixed; }
         
-        .glass { 
-            background: rgba(255, 255, 255, 0.03); 
-            backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-        }
+        .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .accent-glow { box-shadow: 0 0 20px rgba(0, 255, 157, 0.2); }
+        /* Updated: Removed fading/blur, keeping high-contrast sharp visuals */
+        .sub-card { position: relative; overflow: hidden; border: 1px solid #1e293b; transition: all 0.5s cubic-bezier(0.2, 0, 0.2, 1); background: #0b1120; }
+        .sub-card img { transition: transform 0.8s ease; filter: grayscale(20%); opacity: 0.7; }
+        .sub-card:hover img { transform: scale(1.05); opacity: 0.9; filter: grayscale(0%); }
+        .sub-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #05080f 20%, transparent 100%); z-index: 10; }
+        .sub-card:hover { border-color: #0ea5e9; box-shadow: 0 0 30px rgba(14, 165, 233, 0.15); }
+        .sub-content { position: relative; z-index: 20; }
         
-        /* Marquee Animation */
-        .marquee-container {
-            overflow: hidden;
-            white-space: nowrap;
-            width: 100%;
-            background: #0a0a0a;
-            padding: 20px 0;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 30s linear infinite;
-        }
-        .marquee-content span {
-            display: inline-block;
-            margin: 0 40px;
-            vertical-align: middle;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        .map-pin { position: absolute; width: 12px; height: 12px; background: #0ea5e9; border-radius: 50%; box-shadow: 0 0 15px #0ea5e9; cursor: pointer; transition: all 0.3s ease; }
+        .map-pin:hover { transform: scale(1.5); background: #00f6ff; box-shadow: 0 0 25px #00f6ff; }
+        .map-pin::before { content: ''; position: absolute; inset: -8px; border: 1px solid #0ea5e9; border-radius: 50%; animation: ping 2s infinite; }
 
-        /* Partner Logos Typography Matching */
-        .logo-blackrock { font-family: 'Arial Black', sans-serif; color: #ffffff; text-transform: uppercase; letter-spacing: -1px; font-size: 1.5rem; }
-        .logo-goldman { font-family: 'Georgia', serif; color: #7395C5; font-size: 1.4rem; letter-spacing: 1px; }
-        .logo-jpmorgan { font-family: 'Times New Roman', serif; color: #D2A860; font-weight: bold; text-transform: uppercase; font-size: 1.4rem; }
-        .logo-bloomberg { font-family: 'Arial', sans-serif; color: #FF6600; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; font-size: 1.5rem; }
-        .logo-enfusion { font-family: 'Helvetica', sans-serif; color: #00A3E0; font-weight: bold; font-size: 1.5rem; }
-        .logo-palantir { font-family: 'Helvetica Neue', sans-serif; color: #ffffff; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; font-size: 1.4rem; }
-        .logo-citadel { font-family: 'Times New Roman', serif; color: #ffffff; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; font-size: 1.5rem; }
-        .logo-twosigma { font-family: 'Arial', sans-serif; color: #ffffff; font-weight: bold; font-size: 1.4rem; }
-        .logo-aqr { font-family: 'Georgia', serif; color: #1f4f82; font-weight: bold; text-transform: uppercase; font-size: 1.6rem; }
-        .logo-jane { font-family: 'Trebuchet MS', sans-serif; color: #2E8B57; font-weight: bold; font-size: 1.4rem; }
+        .float-subtle { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 
-        /* Solid Images - No Fading */
-        .solid-img {
-            opacity: 1 !important;
-            transition: none !important;
-            filter: brightness(0.8) contrast(1.2);
-        }
-
-        /* Global Map Positioning */
-        .map-container {
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            aspect-ratio: 2 / 1;
-            opacity: 0.8;
-        }
-        
-        .map-pin {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background-color: #10b981; /* Emerald 500 */
-            border-radius: 50%;
-            box-shadow: 0 0 15px 5px rgba(16, 185, 129, 0.5);
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-        }
-        
-        .map-pin::after {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border: 1px solid #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(2.5); opacity: 0; }
-        }
-
-        /* Exact Coordinates */
-        .pin-london { top: 22%; left: 47%; }
-        .pin-newyork { top: 28%; left: 28%; }
-        .pin-dubai { top: 40%; left: 63.5%; }
-        .pin-singapore { top: 57%; left: 78%; }
-        .pin-yaounde { top: 53.5%; left: 51.5%; }
+        #preloader { position: fixed; inset: 0; z-index: 9999; background: #05080f; display: flex; justify-content: center; align-items: center; transition: opacity 0.8s ease; }
+        .loader-line { width: 2px; height: 40px; background: #0ea5e9; animation: pulse 1s infinite ease-in-out; }
     </style>
 </head>
-<body>
+<body class="antialiased selection:bg-brand-blue selection:text-white bg-grid-pattern">
 
-    <nav class="p-6 flex justify-between items-center border-b border-white/10 glass fixed w-full z-50">
-        <div class="text-xl font-bold tracking-tighter flex items-center gap-2">
-            ASI <span class="text-emerald-500 text-sm">PRIME</span>
+    <div id="preloader">
+        <div class="flex items-center space-x-4">
+            <div class="loader-line" style="animation-delay: 0.1s"></div>
+            <div class="loader-line" style="animation-delay: 0.2s"></div>
+            <div class="loader-line" style="animation-delay: 0.3s"></div>
+            <span class="text-white font-mono text-xl tracking-widest ml-4">ASI PRIME</span>
         </div>
-        <div class="hidden md:flex gap-8 text-xs uppercase tracking-widest text-white/70 font-bold">
-            <a href="#" class="hover:text-emerald-400 transition-colors text-emerald-400">Risk Management</a>
-            <a href="#" class="hover:text-white transition-colors">Quant Trading</a>
-            <a href="#" class="hover:text-white transition-colors">RegTech</a>
-            <a href="#" class="hover:text-white transition-colors">LegalTech</a>
-            <a href="#" class="hover:text-white transition-colors">Behavioral</a>
-        </div>
-        <div class="text-[10px] uppercase tracking-widest text-white/50 border border-white/20 px-3 py-1 rounded">
-            HoldCo Directory
+    </div>
+
+    <nav class="fixed w-full z-50 transition-all duration-500 glass-nav" id="navbar">
+        <div class="max-w-[1800px] mx-auto px-6 lg:px-12">
+            <div class="flex justify-between items-center h-24">
+                <a href="index.html" class="flex-shrink-0 flex items-center group">
+                    <div class="w-10 h-10 relative mr-4">
+                        <div class="absolute inset-0 border-2 border-brand-blue transform rotate-45 group-hover:rotate-180 transition-transform duration-700"></div>
+                        <div class="absolute inset-2 bg-brand-blue"></div>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tighter text-white">
+                        <span class="text-brand-blue">A</span>SI <span class="font-light">PRIME</span>
+                        <span class="block text-[0.6rem] font-mono tracking-[0.3em] text-gray-500 -mt-1 uppercase">Technologies Group</span>
+                    </span>
+                </a>
+                
+                <div class="hidden lg:flex space-x-12 items-center">
+                    <a href="#ecosystem" class="text-xs font-mono tracking-widest uppercase text-gray-400 hover:text-white transition-colors">Subsidiaries</a>
+                    <a href="#global-presence" class="text-xs font-mono tracking-widest uppercase text-gray-400 hover:text-white transition-colors">Global Nodes</a>
+                    <a href="#network" class="text-xs font-mono tracking-widest uppercase text-gray-400 hover:text-white transition-colors">Partners</a>
+                    <div class="h-6 w-[1px] bg-slate-800"></div>
+                    <a href="portal.html" class="px-6 py-2.5 text-[10px] font-mono font-bold border border-brand-blue/40 text-brand-blue hover:bg-brand-blue hover:text-white transition-all uppercase tracking-[0.2em]">
+                        HoldCo Gateway
+                    </a>
+                </div>
+
+                <button id="mobile-menu-btn" class="lg:hidden text-gray-400">
+                    <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="1.5" d="M4 8h16M4 16h16"/></svg>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <section class="h-screen flex flex-col justify-center px-8 relative">
-        <div class="absolute top-20 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[120px]"></div>
-        
-        <h2 class="text-xs uppercase tracking-[0.4em] text-emerald-400 mb-4 opacity-0" id="sub-tag">Subsidiary: Risk Management</h2>
-        <h1 class="text-5xl md:text-7xl font-bold leading-tight opacity-0" id="main-title">
-            Quantitative <br> Resilience.
-        </h1>
-        <p class="mt-6 max-w-md text-white/60 leading-relaxed opacity-0" id="desc">
-            Deep-learning powered stochastic modeling for the London financial corridor. Bridging the gap between Oxford research and City execution.
-        </p>
-        
-        <div class="mt-10 flex gap-4 opacity-0" id="cta">
-            <button class="px-8 py-3 bg-white text-black font-bold text-sm hover:bg-emerald-400 transition-all">ACCESS PORTAL</button>
-            <button class="px-8 py-3 glass text-sm font-bold">V-2026 SPECS</button>
-        </div>
-    </section>
-
-    <section class="w-full bg-black">
-        <div class="text-center text-[10px] uppercase tracking-widest text-white/40 pt-4 pb-2">Institutional Ecosystem Integration</div>
-        <div class="marquee-container">
-            <div class="marquee-content">
-                <span class="logo-blackrock">BlackRock</span>
-                <span class="logo-goldman">Goldman Sachs</span>
-                <span class="logo-jpmorgan">J.P. Morgan</span>
-                <span class="logo-bloomberg">Bloomberg</span>
-                <span class="logo-enfusion">Enfusion</span>
-                <span class="logo-palantir">Palantir</span>
-                <span class="logo-citadel">Citadel</span>
-                <span class="logo-twosigma">Two Sigma</span>
-                <span class="logo-aqr">AQR</span>
-                <span class="logo-jane">Jane Street</span>
-                <span class="logo-blackrock">BlackRock</span>
-                <span class="logo-goldman">Goldman Sachs</span>
-                <span class="logo-jpmorgan">J.P. Morgan</span>
-                <span class="logo-bloomberg">Bloomberg</span>
-                <span class="logo-enfusion">Enfusion</span>
-                <span class="logo-palantir">Palantir</span>
-                <span class="logo-citadel">Citadel</span>
-                <span class="logo-twosigma">Two Sigma</span>
-                <span class="logo-aqr">AQR</span>
-                <span class="logo-jane">Jane Street</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-20 px-8 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold mb-12 border-b border-white/10 pb-4">Global Operating Divisions</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
-            <div class="relative h-64 border border-white/20 overflow-hidden group">
-                <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80" alt="Algorithmic Trading Screen" class="absolute inset-0 w-full h-full object-cover z-0 solid-img">
-                <div class="absolute inset-0 bg-black/70 z-10"></div>
-                <div class="relative z-20 p-6 h-full flex flex-col justify-end">
-                    <h3 class="text-2xl font-bold text-white mb-2">ASI PRIME Quant</h3>
-                    <p class="text-sm text-white/70">High-frequency volatility hedging and proprietary execution.</p>
+    <section class="relative min-h-screen flex items-center hero-bg pt-24">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#05080f]/50 to-[#05080f]"></div>
+        <div class="max-w-[1800px] mx-auto px-6 lg:px-12 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <div class="lg:col-span-7 hero-content">
+                    <div class="inline-flex items-center space-x-3 border border-brand-blue/20 bg-brand-blue/5 px-4 py-2 rounded-full mb-8">
+                        <span class="w-2 h-2 bg-brand-accent rounded-full animate-pulse"></span>
+                        <span class="text-[10px] font-mono text-brand-light tracking-[0.3em] uppercase">Multi-Sector Conglomerate // Active</span>
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-[0.95]">
+                        The Sovereign <br>
+                        <span class="text-gradient">Financial Core.</span>
+                    </h1>
+                    <p class="text-xl text-gray-400 mb-12 font-light max-w-2xl leading-relaxed border-l border-brand-blue/30 pl-6">
+                        ASI PRIME Technologies is a multinational holding company engineering the future of deep-tech finance. From algorithmic trading to regulatory automation, we provide the foundational architecture for the next era of global capital.
+                    </p>
+                    <div class="flex flex-wrap gap-6">
+                        <a href="#ecosystem" class="px-10 py-5 bg-brand-blue text-white font-mono text-xs tracking-widest uppercase hover:bg-brand-dark transition-all shadow-xl shadow-brand-blue/20">Explore Ecosystem</a>
+                        <a href="#global-presence" class="px-10 py-5 border border-slate-700 text-white font-mono text-xs tracking-widest uppercase hover:border-brand-blue transition-all">Strategic Locations</a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="relative h-64 border border-white/20 overflow-hidden group">
-                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66cb85?auto=format&fit=crop&w=800&q=80" alt="Regulatory Compliance Documents" class="absolute inset-0 w-full h-full object-cover z-0 solid-img">
-                <div class="absolute inset-0 bg-black/70 z-10"></div>
-                <div class="relative z-20 p-6 h-full flex flex-col justify-end">
-                    <h3 class="text-2xl font-bold text-white mb-2">ASI PRIME RegTech</h3>
-                    <p class="text-sm text-white/70">Automated multi-jurisdictional reporting and black-box AI auditing.</p>
-                </div>
-            </div>
-
-            <div class="relative h-64 border border-white/20 overflow-hidden group">
-                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80" alt="Legal Frameworks" class="absolute inset-0 w-full h-full object-cover z-0 solid-img">
-                <div class="absolute inset-0 bg-black/70 z-10"></div>
-                <div class="relative z-20 p-6 h-full flex flex-col justify-end">
-                    <h3 class="text-2xl font-bold text-white mb-2">ASI PRIME LegalTech</h3>
-                    <p class="text-sm text-white/70">Mathematical auditing of institutional smart contracts and financial law integration.</p>
-                </div>
-            </div>
-
-            <div class="relative h-64 border border-white/20 overflow-hidden group">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Data Network Analysis" class="absolute inset-0 w-full h-full object-cover z-0 solid-img">
-                <div class="absolute inset-0 bg-black/70 z-10"></div>
-                <div class="relative z-20 p-6 h-full flex flex-col justify-end">
-                    <h3 class="text-2xl font-bold text-white mb-2">ASI PRIME Behavioral</h3>
-                    <p class="text-sm text-white/70">Predictive Alpha generation via global sentiment mapping.</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="py-20 bg-[#0a0a0a] border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-8">
-            <h2 class="text-3xl font-bold mb-4">The "Four Corners" Global Architecture</h2>
-            <p class="text-white/50 mb-12 max-w-2xl text-sm leading-relaxed">
-                Strategic geographical distribution of ASI PRIME subsidiaries to maximize regulatory arbitrage, liquidity access, and emerging market dominance.
-            </p>
-
-            <div class="map-container mb-16 rounded-lg border border-white/10">
-                <div class="map-pin pin-london" title="London (The Brain)"></div>
-                <div class="map-pin pin-newyork" title="New York (The Engine)"></div>
-                <div class="map-pin pin-dubai" title="Dubai (The Growth Hub)"></div>
-                <div class="map-pin pin-singapore" title="Singapore (The Gateway)"></div>
-                <div class="map-pin pin-yaounde" title="Yaoundé (The Emerging Frontier)"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                 
-                <div class="p-6 border-l-2 border-emerald-500 glass">
-                    <h3 class="text-xl font-bold mb-3 text-emerald-400">London, UK <span class="text-xs text-white/50 block mt-1 uppercase tracking-widest">Global Headquarters & Risk Management</span></h3>
-                    <p class="text-sm text-white/70 leading-relaxed">
-                        The definitive epicenter of common law and high-frequency finance. Positioned strategically within the Oxford-London "Silicon Corridor," this hub directly targets the FCA’s new Data-First regulatory era. By anchoring the core risk engine here, ASI PRIME bridges bleeding-edge academic research with immediate Tier-1 banking integration in Canary Wharf, setting the global standard for algorithmic liability.
-                    </p>
+                <div class="hidden lg:block lg:col-span-5 hero-visual relative float-subtle">
+                    <div class="bg-slate-900/40 border border-white/5 p-10 rounded-2xl backdrop-blur-3xl shadow-2xl">
+                        <div class="flex justify-between items-center mb-8">
+                            <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Network Throughput</span>
+                            <span class="text-[10px] font-mono text-brand-light uppercase tracking-widest animate-pulse">Real-Time Data Flow</span>
+                        </div>
+                        <canvas id="heroChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ecosystem" class="py-32 bg-[#05080f] relative border-t border-white/5">
+        <div class="max-w-[1800px] mx-auto px-6 lg:px-12 relative z-10">
+            <div class="max-w-3xl mb-24 gs-reveal-up">
+                <h2 class="text-brand-blue font-mono text-xs tracking-[0.4em] uppercase mb-4">HoldCo Portfolio</h2>
+                <h3 class="text-5xl font-bold mb-8 text-white">The Five Pillars.</h3>
+                <p class="text-gray-400 text-lg font-light leading-relaxed">
+                    Our subsidiaries operate with total autonomy while leveraging the shared technological and legal expertise of the HoldCo. Every node is interconnected, creating a robust feedback loop between market execution and regulatory compliance.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <a href="/quant-trading/" class="block sub-card gs-reveal-up group">
+                    <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=100" alt="Algorithmic Trading Screen" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-3">Quantitative Trading</h4>
+                        <p class="text-sm text-gray-300 font-light mb-6">High-frequency execution arm utilizing sub-microsecond latency architecture to provide liquidity across global equity and volatility markets.</p>
+                        <span class="text-amber-400 font-mono text-[10px] tracking-widest uppercase">Proprietary Execution Node →</span>
+                    </div>
+                </a>
+
+                <a href="/risk-management/" class="block sub-card gs-reveal-up group">
+                    <img src="https://images.unsplash.com/photo-1551288049-bbbda546697a?auto=format&fit=crop&w=1200&q=100" alt="Risk Analytics Dashboard" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-3">Risk Management</h4>
+                        <p class="text-sm text-gray-300 font-light mb-6">The institutional engine for stress-testing and VaR modeling. Providing real-time resilience metrics for Tier-1 asset managers.</p>
+                        <span class="text-emerald-400 font-mono text-[10px] tracking-widest uppercase">Systemic Resilience Hub →</span>
+                    </div>
+                </a>
+
+                <a href="/regtech/" class="block sub-card gs-reveal-up group">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=100" alt="Digital Compliance Map" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-3">RegTech</h4>
+                        <p class="text-sm text-gray-300 font-light mb-6">Automating the legal-computational interface. Mapping global directives (MiFID II, SEC) into deterministic pre-trade logic.</p>
+                        <span class="text-blue-400 font-mono text-[10px] tracking-widest uppercase">Algorithmic Compliance →</span>
+                    </div>
+                </a>
+
+                <a href="/behavioral-finance/" class="block sub-card gs-reveal-up group">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=100" alt="Sentiment Analysis Visual" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-3">Behavioral Finance</h4>
+                        <p class="text-sm text-gray-300 font-light mb-6">Analyzing the human element of market volatility. Using deep learning to quantify sentiment, retail flow, and irrationality-driven alpha.</p>
+                        <span class="text-purple-400 font-mono text-[10px] tracking-widest uppercase">Sentiment Quantification →</span>
+                    </div>
+                </a>
+
+                <a href="/legaltech/" class="block sub-card gs-reveal-up group lg:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1600&q=100" alt="Digital Legal Scales" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-4xl font-bold text-white mb-3">LegalTech & Auditing</h4>
+                        <p class="text-sm text-gray-300 font-light max-w-2xl mb-6">Mathematical auditing of institutional smart contracts and cross-border financial structures. Ensuring structural solvency through rigorous computational verification.</p>
+                        <span class="text-white font-mono text-[10px] tracking-widest uppercase">Deterministic Verification →</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="global-presence" class="py-32 bg-[#020617] relative border-y border-white/5 overflow-hidden">
+        <div class="max-w-[1800px] mx-auto px-6 lg:px-12 relative z-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                
+                <div class="lg:col-span-5 gs-reveal-up">
+                    <h2 class="text-brand-blue font-mono text-[10px] tracking-[0.4em] uppercase mb-4">Strategic Footprint</h2>
+                    <h3 class="text-5xl font-bold mb-10 text-white leading-tight">Global Nodes of <br> ASI PRIME.</h3>
+                    
+                    <div class="space-y-10">
+                        <div class="border-l-2 border-brand-blue pl-6">
+                            <h4 class="font-bold text-xl mb-2">London & Oxford, UK</h4>
+                            <p class="text-sm text-gray-500 font-light leading-relaxed">
+                                **The Brain & Heart:** London serves as our global command center for liquidity access, while Oxford provides the direct R&D pipeline for our stochastic models and neural core. This dual-presence ensures we are at the intersection of academic excellence and City execution.
+                            </p>
+                        </div>
+                        <div class="border-l-2 border-brand-blue/30 pl-6">
+                            <h4 class="font-bold text-xl mb-2 text-gray-400">Yaoundé, Cameroon</h4>
+                            <p class="text-sm text-gray-500 font-light leading-relaxed">
+                                **The Frontier Gateway:** Relocated from Nairobi to Yaoundé to spearhead the Digital Finance corridor in the CEMAC region. Yaoundé represents our strategic commitment to sovereign African tech infrastructure, providing a unique platform for LegalTech expansion and regional regulatory leadership.
+                            </p>
+                        </div>
+                        <div class="border-l-2 border-brand-blue/30 pl-6">
+                            <h4 class="font-bold text-xl mb-2 text-gray-400">New York, USA</h4>
+                            <p class="text-sm text-gray-500 font-light leading-relaxed">
+                                **The Sentiment Pulse:** Our Manhattan node focuses exclusively on Behavioral Finance and retail flow ingestion, capturing the irrationality of the world's largest equity markets in real-time.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="p-6 border-l-2 border-white/20 glass">
-                    <h3 class="text-xl font-bold mb-3 text-white">New York, USA <span class="text-xs text-white/50 block mt-1 uppercase tracking-widest">ASI PRIME Quant</span></h3>
-                    <p class="text-sm text-white/70 leading-relaxed">
-                        The world’s deepest liquidity pool and most aggressive capital market. The New York hub serves as the execution engine for proprietary trading. Wiring directly into Wall Street's infrastructure, this location ensures millisecond-level execution speeds for complex volatility hedges, transforming the signals generated by the London risk models into immediate, alpha-generating market participation.
-                    </p>
-                </div>
-
-                <div class="p-6 border-l-2 border-white/20 glass">
-                    <h3 class="text-xl font-bold mb-3 text-white">Yaoundé, Cameroon <span class="text-xs text-white/50 block mt-1 uppercase tracking-widest">LegalTech & The Emerging Frontier</span></h3>
-                    <p class="text-sm text-white/70 leading-relaxed">
-                        The strategic anchor for the CEMAC region and the gateway to African digital finance expansion. Yaoundé provides vital proximity to central regulatory bodies and government policy-makers. This hub drives the LegalTech subsidiary, focusing on structuring advanced cross-border financial architectures and conducting deep-mathematical auditing of smart contracts tailored for the unique complexities of emerging, high-growth frontier markets.
-                    </p>
-                </div>
-
-                <div class="p-6 border-l-2 border-white/20 glass">
-                    <h3 class="text-xl font-bold mb-3 text-white">Singapore <span class="text-xs text-white/50 block mt-1 uppercase tracking-widest">ASI PRIME RegTech</span></h3>
-                    <p class="text-sm text-white/70 leading-relaxed">
-                        The premier command center for the Pacific Rim. As Asian regulators enforce increasingly stringent AI and data oversight frameworks, the Singapore hub allows ASI PRIME to dominate the compliance narrative in the East. This location acts as the primary deployment zone for automated multi-jurisdictional reporting and the localized auditing of foreign institutional "black box" algorithms.
-                    </p>
-                </div>
-
-                <div class="p-6 border-l-2 border-white/20 glass md:col-span-2">
-                    <h3 class="text-xl font-bold mb-3 text-white">Dubai, UAE <span class="text-xs text-white/50 block mt-1 uppercase tracking-widest">Behavioral Finance & Private Capital</span></h3>
-                    <p class="text-sm text-white/70 leading-relaxed max-w-3xl">
-                        The nexus of global private wealth. The influx of sovereign wealth and institutional capital into the Middle East creates an unparalleled demand for sophisticated "Risk-as-a-Service." Dubai serves as the testing ground for ASI PRIME's Behavioral Finance modules, analyzing institutional sentiment to deliver bespoke, predictive stochastic models specifically tailored for elite family offices and sovereign funds.
-                    </p>
+                <div class="lg:col-span-7 relative h-[600px] bg-[#0b1120] rounded-3xl border border-white/5 gs-reveal-up">
+                    <svg viewBox="0 0 1000 600" class="w-full h-full opacity-20 fill-slate-500">
+                        <path d="M150,150 Q400,50 850,150 T850,450 T150,450 Z" fill="none" stroke="currentColor" stroke-width="0.5"/>
+                        </svg>
+                    
+                    <div class="map-pin" style="top: 25%; left: 45%;" title="London/Oxford Node"></div>
+                    <div class="map-pin" style="top: 55%; left: 52%;" title="Yaoundé Node"></div>
+                    <div class="map-pin" style="top: 30%; left: 25%;" title="New York Node"></div>
+                    <div class="map-pin" style="top: 27%; left: 48%;" title="Paris/Brussels Node"></div>
+                    
+                    <div class="absolute bottom-10 left-10 right-10 flex justify-between items-end border-t border-white/10 pt-6">
+                        <div>
+                            <span class="block text-[10px] font-mono text-gray-600 mb-1">NETWORK LATENCY (AVG)</span>
+                            <span class="text-2xl font-bold text-brand-light font-mono">1.2ms</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-[10px] font-mono text-gray-600 mb-1">ACTIVE DATA CENTERS</span>
+                            <span class="text-2xl font-bold text-white font-mono">12 NODES</span>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <section class="p-8 border-t border-white/10 glass">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-6 border-l-2 border-emerald-500">
-                <h3 class="text-sm font-bold mb-2">Neural Core</h3>
-                <p class="text-xs text-white/40">Real-time VaR and Stress-Testing via deep learning architecture.</p>
-            </div>
-            <div class="p-6 border-l-2 border-white/20">
-                <h3 class="text-sm font-bold mb-2">FCA Alignment</h3>
-                <p class="text-xs text-white/40">Native compatibility with the 2026 AI Accountability Framework.</p>
-            </div>
-            <div class="p-6 border-l-2 border-white/20">
-                <h3 class="text-sm font-bold mb-2">Global HoldCo</h3>
-                <p class="text-xs text-white/40">A subsidiary of ASI PRIME Technologies Multinational.</p>
-            </div>
+    <section id="network" class="py-24 bg-[#05080f] overflow-hidden border-b border-white/5">
+        <div class="max-w-[1800px] mx-auto text-center mb-16 px-6 gs-reveal-up">
+            <h3 class="text-[10px] font-mono text-gray-500 uppercase tracking-[0.5em]">Institutional Connectivity & Integration</h3>
+        </div>
+        
+        <div class="w-full relative flex flex-nowrap items-center py-10">
+            <div class="absolute left-0 top-0 w-64 h-full bg-gradient-to-r from-[#05080f] to-transparent z-10"></div>
+            <div class="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-[#05080f] to-transparent z-10"></div>
+            
+            <ul class="flex items-center space-x-32 animate-infinite-scroll whitespace-nowrap px-10">
+                <li class="flex items-center space-x-3">
+                    <span style="color:#252525; font-family:'Times New Roman',serif; font-weight:900;" class="text-4xl tracking-tighter">BlackRock</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#ffffff; font-family:sans-serif; font-weight:800;" class="text-3xl uppercase tracking-widest">Bloomberg</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#72add7; font-family:serif; font-weight:700;" class="text-3xl">Goldman Sachs</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#004a99; font-family:sans-serif; font-weight:900;" class="text-3xl italic">J.P. Morgan</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#ea1c2c; font-family:'Fira Code',monospace;" class="text-3xl font-bold">EQUINIX</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#ffffff; font-family:serif; font-weight:400; letter-spacing:0.1em;" class="text-3xl">PALANTIR</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#c9a063; font-family:serif; font-style:italic;" class="text-2xl font-bold">Renaissance Technologies</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#1c3d6e; font-family:sans-serif; font-weight:800;" class="text-3xl uppercase">CITADEL</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#00ffff; font-family:'Courier New',monospace;" class="text-3xl font-bold">TWO SIGMA</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <span style="color:#be1e2d; font-family:serif; font-weight:700;" class="text-3xl">Millennium</span>
+                </li>
+            </ul>
+            <ul class="flex items-center space-x-32 animate-infinite-scroll whitespace-nowrap px-10" aria-hidden="true">
+                <li class="flex items-center space-x-3"><span style="color:#252525; font-family:'Times New Roman',serif; font-weight:900;" class="text-4xl tracking-tighter">BlackRock</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#ffffff; font-family:sans-serif; font-weight:800;" class="text-3xl uppercase tracking-widest">Bloomberg</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#72add7; font-family:serif; font-weight:700;" class="text-3xl">Goldman Sachs</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#004a99; font-family:sans-serif; font-weight:900;" class="text-3xl italic">J.P. Morgan</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#ea1c2c; font-family:'Fira Code',monospace;" class="text-3xl font-bold">EQUINIX</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#ffffff; font-family:serif; font-weight:400; letter-spacing:0.1em;" class="text-3xl">PALANTIR</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#c9a063; font-family:serif; font-style:italic;" class="text-2xl font-bold">Renaissance Technologies</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#1c3d6e; font-family:sans-serif; font-weight:800;" class="text-3xl uppercase">CITADEL</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#00ffff; font-family:'Courier New',monospace;" class="text-3xl font-bold">TWO SIGMA</span></li>
+                <li class="flex items-center space-x-3"><span style="color:#be1e2d; font-family:serif; font-weight:700;" class="text-3xl">Millennium</span></li>
+            </ul>
         </div>
     </section>
+
+    <section class="py-40 london-bg relative">
+        <div class="absolute inset-0 bg-[#05080f]/80 mix-blend-multiply"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center gs-reveal-scale">
+            <h2 class="text-6xl md:text-8xl font-bold tracking-tight mb-8 text-white drop-shadow-2xl">London Command.</h2>
+            <p class="text-xl text-gray-300 font-light max-w-4xl mx-auto mb-16 leading-relaxed">
+                Operating from the global nexus of common law and capital, the ASI PRIME HoldCo synchronizes multi-jurisdictional assets with absolute precision.
+            </p>
+            <a href="about.html" class="px-12 py-6 bg-white text-slate-950 font-mono text-xs tracking-widest font-bold uppercase hover:bg-brand-blue hover:text-white transition-all shadow-2xl">
+                Corporate Governance Charter
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-[#010204] pt-32 pb-16 border-t border-white/5 relative z-10">
+        <div class="max-w-[1800px] mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-20 mb-24">
+                
+                <div class="lg:col-span-2">
+                    <span class="text-3xl font-bold tracking-tighter text-white mb-8 block">
+                        <span class="text-brand-blue">A</span>SI <span class="font-light">PRIME</span>
+                    </span>
+                    <p class="text-gray-500 text-sm max-w-sm mb-12 leading-relaxed font-light">
+                        Engineering sovereign digital infrastructure for institutional capital. A multinational ecosystem of quantitative and regulatory intelligence.
+                    </p>
+                    <div class="text-gray-400 font-mono text-[10px] space-y-3 tracking-widest">
+                        <span class="block text-white font-sans font-bold text-xs">GLOBAL HEADQUARTERS</span>
+                        <span class="block">Level 39, One Canada Square</span>
+                        <span class="block">Canary Wharf, London, E14 5AB</span>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-4 grid grid-cols-1 sm:grid-cols-3 gap-12">
+                    <div>
+                        <h4 class="text-white font-mono text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4">The Ecosystem</h4>
+                        <ul class="space-y-5 text-xs text-gray-500 font-light">
+                            <li><a href="/quant-trading/" class="hover:text-amber-400 transition-colors">Quant Execution</a></li>
+                            <li><a href="/risk-management/" class="hover:text-emerald-400 transition-colors">Risk Architecture</a></li>
+                            <li><a href="/regtech/" class="hover:text-blue-400 transition-colors">RegTech Solutions</a></li>
+                            <li><a href="/behavioral-finance/" class="hover:text-purple-400 transition-colors">Behavioral Metrics</a></li>
+                            <li><a href="/legaltech/" class="hover:text-white transition-colors">Legal Auditing</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-white font-mono text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4">Operations</h4>
+                        <ul class="space-y-5 text-xs text-gray-500 font-light">
+                            <li><a href="about.html" class="hover:text-white transition-colors">Governance</a></li>
+                            <li><a href="pitch.html" class="hover:text-white transition-colors">Pitch Deck</a></li>
+                            <li><a href="https://linkedin.com" class="hover:text-white transition-colors">LinkedIn</a></li>
+                            <li><a href="portal.html" class="hover:text-brand-blue transition-colors">Secure Gateway</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-white font-mono text-[10px] mb-8 uppercase tracking-[0.3em] border-b border-white/5 pb-4">Legal</h4>
+                        <ul class="space-y-5 text-xs text-gray-500 font-light">
+                            <li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Protocol</a></li>
+                            <li><a href="terms.html" class="hover:text-white transition-colors">Service Terms</a></li>
+                            <li><a href="compliance.html" class="hover:text-white transition-colors">Global Compliance</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-600 font-mono tracking-[0.2em]">
+                <span>© 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. GLOBAL ARCHITECTURE.</span>
+                <span class="flex items-center mt-6 md:mt-0"><span class="w-2 h-2 rounded-full bg-brand-blue mr-3 animate-pulse"></span> ALL NODES SYNCHRONIZED</span>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Original Professional Entrance Animation
-        const tl = gsap.timeline();
-        tl.to("#sub-tag", { opacity: 1, duration: 1, delay: 0.5 })
-          .to("#main-title", { opacity: 1, y: -20, duration: 0.8 }, "-=0.5")
-          .to("#desc", { opacity: 1, duration: 0.8 }, "-=0.3")
-          .to("#cta", { opacity: 1, y: -10, duration: 0.5 }, "-=0.2");
+        // GSAP Implementation for Fluid Scrolling
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => { 
+                    preloader.style.display = 'none'; 
+                    initGSAP();
+                }, 800);
+            }, 1000); 
+        });
+
+        function initGSAP() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Smoother Hero Reveal
+            gsap.from(".hero-content", { y: 60, autoAlpha: 0, duration: 1.5, ease: "power4.out" });
+            gsap.from(".hero-visual", { scale: 0.9, autoAlpha: 0, duration: 1.8, ease: "expo.out", delay: 0.3 });
+
+            // Universal Scroll Reveal (Fluid & Glitch-Free)
+            gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
+                gsap.fromTo(elem, 
+                    { y: 50, autoAlpha: 0 }, 
+                    { 
+                        y: 0, 
+                        autoAlpha: 1, 
+                        duration: 1.2, 
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 88%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+
+            gsap.from(".gs-reveal-scale", {
+                scale: 0.95, autoAlpha: 0, duration: 1.5, ease: "back.out(1.2)",
+                scrollTrigger: { trigger: ".london-bg", start: "top 80%" }
+            });
+        }
+
+        // Real-Time Data Flow Visual
+        const ctx = document.getElementById('heroChart').getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+        gradient.addColorStop(0, 'rgba(14, 165, 233, 0.5)');
+        gradient.addColorStop(1, 'rgba(14, 165, 233, 0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array(15).fill(''),
+                datasets: [{
+                    data: [30, 45, 32, 60, 48, 70, 55, 90, 80, 100, 85, 110, 95, 120, 115],
+                    borderColor: '#0ea5e9',
+                    backgroundColor: gradient,
+                    borderWidth: 3, fill: true, tension: 0.4, pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { display: false }, y: { display: false } },
+                animation: { duration: 4000, easing: 'easeInOutQuart' }
+            }
+        });
+
+        // Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if(mobileBtn) mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // Navbar Scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(2, 6, 23, 0.98)';
+                navbar.classList.add('py-2');
+            } else {
+                navbar.style.background = 'rgba(5, 8, 15, 0.9)';
+                navbar.classList.remove('py-2');
+            }
+        });
     </script>
 </body>
 </html>
