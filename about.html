@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#05080f]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Leadership | ASI PRIME Technologies</title>
+    <meta name="description" content="Meet the multidisciplinary team behind ASI PRIME — experts in quantitative finance, regulatory law, and high‑performance engineering.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
+                        brand: { blue: '#0ea5e9', light: '#38bdf8', dark: '#0284c7', accent: '#00f6ff' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+                    },
+                    animation: {
+                        'infinite-scroll': 'infinite-scroll 35s linear infinite',
+                    },
+                    keyframes: {
+                        'infinite-scroll': {
+                            from: { transform: 'translateX(0)' },
+                            to: { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
+        .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .hero-bg-about { background: linear-gradient(to bottom, rgba(5, 8, 15, 0.8), rgba(5, 8, 15, 1)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
+        .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Preloader */
+        #preloader { position: fixed; inset: 0; z-index: 9999; background: #05080f; display: flex; justify-content: center; align-items: center; transition: opacity 0.6s cubic-bezier(0.8, 0, 0.2, 1); }
+        .loader-line { width: 2px; height: 40px; background: #0ea5e9; animation: pulse 1s infinite ease-in-out; }
+        @keyframes pulse { 0%, 100% { transform: scaleY(0.5); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
+
+        /* Progress bar (mother page element) */
+        #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #0ea5e9, #00f6ff); z-index: 10000; transition: width 0.1s ease; box-shadow: 0 0 8px #0ea5e9; }
+
+        /* Custom profile cards */
+        .profile-card {
+            background: #0b1120;
+            border: 1px solid #1e293b;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .profile-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 20px 30px -15px rgba(14, 165, 233, 0.2);
+        }
+        .profile-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            filter: grayscale(0.2);
+            transition: filter 0.3s;
+        }
+        .profile-card:hover .profile-img {
+            filter: grayscale(0);
+        }
+        .image-caption {
+            background: linear-gradient(to top, #020617, transparent);
+        }
+        
+        .fade-item { will-change: transform, opacity; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-white bg-grid-pattern">
+
+    <div id="preloader">
+        <div class="flex items-center space-x-4">
+            <div class="loader-line" style="animation-delay: 0.1s"></div>
+            <div class="loader-line" style="animation-delay: 0.2s"></div>
+            <div class="loader-line" style="animation-delay: 0.3s"></div>
+            <span class="text-white font-mono text-xl tracking-widest ml-4">ASI PRIME</span>
+        </div>
+    </div>
+
+    <div id="progress-bar"></div>
+
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-nav" id="navbar">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="index.html" class="flex-shrink-0 flex items-center cursor-pointer group">
+                    <div class="w-8 h-8 relative mr-3">
+                        <div class="absolute inset-0 border-2 border-brand-blue transform rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
+                        <div class="absolute inset-2 bg-brand-blue"></div>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tighter text-white">
+                        <span class="text-brand-blue">A</span>SI <span class="font-light">PRIME</span>
+                        <span class="block text-[0.6rem] font-mono tracking-[0.2em] text-gray-400 -mt-1">HOLDINGS PLC</span>
+                    </span>
+                </a>
+                
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="index.html#ecosystem" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">The Ecosystem</a>
+                    <a href="index.html#network" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Global Network</a>
+                    <a href="index.html#global-footprint" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Global Footprint</a>
+                    <a href="about.html" class="text-sm font-medium text-white transition-colors relative group">
+                        Corporate Governance
+                        <span class="absolute -bottom-2 left-0 w-full h-[2px] bg-brand-blue"></span>
+                    </a>
+                    <div class="pl-4 border-l border-gray-700">
+                        <a href="portal.html" class="px-6 py-3 text-xs font-mono font-semibold bg-transparent border border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white transition-all duration-300 uppercase tracking-widest relative overflow-hidden group">
+                            <span class="relative z-10 flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>HoldCo Gateway</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none transition-transform duration-300">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#020617] border-b border-slate-800 absolute w-full shadow-2xl transition-all duration-300 origin-top">
+            <div class="px-4 pt-4 pb-8 space-y-4">
+                <a href="index.html#ecosystem" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">The Ecosystem</a>
+                <a href="index.html#network" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Global Network</a>
+                <a href="index.html#global-footprint" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Global Footprint</a>
+                <a href="about.html" class="block px-3 py-2 text-base font-medium text-brand-blue transition-colors">Corporate Governance</a>
+                <a href="portal.html" class="block mt-4 px-3 py-3 text-center text-sm font-mono font-semibold bg-brand-blue/20 text-white uppercase tracking-widest border border-brand-blue">HoldCo Gateway</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section - Leadership -->
+    <header class="pt-40 pb-20 hero-bg-about border-b border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="hero-content fade-item" style="opacity:0; transform:translateY(30px)">
+                <h1 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-4 flex items-center">
+                    <span class="w-8 h-[1px] bg-brand-blue mr-3"></span> Corporate Governance & Leadership
+                </h1>
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                    The Architects of <br><span class="text-gradient">Algorithmic Certainty.</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl leading-relaxed font-light border-l-2 border-brand-blue pl-6">
+                    A multidisciplinary team where quantitative engineering, regulatory law, and adaptive risk architecture converge to redefine institutional finance.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Founder Section (Large Profile) -->
+    <section class="py-24 bg-slate-950 relative overflow-hidden">
+        <div class="absolute right-0 top-20 w-96 h-96 bg-brand-blue/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <div class="lg:col-span-5 fade-item">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-brand-blue to-transparent opacity-20 blur-xl group-hover:opacity-40 transition duration-700"></div>
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Charles Loïc Mfouapon - Founder" class="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 relative z-0 rounded-sm border border-slate-800">
+                        <div class="absolute bottom-6 left-6 bg-slate-900/95 backdrop-blur-md border-l-2 border-brand-blue border-y border-r border-slate-700 p-5 shadow-2xl z-10 transform transition-transform hover:translate-x-2 duration-300">
+                            <h3 class="text-white font-bold text-xl tracking-tight">Charles Loïc Mfouapon</h3>
+                            <p class="text-brand-light font-medium text-sm mt-1">Founder, CEO & Lead Architect</p>
+                            <div class="flex items-center mt-3 pt-3 border-t border-slate-700/70">
+                                <span class="w-1.5 h-1.5 bg-brand-blue rounded-full mr-2 animate-pulse"></span>
+                                <span class="text-gray-400 font-mono text-[10px] tracking-widest uppercase">ASI PRIME Technologies</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 fade-item">
+                    <h2 class="text-3xl font-bold mb-6 text-white leading-tight">Oxford Law • World Quant Financial Engineering • BlackRock Alumni</h2>
+                    <div class="space-y-5 text-gray-400 font-light leading-relaxed">
+                        <p>Charles Loïc Mfouapon is a dual‑practice leader — equally fluent in the language of high‑frequency stochastic calculus and the intricate clauses of global financial regulation. He began his career as a portfolio and risk analyst at BlackRock, where he witnessed first‑hand the latency that exists between pre‑trade quantitative models and post‑trade compliance reconciliation.</p>
+                        <p>Holding an <strong class="text-white">LL.M. in Finance and Regulation from the University of Oxford</strong> and a <strong class="text-white">Master of Financial Engineering from World Quant University</strong>, Charles built the foundational architecture for ASI PRIME. His thesis bridges the gap between algorithmic execution and legal accountability, embedding RegTech constraints directly into C++ trading kernels.</p>
+                        <p>Under his leadership, ASI PRIME has developed a sovereign infrastructure where risk management, regulatory technology, and quantitative execution operate as a unified deterministic system. He continues to drive the firm's mission: to eliminate compliance friction and deliver institutional‑grade resilience in volatile markets.</p>
+                    </div>
+                    <div class="mt-8 grid grid-cols-2 gap-6 border-t border-slate-800 pt-8">
+                        <div><span class="block text-brand-blue font-mono text-xs mb-2 uppercase">Core Competencies</span><p class="text-sm text-gray-300">Stochastic Modeling • Low‑Latency Architectures • Regulatory Mapping (FCA/SEC/ESMA)</p></div>
+                        <div><span class="block text-brand-blue font-mono text-xs mb-2 uppercase">Academic Focus</span><p class="text-sm text-gray-300">Financial Engineering • Algorithmic Compliance • Systemic Risk</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Six Additional Leadership Profiles (3 Male, 3 Female, diverse regions) -->
+    <section class="py-32 bg-[#05080f] border-y border-slate-800 relative overflow-hidden">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20 fade-item">
+                <h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Global Executive Committee</h2>
+                <h3 class="text-4xl font-bold mb-4">Multidisciplinary. Polymath. Resilient.</h3>
+                <p class="text-gray-400 text-lg">A carefully curated team of quantitative experts, regulatory strategists, and engineering leaders from across the world.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Profile 1 - European Male (UK/France) -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[300px]">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Dr. Alaric Voss</p><p class="text-brand-light text-sm">Chief Quantitative Officer</p></div>
+                    </div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800">
+                        <p class="text-gray-300 text-sm">Former head of systematic strategies at a $30bn multi‑strat fund. PhD in computational finance from ETH Zurich. Leads our stochastic engine and HFT risk modules.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Stochastic Calculus</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">C++ Low‑Latency</span></div>
+                    </div>
+                </div>
+
+                <!-- Profile 2 - African Female (Cameroonian) -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[300px]">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Yasmine N. Djondo</p><p class="text-brand-light text-sm">Head of RegTech & Africa Strategy</p></div>
+                    </div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800">
+                        <p class="text-gray-300 text-sm">Former legal technology advisor to the CEMAC central bank. Architect of our pan‑African compliance layer, integrating CBDC interoperability frameworks.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Legal Engineering</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Crypto‑Regulation</span></div>
+                    </div>
+                </div>
+
+                <!-- Profile 3 - Indian Male -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[300px]">
+                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Rajiv K. Nair</p><p class="text-brand-light text-sm">Chief Risk Officer (CRO)</p></div>
+                    </div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800">
+                        <p class="text-gray-300 text-sm">Ex‑Risk VP at Goldman Sachs Singapore; specialist in tail‑risk models and adaptive VaR. He leads our stress‑testing and liquidity simulation desk.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Tail‑Risk Modeling</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Liquidity Analytics</span></div>
+                    </div>
+                </div>
+
+                <!-- Profile 4 - European Female (German) -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[300px]">
+                        <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Dr. Friederike Schmidt</p><p class="text-brand-light text-sm">Director of LegalTech & Auditing</p></div>
+                    </div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800">
+                        <p class="text-gray-300 text-sm">Former counsel at Deutsche Börse; leads the smart contract auditing division and MIFID II/RTS 27 compliance automation.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Smart Contract Audit</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">ESMA Standards</span></div>
+                    </div>
+                </div>
+
+                <!-- Profile 5 - American Male -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[300px]">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Jonathan H. Wells</p><p class="text-brand-light text-sm">Head of Quant Trading (Americas)</p></div>
+                    </div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800">
+                        <p class="text-gray-300 text-sm">10+ years at Citadel and Two Sigma; runs our NY5 co‑located execution desk. Specializes in statistical arbitrage and microstructure alpha.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Statistical Arb</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Microstructure</span></div>
+                    </div>
+                </div>
+
+                <!-- Profile 6 - African Female (Nigerian/South African) -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[300px]">
+                        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Zola N. Adebayo</p><p class="text-brand-light text-sm">Chief Behavioral AI Officer</p></div>
+                    </div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800">
+                        <p class="text-gray-300 text-sm">Deep‑learning researcher focused on sentiment-driven alpha. Former ML lead at a tier‑1 African fintech. She architects our behavioral finance clusters.</p>
+                        <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">NLP Models</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Sentiment Analysis</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASI PRIME Thesis (preserved from original but enhanced with mother page style) -->
+    <section class="py-32 bg-slate-950 border-y border-slate-800 relative overflow-hidden">
+        <div class="absolute left-0 top-0 w-1/3 h-full bg-grid-pattern opacity-10 pointer-events-none"></div>
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20 fade-item">
+                <h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">The ASI PRIME Thesis</h2>
+                <h3 class="text-4xl font-bold mb-4">Why We Built The Engine</h3>
+                <p class="text-gray-400">Institutional finance is undergoing a structural paradigm shift. Static risk models and retrospective compliance are no longer viable.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-slate-900 border border-slate-800 p-8 hover:border-brand-blue/40 transition-all duration-300 fade-item shadow-xl hover:-translate-y-2">
+                    <div class="text-4xl font-mono text-slate-700 mb-6 font-bold">01</div>
+                    <h4 class="text-xl font-bold text-white mb-4">The Compliance Latency Problem</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">In algorithmic trading, rules execute in microseconds. ASI PRIME shifts compliance to the pre‑trade layer, embedding legal restrictions directly into C++ execution kernels to prevent volatile market breaches.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-8 hover:border-brand-blue/40 transition-all duration-300 fade-item shadow-xl hover:-translate-y-2" style="transition-delay: 0.1s">
+                    <div class="text-4xl font-mono text-slate-700 mb-6 font-bold">02</div>
+                    <h4 class="text-xl font-bold text-white mb-4">Non‑Linear Risk Dynamics</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">Standard VaR fails during black‑swan events. Our engine runs multi‑factor Monte Carlo simulations that accurately model tail‑risk and expected shortfall in stressed markets.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-8 hover:border-brand-blue/40 transition-all duration-300 fade-item shadow-xl hover:-translate-y-2" style="transition-delay: 0.2s">
+                    <div class="text-4xl font-mono text-slate-700 mb-6 font-bold">03</div>
+                    <h4 class="text-xl font-bold text-white mb-4">Institutional Scalability</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">API‑first architecture that integrates alongside legacy systems, delivering low‑latency processing without infrastructure overhauls.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Footprint / London HQ (corresponds to mother page) -->
+    <section class="py-32 bg-[#05080f] relative overflow-hidden">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 fade-item">
+                    <div class="bg-slate-900 p-8 border border-slate-800 relative shadow-[0_0_40px_rgba(14,165,233,0.05)]">
+                        <div class="absolute top-0 right-0 p-4"><span class="flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-light opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-brand-blue"></span></span></div>
+                        <h3 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-4">London Command Center</h3>
+                        <ul class="space-y-4 font-mono text-sm text-gray-400">
+                            <li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Location:</span> <span>Canary Wharf, London</span></li>
+                            <li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Coverage:</span> <span>Global (FCA, SEC, ESMA mapped)</span></li>
+                            <li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Status:</span> <span class="text-brand-blue">Active Deployment</span></li>
+                            <li class="flex justify-between pb-2"><span class="text-white">Direct Line:</span> <span>inquiries@asiprime.com</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 fade-item text-right">
+                    <h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Global Operations</h2>
+                    <h3 class="text-4xl font-bold mb-6">Positioned at the Heart of Global Finance.</h3>
+                    <p class="text-gray-400 leading-relaxed mb-8 max-w-lg ml-auto">Operating from London, ASI PRIME is strategically positioned to integrate the most stringent global financial regulations into algorithmic architectures, with satellite oversight in Yaoundé, New York, Singapore, and Frankfurt.</p>
+                    <a href="index.html#global-footprint" class="inline-flex items-center space-x-2 text-white bg-transparent border border-white hover:bg-white hover:text-slate-900 transition-all duration-300 px-6 py-3 font-mono text-xs uppercase tracking-widest">View Global Footprint <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (identical to mother page) -->
+    <footer class="bg-[#010204] pt-24 pb-12 border-t border-slate-800 relative z-10 mt-auto">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
+                <div class="lg:col-span-2">
+                    <span class="text-3xl font-bold tracking-tighter text-white mb-6 block"><span class="text-brand-blue">A</span>SI <span class="font-light">PRIME</span></span>
+                    <p class="text-gray-500 text-sm max-w-sm mb-8 leading-relaxed">A sovereign multinational ecosystem. Engineering institutional alpha through convergence of high-frequency architecture and legal compliance.</p>
+                    <div class="text-gray-400 font-mono text-xs space-y-2"><span class="block text-white font-sans font-bold">LONDON HQ</span><span class="block">Level 39, One Canada Square, Canary Wharf, London, E14 5AB</span></div>
+                </div>
+                <div class="lg:col-span-4 grid grid-cols-1 sm:grid-cols-3 gap-8">
+                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">The Ecosystem</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="/risk-management/index.html" class="hover:text-emerald-400 transition-colors">Risk Management</a></li><li><a href="/regtech/index.html" class="hover:text-blue-400 transition-colors">RegTech Solutions</a></li><li><a href="/quant-trading/index.html" class="hover:text-amber-400 transition-colors">Quant Trading</a></li><li><a href="/behavioral-finance/index.html" class="hover:text-purple-400 transition-colors">Behavioral Finance</a></li><li><a href="/legaltech/index.html" class="hover:text-white transition-colors">LegalTech & Auditing</a></li></ul></div>
+                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">HoldCo Operations</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="about.html" class="hover:text-white transition-colors">Corporate Governance</a></li><li><a href="pitch.html" target="_blank" class="hover:text-white transition-colors">Master Pitch Deck</a></li><li><a href="portal.html" class="hover:text-brand-blue transition-colors">Secure Gateway</a></li></ul></div>
+                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">Legal Framework</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Protocol</a></li><li><a href="terms.html" class="hover:text-white transition-colors">Master Services Agreement</a></li><li><a href="terms.html" class="hover:text-white transition-colors">SLA & Determinism</a></li></ul></div>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 font-mono"><span>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. ALL RIGHTS RESERVED.</span><span class="flex items-center mt-4 md:mt-0"><span class="w-1.5 h-1.5 rounded-full bg-brand-blue mr-2 animate-pulse"></span> GLOBAL NODE ONLINE</span></div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if(mobileBtn) mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('progress-bar');
+            if(progressBar) progressBar.style.width = scrolled + '%';
+        });
+
+        // GSAP smooth reveals + preloader
+        window.addEventListener('load', () => {
+            gsap.registerPlugin(ScrollTrigger);
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    ScrollTrigger.refresh();
+                    // Hero fade
+                    gsap.to(".hero-content", { opacity: 1, y: 0, duration: 1, ease: "power3.out" });
+                    // Fade items on scroll
+                    gsap.utils.toArray('.fade-item').forEach(el => {
+                        gsap.set(el, { opacity: 0, y: 30 });
+                        ScrollTrigger.create({ trigger: el, start: "top 85%", onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }), once: true });
+                    });
+                }, 600);
+            }, 800);
+        });
+
+        // Navbar background
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => { navbar.style.background = window.scrollY > 50 ? 'rgba(2, 6, 23, 0.95)' : 'rgba(5, 8, 15, 0.85)'; });
+    </script>
+</body>
+</html>
