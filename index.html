@@ -26,7 +26,7 @@
                         'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
                     },
                     animation: {
-                        'infinite-scroll': 'infinite-scroll 35s linear infinite',
+                        'infinite-scroll': 'infinite-scroll 30s linear infinite',
                     },
                     keyframes: {
                         'infinite-scroll': {
@@ -51,7 +51,7 @@
         
         .hero-bg { background: linear-gradient(to right, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.7)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
         
-        /* London background with reliable high-res image */
+        /* London background with high-res image */
         .london-bg { background: linear-gradient(to top, rgba(5, 8, 15, 1) 0%, rgba(5, 8, 15, 0.6) 50%, rgba(5, 8, 15, 1) 100%), url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1600&q=100') center/cover no-repeat fixed; }
         
         .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -72,61 +72,41 @@
         .loader-line { width: 2px; height: 40px; background: #0ea5e9; animation: pulse 1s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scaleY(0.5); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
 
-        /* Partner ticker - 20 distinct companies with official logos and colored names */
-        .partner-track {
-            display: flex;
-            flex-wrap: nowrap;
-            will-change: transform;
-        }
+        /* Partner ticker - large logos */
         .partner-item {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 1.25rem;
-            margin: 0 0.75rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 2rem;
-            backdrop-filter: blur(4px);
+            gap: 1rem;
+            padding: 0.6rem 1.5rem;
+            margin: 0 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 2.5rem;
+            backdrop-filter: blur(8px);
             transition: all 0.2s;
             white-space: nowrap;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .partner-item:hover {
-            background: rgba(14,165,233,0.15);
-            transform: scale(1.02);
-            border-color: rgba(14,165,233,0.3);
+            background: rgba(14,165,233,0.2);
+            transform: scale(1.05);
+            border-color: rgba(14,165,233,0.5);
         }
         .partner-logo {
-            height: 28px;
+            height: 40px;
             width: auto;
             object-fit: contain;
+            filter: brightness(0) invert(1); /* makes dark logos white */
+        }
+        /* For logos that already light, we won't filter; we'll use specific overrides */
+        .partner-item img {
+            filter: none;
         }
         .partner-name {
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             letter-spacing: -0.01em;
+            color: #ffffff;
         }
-        /* Specific brand colors for names */
-        .partner-name.blackrock { color: #000000; text-shadow: 0 0 2px white; }
-        .partner-name.equinix { color: #00B2A9; }
-        .partner-name.bloomberg { color: #FFD800; }
-        .partner-name.palantir { color: #101010; text-shadow: 0 0 1px white; }
-        .partner-name.goldman { color: #1D4289; }
-        .partner-name.jpmorgan { color: #000000; }
-        .partner-name.citadel { color: #8B0000; }
-        .partner-name.ibm { color: #006699; }
-        .partner-name.aws { color: #FF9900; }
-        .partner-name.microsoft { color: #00A4EF; }
-        .partner-name.bnp { color: #009B77; }
-        .partner-name.deutsche { color: #0018A8; }
-        .partner-name.ubs { color: #FF0000; }
-        .partner-name.hsbc { color: #DB0011; }
-        .partner-name.barclays { color: #00AEEF; }
-        .partner-name.credit { color: #B22234; }
-        .partner-name.sap { color: #0FAAFF; }
-        .partner-name.oracle { color: #C74634; }
-        .partner-name.google { color: #4285F4; }
-        .partner-name.apple { color: #A2AAAD; }
         
         /* Map container */
         .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5); }
@@ -135,13 +115,11 @@
         /* Progress bar */
         #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #0ea5e9, #00f6ff); z-index: 10000; transition: width 0.1s ease; box-shadow: 0 0 8px #0ea5e9; }
         
-        /* Thick content styling */
+        /* Content cards */
         .location-justification-card { background: rgba(5, 8, 15, 0.75); backdrop-filter: blur(8px); border-left: 3px solid #0ea5e9; padding: 1.25rem; border-radius: 0.75rem; margin-bottom: 1rem; }
         
-        /* Fluid scroll reveals */
-        .fade-item {
-            will-change: transform, opacity;
-        }
+        /* Smooth reveals */
+        .fade-item { will-change: transform, opacity; }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-blue selection:text-white bg-grid-pattern">
@@ -204,7 +182,7 @@
         </div>
     </nav>
 
-    <!-- Hero section unchanged -->
+    <!-- Hero section -->
     <section class="relative min-h-screen flex items-center hero-bg pt-24 overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#05080f]/50 to-[#05080f]"></div>
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -251,7 +229,7 @@
         </div>
     </section>
 
-    <!-- Ecosystem Section - LegalTech image replaced -->
+    <!-- Ecosystem Section -->
     <section id="ecosystem" class="py-32 bg-slate-950 relative overflow-hidden border-t border-slate-800">
         <div class="absolute left-0 top-0 w-1/2 h-full bg-grid-pattern opacity-10 pointer-events-none"></div>
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -302,9 +280,9 @@
                         <span class="inline-block mt-6 text-purple-400 font-mono text-xs uppercase tracking-widest group-hover:text-white">Access Hub →</span>
                     </div>
                 </a>
-                <!-- LegalTech - NEW IMAGE (legal/audit) -->
+                <!-- LegalTech - NEW IMAGE: law books -->
                 <a href="/legaltech/index.html" class="block sub-card p-0 rounded-sm fade-item md:col-span-2 lg:col-span-2">
-                    <img src="https://d17mj6xr9uykrr.cloudfront.net/Pictures/1024x536/2/6/5/40265_Gherkin.jpgw=1200&q=80" alt="LegalTech Auditing" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=1200&q=80" alt="Law books and legal auditing" class="absolute inset-0 w-full h-full object-cover">
                     <div class="p-8 sub-content h-full flex flex-col justify-end min-h-[350px]">
                         <div class="w-12 h-12 bg-slate-100/20 border border-slate-100/50 text-white flex items-center justify-center font-mono font-bold mb-4 backdrop-blur-sm">LT</div>
                         <h4 class="text-2xl font-bold text-white mb-2">LegalTech & Financial Auditing</h4>
@@ -316,7 +294,7 @@
         </div>
     </section>
 
-    <!-- Partner Ticker - 20 distinct companies with working logos and colored names -->
+    <!-- Partner Ticker - 10 companies with large working logos -->
     <section id="network" class="py-20 bg-[#020617] border-y border-slate-800 relative overflow-hidden">
         <div class="max-w-[1800px] mx-auto text-center mb-8 fade-item">
             <h3 class="text-sm font-mono text-gray-500 uppercase tracking-widest">Strategic Partners & Global Technology Allies</h3>
@@ -326,56 +304,36 @@
             <div class="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-[#020617] to-transparent z-10"></div>
             <div class="overflow-hidden whitespace-nowrap">
                 <div class="inline-block animate-infinite-scroll">
-                    <!-- Set 1: 20 partners -->
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BlackRock_logo.svg" class="h-7 w-auto" alt="BlackRock"><span class="partner-name blackrock text-sm font-bold" style="color:#000; text-shadow:0 0 2px white;">BlackRock</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Equinix_logo.svg" class="h-7 w-auto" alt="Equinix"><span class="partner-name equinix text-sm font-bold" style="color:#00B2A9;">Equinix</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Bloomberg_logo.svg" class="h-7 w-auto" alt="Bloomberg"><span class="partner-name bloomberg text-sm font-bold" style="color:#FFD800;">Bloomberg</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Palantir_Logo.svg" class="h-7 w-auto" alt="Palantir"><span class="partner-name palantir text-sm font-bold" style="color:#101010;">Palantir</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Goldman_Sachs_logo.svg" class="h-7 w-auto" alt="Goldman Sachs"><span class="partner-name goldman text-sm font-bold" style="color:#1D4289;">Goldman Sachs</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JPMorgan_Chase_logo.svg" class="h-7 w-auto" alt="J.P. Morgan"><span class="partner-name jpmorgan text-sm font-bold" style="color:#000;">J.P. Morgan</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Citadel_Logo.svg" class="h-7 w-auto" alt="Citadel"><span class="partner-name citadel text-sm font-bold" style="color:#8B0000;">Citadel</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/IBM_logo.svg" class="h-7 w-auto" alt="IBM"><span class="partner-name ibm text-sm font-bold" style="color:#006699;">IBM</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="h-7 w-auto" alt="AWS"><span class="partner-name aws text-sm font-bold" style="color:#FF9900;">AWS</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="h-7 w-auto" alt="Microsoft"><span class="partner-name microsoft text-sm font-bold" style="color:#00A4EF;">Microsoft</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/BNP_Paribas_logo.svg" class="h-7 w-auto" alt="BNP Paribas"><span class="partner-name bnp text-sm font-bold" style="color:#009B77;">BNP Paribas</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Deutsche_Bank_logo.svg" class="h-7 w-auto" alt="Deutsche Bank"><span class="partner-name deutsche text-sm font-bold" style="color:#0018A8;">Deutsche Bank</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/UBS_logo.svg" class="h-7 w-auto" alt="UBS"><span class="partner-name ubs text-sm font-bold" style="color:#FF0000;">UBS</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/HSBC_logo.svg" class="h-7 w-auto" alt="HSBC"><span class="partner-name hsbc text-sm font-bold" style="color:#DB0011;">HSBC</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Barclays_logo.svg" class="h-7 w-auto" alt="Barclays"><span class="partner-name barclays text-sm font-bold" style="color:#00AEEF;">Barclays</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Credit_Suisse_logo.svg" class="h-7 w-auto" alt="Credit Suisse"><span class="partner-name credit text-sm font-bold" style="color:#B22234;">Credit Suisse</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/SAP_2011_logo.svg" class="h-7 w-auto" alt="SAP"><span class="partner-name sap text-sm font-bold" style="color:#0FAAFF;">SAP</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Oracle_logo.svg" class="h-7 w-auto" alt="Oracle"><span class="partner-name oracle text-sm font-bold" style="color:#C74634;">Oracle</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-7 w-auto" alt="Google"><span class="partner-name google text-sm font-bold" style="color:#4285F4;">Google</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" class="h-7 w-auto" alt="Apple"><span class="partner-name apple text-sm font-bold" style="color:#A2AAAD;">Apple</span></div>
+                    <!-- 10 partners with official logo URLs that actually work -->
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BlackRock_logo.svg" class="partner-logo" alt="BlackRock"><span class="partner-name">BlackRock</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Equinix_logo.svg" class="partner-logo" alt="Equinix"><span class="partner-name">Equinix</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Bloomberg_logo.svg" class="partner-logo" alt="Bloomberg"><span class="partner-name">Bloomberg</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Palantir_Logo.svg" class="partner-logo" alt="Palantir"><span class="partner-name">Palantir</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Goldman_Sachs_logo.svg" class="partner-logo" alt="Goldman Sachs"><span class="partner-name">Goldman Sachs</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JPMorgan_Chase_logo.svg" class="partner-logo" alt="J.P. Morgan"><span class="partner-name">J.P. Morgan</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Citadel_Logo.svg" class="partner-logo" alt="Citadel"><span class="partner-name">Citadel</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/IBM_logo.svg" class="partner-logo" alt="IBM"><span class="partner-name">IBM</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="partner-logo" alt="AWS"><span class="partner-name">AWS</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="partner-logo" alt="Microsoft"><span class="partner-name">Microsoft</span></div>
                 </div>
                 <!-- Duplicate for seamless loop -->
                 <div class="inline-block animate-infinite-scroll" aria-hidden="true">
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BlackRock_logo.svg" class="h-7 w-auto" alt="BlackRock"><span class="partner-name blackrock text-sm font-bold">BlackRock</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Equinix_logo.svg" class="h-7 w-auto" alt="Equinix"><span class="partner-name equinix text-sm font-bold">Equinix</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Bloomberg_logo.svg" class="h-7 w-auto" alt="Bloomberg"><span class="partner-name bloomberg text-sm font-bold">Bloomberg</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Palantir_Logo.svg" class="h-7 w-auto" alt="Palantir"><span class="partner-name palantir text-sm font-bold">Palantir</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Goldman_Sachs_logo.svg" class="h-7 w-auto" alt="Goldman Sachs"><span class="partner-name goldman text-sm font-bold">Goldman Sachs</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JPMorgan_Chase_logo.svg" class="h-7 w-auto" alt="J.P. Morgan"><span class="partner-name jpmorgan text-sm font-bold">J.P. Morgan</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Citadel_Logo.svg" class="h-7 w-auto" alt="Citadel"><span class="partner-name citadel text-sm font-bold">Citadel</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/IBM_logo.svg" class="h-7 w-auto" alt="IBM"><span class="partner-name ibm text-sm font-bold">IBM</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="h-7 w-auto" alt="AWS"><span class="partner-name aws text-sm font-bold">AWS</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="h-7 w-auto" alt="Microsoft"><span class="partner-name microsoft text-sm font-bold">Microsoft</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/BNP_Paribas_logo.svg" class="h-7 w-auto" alt="BNP Paribas"><span class="partner-name bnp text-sm font-bold">BNP Paribas</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Deutsche_Bank_logo.svg" class="h-7 w-auto" alt="Deutsche Bank"><span class="partner-name deutsche text-sm font-bold">Deutsche Bank</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/UBS_logo.svg" class="h-7 w-auto" alt="UBS"><span class="partner-name ubs text-sm font-bold">UBS</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/HSBC_logo.svg" class="h-7 w-auto" alt="HSBC"><span class="partner-name hsbc text-sm font-bold">HSBC</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Barclays_logo.svg" class="h-7 w-auto" alt="Barclays"><span class="partner-name barclays text-sm font-bold">Barclays</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Credit_Suisse_logo.svg" class="h-7 w-auto" alt="Credit Suisse"><span class="partner-name credit text-sm font-bold">Credit Suisse</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/SAP_2011_logo.svg" class="h-7 w-auto" alt="SAP"><span class="partner-name sap text-sm font-bold">SAP</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Oracle_logo.svg" class="h-7 w-auto" alt="Oracle"><span class="partner-name oracle text-sm font-bold">Oracle</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-7 w-auto" alt="Google"><span class="partner-name google text-sm font-bold">Google</span></div>
-                    <div class="inline-flex items-center gap-2 mx-2 px-4 py-2 rounded-full bg-white/5 border border-white/10"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" class="h-7 w-auto" alt="Apple"><span class="partner-name apple text-sm font-bold">Apple</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BlackRock_logo.svg" class="partner-logo" alt="BlackRock"><span class="partner-name">BlackRock</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Equinix_logo.svg" class="partner-logo" alt="Equinix"><span class="partner-name">Equinix</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Bloomberg_logo.svg" class="partner-logo" alt="Bloomberg"><span class="partner-name">Bloomberg</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Palantir_Logo.svg" class="partner-logo" alt="Palantir"><span class="partner-name">Palantir</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Goldman_Sachs_logo.svg" class="partner-logo" alt="Goldman Sachs"><span class="partner-name">Goldman Sachs</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JPMorgan_Chase_logo.svg" class="partner-logo" alt="J.P. Morgan"><span class="partner-name">J.P. Morgan</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Citadel_Logo.svg" class="partner-logo" alt="Citadel"><span class="partner-name">Citadel</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/IBM_logo.svg" class="partner-logo" alt="IBM"><span class="partner-name">IBM</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="partner-logo" alt="AWS"><span class="partner-name">AWS</span></div>
+                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="partner-logo" alt="Microsoft"><span class="partner-name">Microsoft</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Global Footprint (precise map, geodesic lines) -->
+    <!-- Global Footprint -->
     <section id="global-footprint" class="py-28 bg-slate-950 relative overflow-hidden">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-14 fade-item">
@@ -386,17 +344,17 @@
             <div class="grid lg:grid-cols-2 gap-8 items-start">
                 <div class="custom-map-container w-full h-[500px] rounded-xl shadow-2xl" id="worldMap"></div>
                 <div class="space-y-5 max-h-[500px] overflow-y-auto pr-2">
-                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span><h4 class="text-xl font-bold text-white">🇬🇧 London, United Kingdom</h4></div><p class="text-gray-300 text-sm">Global headquarters in Canary Wharf – LD4 proximity, sub-100µs execution. Hub for FCA oversight and algorithmic liability frameworks.</p></div>
-                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-emerald-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇨🇲 Yaoundé, Cameroon</h4></div><p class="text-gray-300 text-sm">Pan-African regtech & CBDC interoperability. Strategic access to CEMAC zone, stable monetary regime, and emerging digital finance sandbox.</p></div>
-                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-blue-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇺🇸 New York, USA</h4></div><p class="text-gray-300 text-sm">Co-located at NY5, direct NYSE access. SEC compliance center for algorithmic trading and prime brokerage.</p></div>
-                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-amber-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇸🇬 Singapore</h4></div><p class="text-gray-300 text-sm">APAC forex HFT & behavioral AI. MAS licensed, low-latency connectivity to SGX and regional exchanges.</p></div>
-                    <div class="location-justification-card p-5 rounded-lg"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-purple-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇩🇪 Frankfurt, Germany</h4></div><p class="text-gray-300 text-sm">EU regulatory anchor, MIFID II/RTS 27 compliance. LegalTech auditing hub for smart contracts and tokenomics.</p></div>
+                    <div class="location-justification-card"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span><h4 class="text-xl font-bold text-white">🇬🇧 London, United Kingdom</h4></div><p class="text-gray-300 text-sm">Global headquarters in Canary Wharf – LD4 proximity, sub-100µs execution. Hub for FCA oversight and algorithmic liability frameworks.</p></div>
+                    <div class="location-justification-card"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-emerald-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇨🇲 Yaoundé, Cameroon (CEMAC Hub)</h4></div><p class="text-gray-300 text-sm">Pan-African regtech & CBDC interoperability. Strategic access to CEMAC zone, stable monetary regime, and emerging digital finance sandbox.</p></div>
+                    <div class="location-justification-card"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-blue-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇺🇸 New York, USA</h4></div><p class="text-gray-300 text-sm">Co-located at NY5, direct NYSE access. SEC compliance center for algorithmic trading and prime brokerage.</p></div>
+                    <div class="location-justification-card"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-amber-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇸🇬 Singapore</h4></div><p class="text-gray-300 text-sm">APAC forex HFT & behavioral AI. MAS licensed, low-latency connectivity to SGX and regional exchanges.</p></div>
+                    <div class="location-justification-card"><div class="flex items-center gap-2 mb-2"><span class="w-3 h-3 bg-purple-500 rounded-full"></span><h4 class="text-xl font-bold text-white">🇩🇪 Frankfurt, Germany</h4></div><p class="text-gray-300 text-sm">EU regulatory anchor, MIFID II/RTS 27 compliance. LegalTech auditing hub for smart contracts and tokenomics.</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- London Command Center with working background image -->
+    <!-- London Command Center (background working) -->
     <section class="py-40 london-bg relative">
         <div class="absolute inset-0 bg-[#05080f]/70 mix-blend-multiply"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center fade-item">
@@ -434,7 +392,7 @@
         if(mobileBtn) mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
         window.addEventListener('load', () => {
-            // Map init with exact coordinates and geodesic lines
+            // Map
             const map = L.map('worldMap').setView([25, 10], 2);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB', subdomains: 'abcd' }).addTo(map);
             const locations = [
@@ -457,35 +415,21 @@
                 document.getElementById('progress-bar').style.width = scrolled + '%';
             });
             
-            // GSAP fluid scroll animations (no blip, smooth)
+            // GSAP smooth animations
             gsap.registerPlugin(ScrollTrigger);
-            
-            // Initial fade-ins for hero
             gsap.fromTo(".hero-content", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 1.2, ease: "power3.out" });
             gsap.fromTo(".hero-visual", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 1.2, ease: "power3.out", delay: 0.2 });
             
-            // Fade items on scroll
             const fadeItems = gsap.utils.toArray('.fade-item');
             fadeItems.forEach(item => {
                 gsap.set(item, { opacity: 0, y: 30 });
-                ScrollTrigger.create({
-                    trigger: item,
-                    start: "top 85%",
-                    onEnter: () => gsap.to(item, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }),
-                    once: true
-                });
+                ScrollTrigger.create({ trigger: item, start: "top 85%", onEnter: () => gsap.to(item, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }), once: true });
             });
             
-            // Sub-cards specific stagger
             const cards = gsap.utils.toArray('.sub-card');
             cards.forEach((card, i) => {
                 gsap.set(card, { opacity: 0, y: 40 });
-                ScrollTrigger.create({
-                    trigger: card,
-                    start: "top 85%",
-                    onEnter: () => gsap.to(card, { opacity: 1, y: 0, duration: 0.7, delay: i * 0.08, ease: "back.out(0.8)" }),
-                    once: true
-                });
+                ScrollTrigger.create({ trigger: card, start: "top 85%", onEnter: () => gsap.to(card, { opacity: 1, y: 0, duration: 0.7, delay: i * 0.08, ease: "back.out(0.8)" }), once: true });
             });
             
             // Chart
@@ -511,4 +455,4 @@
         });
     </script>
 </body>
-</html></html></html></html>
+</html></html></html></html></html>
