@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASI PRIME | Risk Management (London)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+        body { font-family: 'Space+Grotesk', sans-serif; background-color: #050505; color: #e5e5e5; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .accent-glow { box-shadow: 0 0 20px rgba(0, 255, 157, 0.2); }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <nav class="p-6 flex justify-between items-center border-b border-white/10 glass fixed w-full z-50">
+        <div class="text-xl font-bold tracking-tighter">ASI <span class="text-emerald-500 text-sm">PRIME</span></div>
+        <div class="text-[10px] uppercase tracking-widest text-white/50">London Hub // Institutional</div>
+    </nav>
+
+    <section class="h-screen flex flex-col justify-center px-8 relative">
+        <div class="absolute top-20 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[120px]"></div>
+        
+        <h2 class="text-xs uppercase tracking-[0.4em] text-emerald-400 mb-4 opacity-0" id="sub-tag">Subsidiary: Risk Management</h2>
+        <h1 class="text-5xl md:text-7xl font-bold leading-tight opacity-0" id="main-title">
+            Quantitative <br> Resilience.
+        </h1>
+        <p class="mt-6 max-w-md text-white/60 leading-relaxed opacity-0" id="desc">
+            Deep-learning powered stochastic modeling for the London financial corridor. Bridging the gap between Oxford research and City execution.
+        </p>
+        
+        <div class="mt-10 flex gap-4 opacity-0" id="cta">
+            <button class="px-8 py-3 bg-white text-black font-bold text-sm hover:bg-emerald-400 transition-all">ACCESS PORTAL</button>
+            <button class="px-8 py-3 glass text-sm font-bold">V-2026 SPECS</button>
+        </div>
+    </section>
+
+    <section class="p-8 border-t border-white/10 glass">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-6 border-l-2 border-emerald-500">
+                <h3 class="text-sm font-bold mb-2">Neural Core</h3>
+                <p class="text-xs text-white/40">Real-time VaR and Stress-Testing via deep learning architecture.</p>
+            </div>
+            <div class="p-6 border-l-2 border-white/20">
+                <h3 class="text-sm font-bold mb-2">FCA Alignment</h3>
+                <p class="text-xs text-white/40">Native compatibility with the 2026 AI Accountability Framework.</p>
+            </div>
+            <div class="p-6 border-l-2 border-white/20">
+                <h3 class="text-sm font-bold mb-2">Global HoldCo</h3>
+                <p class="text-xs text-white/40">A subsidiary of ASI PRIME Technologies Multinational.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Professional Entrance Animation
+        const tl = gsap.timeline();
+        tl.to("#sub-tag", { opacity: 1, duration: 1, delay: 0.5 })
+          .to("#main-title", { opacity: 1, y: -20, duration: 0.8 }, "-=0.5")
+          .to("#desc", { opacity: 1, duration: 0.8 }, "-=0.3")
+          .to("#cta", { opacity: 1, y: -10, duration: 0.5 }, "-=0.2");
+    </script>
+</body>
+</html>
