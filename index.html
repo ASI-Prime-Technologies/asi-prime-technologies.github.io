@@ -1,253 +1,73 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth bg-[#05080f]">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ASI PRIME Technologies | Global Infrastructure HoldCo</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-<style>
-body { background:#05080f; color:white; font-family:Inter, sans-serif; overflow-x:hidden; }
-
-/* NAV */
-.glass-nav { background:rgba(5,8,15,.85); backdrop-filter:blur(20px); }
-
-/* SUBSIDIARY FIX */
-.sub-card img {
-    transition: transform .6s ease;
-    filter:none;
-    opacity:.95;
-}
-.sub-card:hover img {
-    transform:scale(1.05);
-}
-
-/* PARTNER SCROLL */
-@keyframes scroll {
-    from {transform:translateX(0)}
-    to {transform:translateX(-100%)}
-}
-.scroll {
-    animation: scroll 30s linear infinite;
-}
-
-/* GLOBE */
-#globe {
-    width:100%;
-    height:500px;
-}
-
-/* LATENCY PANEL */
-.latency-box {
-    background:#020617;
-    border:1px solid #1e293b;
-    padding:20px;
-    font-family:monospace;
-}
-</style>
-</head>
-
-<body>
-
-<!-- NAVBAR (UNCHANGED STRUCTURE) -->
-<nav class="fixed w-full z-50 glass-nav p-6">
-<div class="flex justify-between max-w-7xl mx-auto">
-<div class="text-xl font-bold text-blue-400">ASI PRIME</div>
-</div>
-</nav>
-
-<!-- HERO -->
-<section class="h-screen flex items-center justify-center text-center">
-<div>
-<h1 class="text-6xl font-bold mb-6">The Sovereign Financial Ecosystem</h1>
-<p class="text-gray-400 max-w-2xl mx-auto">
-Institutional-grade infrastructure integrating quant execution, regulatory automation, and global capital flow intelligence.
-</p>
-</div>
-</section>
-
-<!-- SUBSIDIARIES (UPDATED IMAGES) -->
-<section class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto py-20">
-
-<div class="sub-card">
-<img src="https://images.unsplash.com/photo-1642790551116-18e150f1fd0b" class="w-full h-64 object-cover">
-<div class="p-6">Risk Management</div>
-</div>
-
-<div class="sub-card">
-<img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b" class="w-full h-64 object-cover">
-<div class="p-6">RegTech</div>
-</div>
-
-<div class="sub-card">
-<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3" class="w-full h-64 object-cover">
-<div class="p-6">Quant Trading</div>
-</div>
-
-</section>
-
-<!-- 🌍 WEBGL GLOBE -->
-<section class="py-32">
-<h2 class="text-center text-4xl mb-12">Global Network (Live)</h2>
-<div id="globe"></div>
-</section>
-
-<!-- LATENCY SIMULATION -->
-<section class="py-20 max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
-
-<div class="latency-box">
-<h3 class="text-blue-400 mb-4">Live Node Latency</h3>
-<div id="latency-data"></div>
-</div>
-
-<div class="latency-box">
-<h3 class="text-blue-400 mb-4">Data Flow</h3>
-<div id="flow-log"></div>
-</div>
-
-</section>
-
-<!-- PARTNERS -->
-<section class="py-20 overflow-hidden">
-<div class="flex whitespace-nowrap scroll">
-
-<span class="mx-12 text-[#F7931A] text-2xl font-bold">Goldman Sachs</span>
-<span class="mx-12 text-black text-2xl font-bold">BlackRock</span>
-<span class="mx-12 text-red-500 text-2xl font-bold">J.P. Morgan</span>
-<span class="mx-12 text-blue-400 text-2xl font-bold">Bloomberg</span>
-<span class="mx-12 text-orange-400 text-2xl font-bold">Morgan Stanley</span>
-<span class="mx-12 text-blue-600 text-2xl font-bold">Palantir</span>
-<span class="mx-12 text-green-400 text-2xl font-bold">Citadel</span>
-<span class="mx-12 text-red-700 text-2xl font-bold">Barclays</span>
-<span class="mx-12 text-blue-800 text-2xl font-bold">Deutsche Bank</span>
-<span class="mx-12 text-purple-700 text-2xl font-bold">HSBC</span>
-
-</div>
-</section>
-
-<script>
-
-/* =========================
-   🌍 THREE JS GLOBE
-========================= */
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / 500, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias:true });
-renderer.setSize(window.innerWidth, 500);
-document.getElementById("globe").appendChild(renderer.domElement);
-
-const geometry = new THREE.SphereGeometry(5, 64, 64);
-const material = new THREE.MeshBasicMaterial({
-    wireframe:true,
-    color:0x0ea5e9
-});
-const globe = new THREE.Mesh(geometry, material);
-scene.add(globe);
-
-camera.position.z = 10;
-
-/* Nodes */
-const nodes = [
-    {name:"London", lat:51.5, lon:-0.1},
-    {name:"New York", lat:40.7, lon:-74},
-    {name:"Singapore", lat:1.3, lon:103.8},
-    {name:"Yaoundé", lat:3.8, lon:11.5}
-];
-
-/* Convert lat/lon to 3D */
-function latLonToVec3(lat, lon, radius) {
-    const phi = (90 - lat) * (Math.PI / 180);
-    const theta = (lon + 180) * (Math.PI / 180);
-
-    return new THREE.Vector3(
-        -(radius * Math.sin(phi) * Math.cos(theta)),
-        radius * Math.cos(phi),
-        radius * Math.sin(phi) * Math.sin(theta)
-    );
-}
-
-/* Add nodes */
-nodes.forEach(n => {
-    const pos = latLonToVec3(n.lat, n.lon, 5);
-    const dot = new THREE.Mesh(
-        new THREE.SphereGeometry(0.1,16,16),
-        new THREE.MeshBasicMaterial({color:0xffffff})
-    );
-    dot.position.copy(pos);
-    scene.add(dot);
-});
-
-/* Animate */
-function animate() {
-    requestAnimationFrame(animate);
-    globe.rotation.y += 0.0015;
-    renderer.render(scene, camera);
-}
-animate();
-
-
-/* =========================
-   ⚡ LATENCY SIMULATION
-========================= */
-
-const latencyDiv = document.getElementById("latency-data");
-const flowLog = document.getElementById("flow-log");
-
-function randomLatency() {
-    return (Math.random()*120+5).toFixed(2);
-}
-
-function updateLatency() {
-    latencyDiv.innerHTML = "";
-    nodes.forEach(n => {
-        latencyDiv.innerHTML += `<div>${n.name}: ${randomLatency()} ms</div>`;
-    });
-}
-setInterval(updateLatency, 1000);
-
-
-/* =========================
-   🔄 DATA FLOW SIMULATION
-========================= */
-
-function simulateFlow() {
-    const a = nodes[Math.floor(Math.random()*nodes.length)];
-    const b = nodes[Math.floor(Math.random()*nodes.length)];
-
-    if(a !== b){
-        flowLog.innerHTML =
-        `<div>${a.name} → ${b.name} | packet routed | ${randomLatency()} ms</div>`
-        + flowLog.innerHTML;
-    }
-}
-setInterval(simulateFlow, 1200);
-
-
-/* =========================
-   🎯 GSAP SMOOTH SCROLL
-========================= */
-
-gsap.registerPlugin(ScrollTrigger);
-
-gsap.utils.toArray("section").forEach(sec => {
-    gsap.from(sec, {
-        opacity:0,
-        y:40,
-        duration:1,
-        scrollTrigger:{
-            trigger:sec,
-            start:"top 85%"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASI PRIME Technologies | Global Infrastructure HoldCo</title>
+    <meta name="description" content="The sovereign ecosystem for institutional finance, regulatory technology, and quantitative execution.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
+                        brand: { blue: '#0ea5e9', light: '#38bdf8', dark: '#0284c7', accent: '#00f6ff' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "url('data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E")",
+                    },
+                    animation: {
+                        'infinite-scroll': 'infinite-scroll 35s linear infinite',
+                    },
+                    keyframes: {
+                        'infinite-scroll': {
+                            from: { transform: 'translateX(0)' },
+                            to: { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
         }
-    });
-});
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-</script>
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
+        .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .hero-bg { background: linear-gradient(to right, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.7)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
+        .london-bg { background: linear-gradient(to top, rgba(5, 8, 15, 1) 0%, rgba(5, 8, 15, 0.6) 50%, rgba(5, 8, 15, 1) 100%), url('https://images.unsplash.com/photo-1529655683823-dc58849b380f?ixlib=rb-4.0.3&auto=format&fit=crop&w=3000&q=100') center/cover no-repeat fixed; }
+        
+        .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .sub-card img { transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        .float-subtle { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 
-</body>
-</html></html>
+        .global-map { position: relative; }
+        .pin { position: absolute; transform: translate(-50%, -100%); background-color: #0284c7; border-radius: 50%; width: 20px; height: 20px; border: 3px solid white; box-shadow: 0px 0px 15px rgba(0,0,0,0.4); }
+        .tooltip { display: none; font-size: 0.9rem; font-weight: 500; padding: 5px; background-color: #333; color: #fff; position: absolute; transform: translate(-50%, -120%); }
+        .pin:hover .tooltip { display: block; }
+
+        .ticker-list li { margin: 0.5rem; }
+    </style>
+</head>
+<body>
+<!--Adding Updated Subsidiary Content and Global Map below the network-->
+
+<section id="revised-subsidiaries" class="py-20 bg-[#010204]">
+ <div class="mx-auto">
+{!!added subsidiaries and refinements!!!} 
+TO complete.  Under-construction}</html.
