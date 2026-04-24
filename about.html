@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Leadership | ASI PRIME Technologies</title>
-    <meta name="description" content="Meet the multidisciplinary team behind ASI PRIME — experts in quantitative finance, regulatory law, and high‑performance engineering.">
+    <meta name="description" content="Meet the brilliant young minds behind ASI PRIME — experts in quantitative finance, regulatory law, and high‑performance engineering.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -48,15 +48,12 @@
         .hero-bg-about { background: linear-gradient(to bottom, rgba(5, 8, 15, 0.8), rgba(5, 8, 15, 1)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
         .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Preloader */
         #preloader { position: fixed; inset: 0; z-index: 9999; background: #05080f; display: flex; justify-content: center; align-items: center; transition: opacity 0.6s cubic-bezier(0.8, 0, 0.2, 1); }
         .loader-line { width: 2px; height: 40px; background: #0ea5e9; animation: pulse 1s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scaleY(0.5); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
 
-        /* Progress bar (mother page element) */
         #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #0ea5e9, #00f6ff); z-index: 10000; transition: width 0.1s ease; box-shadow: 0 0 8px #0ea5e9; }
 
-        /* Custom profile cards */
         .profile-card {
             background: #0b1120;
             border: 1px solid #1e293b;
@@ -69,18 +66,18 @@
         }
         .profile-img {
             width: 100%;
-            height: 280px;
+            height: 300px;
             object-fit: cover;
-            filter: grayscale(0.2);
-            transition: filter 0.3s;
+            filter: grayscale(0.15);
+            transition: filter 0.3s, transform 0.5s;
         }
         .profile-card:hover .profile-img {
             filter: grayscale(0);
+            transform: scale(1.02);
         }
         .image-caption {
             background: linear-gradient(to top, #020617, transparent);
         }
-        
         .fade-item { will-change: transform, opacity; }
     </style>
 </head>
@@ -147,24 +144,23 @@
         </div>
     </nav>
 
-    <!-- Hero Section - Leadership -->
     <header class="pt-40 pb-20 hero-bg-about border-b border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="hero-content fade-item" style="opacity:0; transform:translateY(30px)">
                 <h1 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-4 flex items-center">
-                    <span class="w-8 h-[1px] bg-brand-blue mr-3"></span> Corporate Governance & Leadership
+                    <span class="w-8 h-[1px] bg-brand-blue mr-3"></span> Next‑Gen Leadership
                 </h1>
                 <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
                     The Architects of <br><span class="text-gradient">Algorithmic Certainty.</span>
                 </h2>
                 <p class="text-xl text-gray-400 max-w-3xl leading-relaxed font-light border-l-2 border-brand-blue pl-6">
-                    A multidisciplinary team where quantitative engineering, regulatory law, and adaptive risk architecture converge to redefine institutional finance.
+                    A multidisciplinary team of brilliant young minds where quantitative engineering, regulatory law, and adaptive risk architecture converge to redefine institutional finance.
                 </p>
             </div>
         </div>
     </header>
 
-    <!-- Founder Section (Large Profile) -->
+    <!-- Founder Section (younger, professional) -->
     <section class="py-24 bg-slate-950 relative overflow-hidden">
         <div class="absolute right-0 top-20 w-96 h-96 bg-brand-blue/5 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -172,7 +168,7 @@
                 <div class="lg:col-span-5 fade-item">
                     <div class="relative group">
                         <div class="absolute -inset-1 bg-gradient-to-r from-brand-blue to-transparent opacity-20 blur-xl group-hover:opacity-40 transition duration-700"></div>
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Charles Loïc Mfouapon - Founder" class="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 relative z-0 rounded-sm border border-slate-800">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Charles Loïc Mfouapon - Founder" class="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 relative z-0 rounded-sm border border-slate-800">
                         <div class="absolute bottom-6 left-6 bg-slate-900/95 backdrop-blur-md border-l-2 border-brand-blue border-y border-r border-slate-700 p-5 shadow-2xl z-10 transform transition-transform hover:translate-x-2 duration-300">
                             <h3 class="text-white font-bold text-xl tracking-tight">Charles Loïc Mfouapon</h3>
                             <p class="text-brand-light font-medium text-sm mt-1">Founder, CEO & Lead Architect</p>
@@ -199,84 +195,84 @@
         </div>
     </section>
 
-    <!-- Six Additional Leadership Profiles (3 Male, 3 Female, diverse regions) -->
+    <!-- Six Younger Leadership Profiles (21‑30, professional, nerdy/brilliant) -->
     <section class="py-32 bg-[#05080f] border-y border-slate-800 relative overflow-hidden">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-20 fade-item">
                 <h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Global Executive Committee</h2>
-                <h3 class="text-4xl font-bold mb-4">Multidisciplinary. Polymath. Resilient.</h3>
-                <p class="text-gray-400 text-lg">A carefully curated team of quantitative experts, regulatory strategists, and engineering leaders from across the world.</p>
+                <h3 class="text-4xl font-bold mb-4">Brilliant Minds. Under 30. Driving Change.</h3>
+                <p class="text-gray-400 text-lg">A curated team of young polymaths — quantitative prodigies, regulatory innovators, and engineering leaders from four continents.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Profile 1 - European Male (UK/France) -->
+                <!-- 1. European Male (German) - Alaric Voss -->
                 <div class="profile-card rounded-sm overflow-hidden group fade-item">
-                    <div class="relative overflow-hidden h-[300px]">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                    <div class="relative overflow-hidden h-[320px]">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-all duration-500 group-hover:scale-105" alt="Young quant analyst">
                         <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Dr. Alaric Voss</p><p class="text-brand-light text-sm">Chief Quantitative Officer</p></div>
                     </div>
                     <div class="p-6 bg-slate-900 border-t border-slate-800">
-                        <p class="text-gray-300 text-sm">Former head of systematic strategies at a $30bn multi‑strat fund. PhD in computational finance from ETH Zurich. Leads our stochastic engine and HFT risk modules.</p>
+                        <p class="text-gray-300 text-sm">PhD in Computational Finance (ETH Zurich) at 26. Formerly at a $30bn multi‑strat fund. Leads our stochastic engine and ultra‑low latency risk modules.</p>
                         <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Stochastic Calculus</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">C++ Low‑Latency</span></div>
                     </div>
                 </div>
 
-                <!-- Profile 2 - African Female (Cameroonian) -->
+                <!-- 2. African Female (Cameroonian) - Yasmine Djondo (young Black woman, blouse, professional) -->
                 <div class="profile-card rounded-sm overflow-hidden group fade-item">
-                    <div class="relative overflow-hidden h-[300px]">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                    <div class="relative overflow-hidden h-[320px]">
+                        <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-all duration-500 group-hover:scale-105" alt="Young African female RegTech expert">
                         <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Yasmine N. Djondo</p><p class="text-brand-light text-sm">Head of RegTech & Africa Strategy</p></div>
                     </div>
                     <div class="p-6 bg-slate-900 border-t border-slate-800">
-                        <p class="text-gray-300 text-sm">Former legal technology advisor to the CEMAC central bank. Architect of our pan‑African compliance layer, integrating CBDC interoperability frameworks.</p>
+                        <p class="text-gray-300 text-sm">LegalTech advisor to the CEMAC central bank at 24. Architect of our pan‑African compliance layer, integrating CBDC interoperability and AI‑driven regulatory monitoring.</p>
                         <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Legal Engineering</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Crypto‑Regulation</span></div>
                     </div>
                 </div>
 
-                <!-- Profile 3 - Indian Male -->
+                <!-- 3. Indian Male - Rajiv Nair (young, suit, nerdy) -->
                 <div class="profile-card rounded-sm overflow-hidden group fade-item">
-                    <div class="relative overflow-hidden h-[300px]">
-                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                    <div class="relative overflow-hidden h-[320px]">
+                        <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-all duration-500 group-hover:scale-105" alt="Young Indian risk analyst">
                         <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Rajiv K. Nair</p><p class="text-brand-light text-sm">Chief Risk Officer (CRO)</p></div>
                     </div>
                     <div class="p-6 bg-slate-900 border-t border-slate-800">
-                        <p class="text-gray-300 text-sm">Ex‑Risk VP at Goldman Sachs Singapore; specialist in tail‑risk models and adaptive VaR. He leads our stress‑testing and liquidity simulation desk.</p>
+                        <p class="text-gray-300 text-sm">Ex‑Risk VP at Goldman Sachs Singapore by 28. Specialist in tail‑risk models and adaptive VaR. Leads our stress‑testing and liquidity simulation desk.</p>
                         <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Tail‑Risk Modeling</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Liquidity Analytics</span></div>
                     </div>
                 </div>
 
-                <!-- Profile 4 - European Female (German) -->
+                <!-- 4. European Female (German) - Friederike Schmidt (young, suit/blazer, glasses if possible) -->
                 <div class="profile-card rounded-sm overflow-hidden group fade-item">
-                    <div class="relative overflow-hidden h-[300px]">
-                        <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                    <div class="relative overflow-hidden h-[320px]">
+                        <img src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-all duration-500 group-hover:scale-105" alt="Young European female legal tech expert">
                         <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Dr. Friederike Schmidt</p><p class="text-brand-light text-sm">Director of LegalTech & Auditing</p></div>
                     </div>
                     <div class="p-6 bg-slate-900 border-t border-slate-800">
-                        <p class="text-gray-300 text-sm">Former counsel at Deutsche Börse; leads the smart contract auditing division and MIFID II/RTS 27 compliance automation.</p>
+                        <p class="text-gray-300 text-sm">Former counsel at Deutsche Börse (age 29). Leads smart contract auditing and MIFID II/RTS 27 automation. Ph.D. in digital contract law.</p>
                         <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Smart Contract Audit</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">ESMA Standards</span></div>
                     </div>
                 </div>
 
-                <!-- Profile 5 - American Male -->
+                <!-- 5. American Male - Jonathan Wells (young, suit, focused) -->
                 <div class="profile-card rounded-sm overflow-hidden group fade-item">
-                    <div class="relative overflow-hidden h-[300px]">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
+                    <div class="relative overflow-hidden h-[320px]">
+                        <img src="https://images.unsplash.com/photo-1542909168-82c3c7b3828c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-all duration-500 group-hover:scale-105" alt="Young American quant trader">
                         <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Jonathan H. Wells</p><p class="text-brand-light text-sm">Head of Quant Trading (Americas)</p></div>
                     </div>
                     <div class="p-6 bg-slate-900 border-t border-slate-800">
-                        <p class="text-gray-300 text-sm">10+ years at Citadel and Two Sigma; runs our NY5 co‑located execution desk. Specializes in statistical arbitrage and microstructure alpha.</p>
+                        <p class="text-gray-300 text-sm">Former quantitative analyst at Citadel (age 27). Runs our NY5 co‑located execution desk. Specializes in statistical arbitrage and microstructure alpha.</p>
                         <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Statistical Arb</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Microstructure</span></div>
                     </div>
                 </div>
 
-                <!-- Profile 6 - African Female (Nigerian/South African) -->
+                <!-- 6. Chinese Female - Mei Lin (young, blouse, professional, nerdy) -->
                 <div class="profile-card rounded-sm overflow-hidden group fade-item">
-                    <div class="relative overflow-hidden h-[300px]">
-                        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Executive profile">
-                        <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Zola N. Adebayo</p><p class="text-brand-light text-sm">Chief Behavioral AI Officer</p></div>
+                    <div class="relative overflow-hidden h-[320px]">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover transition-all duration-500 group-hover:scale-105" alt="Young Asian female AI engineer">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Mei Lin</p><p class="text-brand-light text-sm">Chief Behavioral AI Officer</p></div>
                     </div>
                     <div class="p-6 bg-slate-900 border-t border-slate-800">
-                        <p class="text-gray-300 text-sm">Deep‑learning researcher focused on sentiment-driven alpha. Former ML lead at a tier‑1 African fintech. She architects our behavioral finance clusters.</p>
+                        <p class="text-gray-300 text-sm">Deep‑learning researcher (age 25), top graduate of Tsinghua. She architects our behavioral finance clusters using NLP and alternative data for sentiment‑driven alpha.</p>
                         <div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">NLP Models</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Sentiment Analysis</span></div>
                     </div>
                 </div>
@@ -284,7 +280,7 @@
         </div>
     </section>
 
-    <!-- ASI PRIME Thesis (preserved from original but enhanced with mother page style) -->
+    <!-- ASI PRIME Thesis (enhanced) -->
     <section class="py-32 bg-slate-950 border-y border-slate-800 relative overflow-hidden">
         <div class="absolute left-0 top-0 w-1/3 h-full bg-grid-pattern opacity-10 pointer-events-none"></div>
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -313,7 +309,7 @@
         </div>
     </section>
 
-    <!-- Global Footprint / London HQ (corresponds to mother page) -->
+    <!-- Global Footprint / London HQ -->
     <section class="py-32 bg-[#05080f] relative overflow-hidden">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -339,7 +335,7 @@
         </div>
     </section>
 
-    <!-- Footer (identical to mother page) -->
+    <!-- Footer identical to mother page -->
     <footer class="bg-[#010204] pt-24 pb-12 border-t border-slate-800 relative z-10 mt-auto">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
@@ -398,4 +394,4 @@
         window.addEventListener('scroll', () => { navbar.style.background = window.scrollY > 50 ? 'rgba(2, 6, 23, 0.95)' : 'rgba(5, 8, 15, 0.85)'; });
     </script>
 </body>
-</html>
+</html></html>
