@@ -4,212 +4,303 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASI PRIME Technologies | Global Infrastructure HoldCo</title>
+    <meta name="description" content="The sovereign ecosystem for institutional finance, regulatory technology, and quantitative execution.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
+                        brand: { blue: '#0ea5e9', light: '#38bdf8', dark: '#0284c7', accent: '#00f6ff' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+                    },
+                    animation: {
+                        'infinite-scroll': 'infinite-scroll 35s linear infinite',
+                    },
+                    keyframes: {
+                        'infinite-scroll': {
+                            from: { transform: 'translateX(0)' },
+                            to: { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap');
-        body { font-family: 'Inter', sans-serif; color: #f8fafc; background-color: #05080f; }
+        body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
+        .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .hero-bg { background: linear-gradient(to right, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.7)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
+        .london-bg { background: linear-gradient(to top, rgba(5, 8, 15, 1) 0%, rgba(5, 8, 15, 0.6) 50%, rgba(5, 8, 15, 1) 100%), url('https://images.unsplash.com/photo-1529655683823-dc58849b380f?ixlib=rb-4.0.3&auto=format&fit=crop&w=3000&q=100') center/cover no-repeat fixed; }
+        
         .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Fixed High-Impact Sector Cards */
-        .sector-card { position: relative; overflow: hidden; border: 1px solid #1e293b; background: #0b1120; height: 450px; }
-        .sector-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
-        .sector-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #05080f 20%, transparent 100%); z-index: 10; }
-        .sector-content { position: relative; z-index: 20; height: 100%; display: flex; flex-col; justify-content: flex-end; padding: 2rem; }
+        /* Updated: Removed Blur/Fade - High Detail Sector Images */
+        .sub-card { position: relative; overflow: hidden; border: 1px solid #1e293b; transition: all 0.5s ease; background: #0b1120; }
+        .sub-card img { transition: transform 0.8s ease; filter: brightness(0.6) contrast(1.1); opacity: 1; }
+        .sub-card:hover img { transform: scale(1.1); filter: brightness(0.8) contrast(1.2); }
+        .sub-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, #05080f 20%, transparent 100%); z-index: 10; }
+        .sub-card:hover { border-color: #0ea5e9; box-shadow: 0 0 30px rgba(14, 165, 233, 0.15); }
         
-        /* Map Pulse Effect */
-        .map-dot { position: absolute; width: 12px; height: 12px; background: #0ea5e9; border-radius: 50%; box-shadow: 0 0 15px #0ea5e9; }
-        .map-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid #0ea5e9; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
-        
-        .grid-bg { background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 40px 40px; }
+        .sub-content { position: relative; z-index: 20; }
+
+        /* Map Pin Animation */
+        .map-pin { position: absolute; width: 12px; height: 12px; background: #0ea5e9; border-radius: 50%; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2); cursor: pointer; }
+        .map-pin::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid #0ea5e9; animation: ping 2s infinite; }
+        @keyframes ping { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+
+        #preloader { position: fixed; inset: 0; z-index: 9999; background: #05080f; display: flex; justify-content: center; align-items: center; transition: opacity 0.6s ease; }
     </style>
 </head>
-<body class="antialiased grid-bg">
+<body class="antialiased selection:bg-brand-blue selection:text-white bg-grid-pattern">
 
-    <nav class="fixed w-full z-50 bg-[#05080f]/90 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-[1800px] mx-auto px-8 h-24 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 border-2 border-brand-blue rotate-45 flex items-center justify-center">
-                    <div class="w-6 h-6 bg-brand-blue -rotate-45"></div>
+    <div id="preloader">
+        <div class="flex items-center space-x-4">
+            <div class="loader-line w-[2px] h-[40px] bg-brand-blue animate-pulse"></div>
+            <span class="text-white font-mono text-xl tracking-widest ml-4">ASI PRIME</span>
+        </div>
+    </div>
+
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-nav" id="navbar">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="index.html" class="flex-shrink-0 flex items-center group">
+                    <div class="w-8 h-8 relative mr-3">
+                        <div class="absolute inset-0 border-2 border-brand-blue transform rotate-45"></div>
+                        <div class="absolute inset-2 bg-brand-blue"></div>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tighter text-white">
+                        <span class="text-brand-blue">A</span>SI <span class="font-light">PRIME</span>
+                        <span class="block text-[0.6rem] font-mono tracking-[0.2em] text-gray-400 -mt-1 uppercase">Holdings PLC</span>
+                    </span>
+                </a>
+                
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="#ecosystem" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">The Ecosystem</a>
+                    <a href="#global-map" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Global Operations</a>
+                    <a href="#network" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Network</a>
+                    <a href="portal.html" class="px-6 py-3 text-xs font-mono font-semibold border border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white transition-all uppercase tracking-widest">
+                        Gateway
+                    </a>
                 </div>
-                <span class="text-2xl font-bold tracking-tighter">ASI PRIME <span class="font-light text-gray-500 uppercase text-[10px] tracking-[0.3em] block">Technologies HoldCo</span></span>
-            </div>
-            <div class="hidden lg:flex space-x-10 text-xs font-mono uppercase tracking-widest text-gray-400">
-                <a href="#ecosystem" class="hover:text-white transition-colors">Subsidiaries</a>
-                <a href="#global-reach" class="hover:text-white transition-colors">Global Footprint</a>
-                <a href="#governance" class="hover:text-white transition-colors">Governance</a>
-                <a href="#" class="text-blue-400 border border-blue-400/30 px-4 py-2 rounded-sm">Institutional Login</a>
             </div>
         </div>
     </nav>
 
-    <section class="min-h-screen flex items-center px-8 pt-24 relative overflow-hidden">
-        <div class="max-w-[1800px] mx-auto grid lg:grid-cols-2 gap-20">
-            <div class="relative z-10">
-                <div class="inline-block px-4 py-1 border border-blue-500/30 bg-blue-500/5 text-[10px] font-mono text-blue-400 uppercase tracking-[0.4em] mb-8">Multinational Digital Infrastructure</div>
-                <h1 class="text-6xl lg:text-8xl font-bold leading-[0.9] mb-8">Architecting <br><span class="text-gradient">Global Value.</span></h1>
-                <p class="text-gray-400 text-lg max-w-xl leading-relaxed mb-10 border-l-2 border-blue-500 pl-6">
-                    ASI PRIME Technologies operates a high-conviction portfolio of subsidiaries across Risk, Trading, and LegalTech. We provide the mathematical bedrock for the world's leading financial institutions.
+    <section class="relative min-h-screen flex items-center hero-bg pt-24 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#05080f]/50 to-[#05080f]"></div>
+        <div class="max-w-[1800px] mx-auto px-4 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 hero-content">
+                    <div class="inline-flex items-center space-x-2 border border-brand-blue/30 bg-brand-blue/10 px-4 py-1.5 rounded-sm mb-8">
+                        <span class="text-xs font-mono text-brand-light tracking-widest uppercase">Institutional Deep-Tech Architecture</span>
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-bold tracking-tight mb-6 leading-tight">
+                        Global <br> <span class="text-gradient">Sovereignty.</span>
+                    </h1>
+                    <p class="text-xl text-gray-400 mb-10 font-light max-w-2xl leading-relaxed border-l-2 border-brand-blue pl-6">
+                        ASI PRIME Technologies is a multinational conglomerate specializing in the mathematical convergence of high-frequency finance, automated law, and behavioral intelligence.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#ecosystem" class="px-8 py-4 bg-brand-blue text-white font-mono text-sm tracking-widest uppercase hover:bg-brand-dark transition-all">Explore Subsidiaries</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ecosystem" class="py-32 bg-slate-950 border-t border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 relative z-10">
+            <div class="mb-24 gs-reveal-up">
+                <h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">01 // Ecosystem</h2>
+                <h3 class="text-5xl font-bold text-white mb-6">Vertical Integration.</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="/risk-management/index.html" class="block sub-card p-0 gs-reveal-up group">
+                    <img src="https://images.unsplash.com/photo-1551288049-bbbda5366391?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=90" alt="Data Visualization Dashboard" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-4">Risk Management</h4>
+                        <p class="text-gray-300 font-light text-sm">Deterministic stochastic modeling and real-time VaR engines designed for Tier-1 liquidity providers.</p>
+                        <span class="mt-6 text-brand-blue font-mono text-xs tracking-widest uppercase group-hover:text-white transition-colors">Launch Sector // London Hub →</span>
+                    </div>
+                </a>
+
+                <a href="/regtech/index.html" class="block sub-card p-0 gs-reveal-up group">
+                    <img src="https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=90" alt="Regulatory Compliance Concept" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-4">RegTech</h4>
+                        <p class="text-gray-300 font-light text-sm">Automating algorithmic accountability. Seamless integration of FCA and ESMA compliance into trade execution blocks.</p>
+                        <span class="mt-6 text-brand-blue font-mono text-xs tracking-widest uppercase group-hover:text-white transition-colors">Launch Sector // Singapore Hub →</span>
+                    </div>
+                </a>
+
+                <a href="/quant-trading/index.html" class="block sub-card p-0 gs-reveal-up group">
+                    <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=90" alt="Quantitative Trading Charts" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-4">Quant Trading</h4>
+                        <p class="text-gray-300 font-light text-sm">Proprietary alpha generation utilizing internal risk signals for high-frequency volatility harvesting.</p>
+                        <span class="mt-6 text-brand-blue font-mono text-xs tracking-widest uppercase group-hover:text-white transition-colors">Launch Sector // New York Hub →</span>
+                    </div>
+                </a>
+
+                <a href="/behavioral-finance/index.html" class="block sub-card p-0 gs-reveal-up group">
+                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=90" alt="Behavioral Analysis" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-4">Behavioral Finance</h4>
+                        <p class="text-gray-300 font-light text-sm">Analyzing human irrationality at scale. Sentiment engines and retail capitulation models for predictive signal generation.</p>
+                        <span class="mt-6 text-brand-blue font-mono text-xs tracking-widest uppercase group-hover:text-white transition-colors">Launch Sector // Abu Dhabi Hub →</span>
+                    </div>
+                </a>
+
+                <a href="/legaltech/index.html" class="block sub-card p-0 gs-reveal-up group lg:col-span-2">
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=90" alt="Legal Auditing Documents" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="p-10 sub-content h-full flex flex-col justify-end min-h-[450px]">
+                        <h4 class="text-3xl font-bold text-white mb-4">LegalTech & Auditing</h4>
+                        <p class="text-gray-300 font-light text-sm max-w-2xl">Mathematical auditing of smart contracts and institutional financial frameworks. We verify the solvency and legality of the code that moves global capital.</p>
+                        <span class="mt-6 text-brand-blue font-mono text-xs tracking-widest uppercase group-hover:text-white transition-colors">Launch Sector // Luxembourg Hub →</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="global-map" class="py-32 bg-[#020617] border-y border-slate-800 relative">
+        <div class="max-w-[1800px] mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-4 gs-reveal-up">
+                    <h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">02 // Presence</h2>
+                    <h3 class="text-5xl font-bold text-white mb-8">Four Corners <br> of the Globe.</h3>
+                    <ul class="space-y-6 text-sm font-mono uppercase tracking-widest">
+                        <li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">London (HQ)</span> <span class="text-gray-500">Risk/Legal</span></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">New York</span> <span class="text-gray-500">Quant Trading</span></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Singapore</span> <span class="text-gray-500">RegTech</span></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Abu Dhabi</span> <span class="text-gray-500">Behavioral</span></li>
+                        <li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Nairobi</span> <span class="text-gray-500">Emerging Frontier</span></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-8 relative min-h-[500px] bg-slate-900 rounded-sm border border-slate-800 overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Global Operations Map" class="absolute inset-0 w-full h-full object-cover opacity-40 contrast-125 grayscale">
+                    
+                    <div class="map-pin top-[35%] left-[45%]" title="London"></div>
+                    <div class="map-pin top-[40%] left-[25%]" title="New York"></div>
+                    <div class="map-pin top-[65%] left-[75%]" title="Singapore"></div>
+                    <div class="map-pin top-[50%] left-[60%]" title="Abu Dhabi"></div>
+                    <div class="map-pin top-[70%] left-[55%]" title="Nairobi"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="network" class="py-20 bg-slate-950 border-b border-slate-800">
+        <div class="w-full relative flex flex-nowrap overflow-hidden">
+            <ul class="flex items-center animate-infinite-scroll whitespace-nowrap [&_li]:mx-16">
+                <li><span class="text-xl font-bold text-gray-500 uppercase tracking-tighter">BlackRock Alumni Network</span></li>
+                <li><span class="text-xl font-bold text-gray-500 uppercase tracking-tighter">Equinix LD4/NY4</span></li>
+                <li><span class="text-xl font-bold text-gray-500 uppercase tracking-tighter">Danpullo Group PLC</span></li>
+                <li><span class="text-xl font-bold text-gray-500 uppercase tracking-tighter">Bloomberg Terminal Native</span></li>
+                <li><span class="text-xl font-bold text-gray-500 uppercase tracking-tighter">Renaissance Technologies Research</span></li>
+                <li><span class="text-xl font-bold text-gray-500 uppercase tracking-tighter">Coinbase</span></li>
+                <li><span class="text-xl font-bold text-gray-500 uppercase tracking-tighter">DE Shaw & Co</span></li>
+                <li><span class="text-xl font-bold text-gray-500 uppercase tracking-tighter">Citadel Securities Quantitative Research</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="py-40 london-bg relative text-center">
+        <div class="absolute inset-0 bg-[#05080f]/70 mix-blend-multiply"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4 gs-reveal-scale">
+            <h2 class="text-7xl font-bold mb-6 text-white">Canary Wharf HQ.</h2>
+            <p class="text-xl text-gray-300 font-light mb-12 leading-relaxed">Centralizing global intelligence through the world's premier regulatory and financial corridor.</p>
+            <a href="about.html" class="px-10 py-5 bg-white text-black font-mono font-bold tracking-widest uppercase hover:bg-brand-blue hover:text-white transition-all shadow-2xl">Corporate Governance</a>
+        </div>
+    </section>
+
+    <footer class="bg-[#010204] pt-24 pb-12 border-t border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 grid grid-cols-1 md:grid-cols-6 gap-12 mb-16">
+            <div class="md:col-span-2">
+                <span class="text-3xl font-bold tracking-tighter text-white block mb-6">
+                    <span class="text-brand-blue">A</span>SI <span class="font-light">PRIME</span>
+                </span>
+                <p class="text-gray-500 text-sm leading-relaxed max-w-xs">
+                    Engineering institutional resilience. A multinational deep-tech conglomerate defining the future of financial risk and legal auditing.
                 </p>
-                <div class="flex space-x-6">
-                    <button class="bg-blue-600 px-10 py-4 font-mono text-xs uppercase tracking-widest hover:bg-blue-700 transition-all">Explore Holdings</button>
-                    <button class="border border-white/20 px-10 py-4 font-mono text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all">Pitch Deck</button>
+            </div>
+            <div class="md:col-span-4 grid grid-cols-1 sm:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-white font-mono text-xs uppercase tracking-widest mb-6 border-b border-slate-800 pb-2">The Ecosystem</h4>
+                    <ul class="text-gray-500 text-sm space-y-4 font-light">
+                        <li><a href="/risk-management/index.html" class="hover:text-white transition-colors">Risk Management</a></li>
+                        <li><a href="/regtech/index.html" class="hover:text-white transition-colors">RegTech Solutions</a></li>
+                        <li><a href="/quant-trading/index.html" class="hover:text-white transition-colors">Quant Trading</a></li>
+                        <li><a href="/behavioral-finance/index.html" class="hover:text-white transition-colors">Behavioral Finance</a></li>
+                        <li><a href="/legaltech/index.html" class="hover:text-white transition-colors">LegalTech</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-mono text-xs uppercase tracking-widest mb-6 border-b border-slate-800 pb-2">HQ Operations</h4>
+                    <ul class="text-gray-500 text-sm space-y-4 font-light">
+                        <li><a href="about.html" class="hover:text-white transition-colors">Leadership</a></li>
+                        <li><a href="portal.html" class="hover:text-brand-blue transition-colors font-bold">Secure Portal</a></li>
+                        <li><a href="portal.html" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </section>
-
-    <section id="ecosystem" class="py-32 px-8 bg-[#02040a]">
-        <div class="max-w-[1800px] mx-auto">
-            <div class="mb-20">
-                <h2 class="text-xs font-mono text-blue-500 uppercase tracking-[0.5em] mb-4">Verticals</h2>
-                <h3 class="text-4xl font-bold">The Strategic Subsidiaries.</h3>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="sector-card group">
-                    <img src="https://images.unsplash.com/photo-1551288049-bbbda5366391?q=80&w=2070" class="sector-img" alt="Data Analytics Terminal">
-                    <div class="sector-overlay"></div>
-                    <div class="sector-content">
-                        <div class="mb-4">
-                            <h4 class="text-2xl font-bold mb-2">ASI PRIME Risk Management</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Deep-learning powered stochastic modeling for institutional portfolio resilience and real-time VaR calculation.</p>
-                        </div>
-                        <a href="/risk-management" class="text-xs font-mono text-blue-400 uppercase tracking-widest">Connect to Hub →</a>
-                    </div>
-                </div>
-
-                <div class="sector-card">
-                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071" class="sector-img" alt="Professional Regulatory Office">
-                    <div class="sector-overlay"></div>
-                    <div class="sector-content">
-                        <div class="mb-4">
-                            <h4 class="text-2xl font-bold mb-2">ASI PRIME RegTech</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Automating global algorithmic compliance and auditing. Hardcoding accountability into the financial core.</p>
-                        </div>
-                        <a href="/regtech" class="text-xs font-mono text-blue-400 uppercase tracking-widest">Connect to Hub →</a>
-                    </div>
-                </div>
-
-                <div class="sector-card">
-                    <img src="https://images.unsplash.com/photo-1642790103517-18107515544c?q=80&w=2066" class="sector-img" alt="Trading Candle Charts">
-                    <div class="sector-overlay"></div>
-                    <div class="sector-content">
-                        <div class="mb-4">
-                            <h4 class="text-2xl font-bold mb-2">ASI PRIME Quant</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Proprietary high-frequency execution utilizing sub-microsecond risk signals for alpha generation.</p>
-                        </div>
-                        <a href="/quant-trading" class="text-xs font-mono text-blue-400 uppercase tracking-widest">Connect to Hub →</a>
-                    </div>
-                </div>
-
-                <div class="sector-card lg:col-span-1">
-                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070" class="sector-img" alt="Market Psychology Visualization">
-                    <div class="sector-overlay"></div>
-                    <div class="sector-content">
-                        <div class="mb-4">
-                            <h4 class="text-2xl font-bold mb-2">ASI PRIME Behavioral</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Modeling market irrationality through neural sentiment analysis and liquidity flow metrics.</p>
-                        </div>
-                        <a href="/behavioral-finance" class="text-xs font-mono text-blue-400 uppercase tracking-widest">Connect to Hub →</a>
-                    </div>
-                </div>
-
-                <div class="sector-card lg:col-span-2">
-                    <img src="https://images.unsplash.com/photo-1450175804616-78ff2560c058?q=80&w=1926" class="sector-img" alt="Legal Gavel and Scales">
-                    <div class="sector-overlay"></div>
-                    <div class="sector-content">
-                        <div class="mb-4 max-w-2xl">
-                            <h4 class="text-2xl font-bold mb-2">ASI PRIME LegalTech & Financial Auditing</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Mathematical auditing of institutional smart contracts and cross-border financial structures for absolute legal determinism.</p>
-                        </div>
-                        <a href="/legaltech" class="text-xs font-mono text-blue-400 uppercase tracking-widest">Connect to Hub →</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="global-reach" class="py-32 px-8 bg-[#05080f] border-y border-white/5">
-        <div class="max-w-[1800px] mx-auto text-center mb-20">
-            <h2 class="text-xs font-mono text-blue-500 uppercase tracking-[0.5em] mb-4">Operational Footprint</h2>
-            <h3 class="text-4xl font-bold">Bridging the Four Corners.</h3>
-        </div>
-
-        <div class="max-w-[1400px] mx-auto relative h-[600px] bg-[#0b1120] rounded-lg border border-white/10 overflow-hidden shadow-2xl">
-            <div class="absolute inset-0 opacity-20 bg-[url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg')] bg-center bg-no-repeat bg-contain"></div>
-            
-            <div class="map-dot top-[28%] left-[48%] group cursor-pointer">
-                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black border border-white/10 p-3 w-40 text-left rounded shadow-xl">
-                    <span class="block text-[10px] text-blue-400 font-mono">HQ & RISK</span>
-                    <span class="text-xs font-bold text-white uppercase">London, UK</span>
-                </div>
-            </div>
-
-            <div class="map-dot top-[35%] left-[28%] group cursor-pointer">
-                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black border border-white/10 p-3 w-40 text-left rounded shadow-xl">
-                    <span class="block text-[10px] text-blue-400 font-mono">QUANT HUB</span>
-                    <span class="text-xs font-bold text-white uppercase">New York, USA</span>
-                </div>
-            </div>
-
-            <div class="map-dot top-[60%] left-[78%] group cursor-pointer">
-                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black border border-white/10 p-3 w-40 text-left rounded shadow-xl">
-                    <span class="block text-[10px] text-blue-400 font-mono">REGTECH HUB</span>
-                    <span class="text-xs font-bold text-white uppercase">Singapore</span>
-                </div>
-            </div>
-
-            <div class="map-dot top-[65%] left-[55%] group cursor-pointer">
-                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black border border-white/10 p-3 w-40 text-left rounded shadow-xl">
-                    <span class="block text-[10px] text-blue-400 font-mono">AUDIT HUB</span>
-                    <span class="text-xs font-bold text-white uppercase">Nairobi, KE</span>
-                </div>
-            </div>
-            
-            <div class="absolute bottom-10 left-10 text-left">
-                <p class="text-xs font-mono text-gray-500 uppercase tracking-[0.2em] mb-2">Connectivity Status</p>
-                <div class="flex items-center space-x-2">
-                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span class="text-[10px] text-white font-mono uppercase tracking-widest">Global Node Sync Complete</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-20 px-8 border-t border-white/5">
-        <div class="max-w-[1800px] mx-auto flex flex-col md:flex-row justify-between items-start">
-            <div class="mb-10 md:mb-0">
-                <span class="text-xl font-bold tracking-tighter">ASI PRIME <span class="font-light">Technologies</span></span>
-                <p class="text-gray-500 text-xs mt-4 max-w-xs leading-relaxed">Sovereign multinational conglomerate engineering the future of institutional risk architecture and legal determinism.</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-12 text-xs font-mono uppercase tracking-widest text-gray-400">
-                <div class="flex flex-col space-y-4">
-                    <span class="text-white">Subsidiaries</span>
-                    <a href="/risk-management" class="hover:text-blue-400">Risk Management</a>
-                    <a href="/regtech" class="hover:text-blue-400">RegTech</a>
-                    <a href="/quant-trading" class="hover:text-blue-400">Quant Trading</a>
-                </div>
-                <div class="flex flex-col space-y-4">
-                    <span class="text-white">Corporate</span>
-                    <a href="#">Governance</a>
-                    <a href="#">Investor Relations</a>
-                    <a href="#">Ethics</a>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-[1800px] mx-auto mt-20 pt-8 border-t border-white/5 text-[10px] font-mono text-gray-600">
-            &copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. ALL RIGHTS RESERVED.
+        <div class="border-t border-slate-900 pt-8 max-w-[1800px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-700 font-mono tracking-widest">
+            <span>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. ALL RIGHTS RESERVED.</span>
+            <span class="mt-4 md:mt-0 uppercase">Global Node Status: Online | Canary Wharf</span>
         </div>
     </footer>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.from(".sector-card", {
-            scrollTrigger: { trigger: "#ecosystem", start: "top 80%" },
-            y: 50, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out"
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => { 
+                    preloader.style.display = 'none'; 
+                    gsap.registerPlugin(ScrollTrigger);
+                    
+                    gsap.from(".hero-content", { y: 30, opacity: 0, duration: 1, ease: "power3.out" });
+                    
+                    gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
+                        ScrollTrigger.create({
+                            trigger: elem, start: "top 90%",
+                            onEnter: () => gsap.fromTo(elem, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out" }),
+                            once: true
+                        });
+                    });
+
+                    gsap.utils.toArray('.gs-reveal-scale').forEach(elem => {
+                        ScrollTrigger.create({
+                            trigger: elem, start: "top 85%",
+                            onEnter: () => gsap.fromTo(elem, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: "power3.out" }),
+                            once: true
+                        });
+                    });
+                }, 600);
+            }, 800);
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.style.background = window.scrollY > 50 ? 'rgba(2, 6, 23, 0.98)' : 'rgba(5, 8, 15, 0.85)';
         });
     </script>
 </body>
