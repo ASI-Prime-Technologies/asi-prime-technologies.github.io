@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#05080f]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behavioral Finance | ASI PRIME Technologies</title>
+    <meta name="description" content="Deep learning sentiment analysis, cognitive bias models, and alternative data for systematic alpha generation.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
+                        // Primary brand colour for Behavioral Finance: Purple
+                        brand: { purple: '#8b5cf6', violet: '#7c3aed', fuchsia: '#d946ef' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%238b5cf6' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
+        .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .hero-bf { background: linear-gradient(135deg, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.8)), url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=2000&q=100') center/cover no-repeat fixed; }
+        .text-gradient-bf { background: linear-gradient(to right, #ffffff, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-bf { background: #8b5cf6; transition: all 0.2s; }
+        .btn-bf:hover { background: #7c3aed; transform: translateY(-2px); }
+        .stat-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
+        .stat-card:hover { border-color: #8b5cf6; transform: translateY(-4px); }
+        .service-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
+        .service-card:hover { border-color: #8b5cf6; box-shadow: 0 10px 25px -10px rgba(139,92,246,0.2); }
+        .fade-item { will-change: transform, opacity; opacity: 0; transform: translateY(20px); }
+        #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #8b5cf6, #7c3aed); z-index: 10000; transition: width 0.1s ease; }
+        .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; }
+        .img-glow { transition: filter 0.3s; filter: grayscale(0.1); }
+        .img-glow:hover { filter: grayscale(0); }
+    </style>
+</head>
+<body class="antialiased bg-grid-pattern">
+
+    <div id="progress-bar"></div>
+
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-nav" id="navbar">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="../index.html" class="flex-shrink-0 flex items-center group">
+                    <div class="w-8 h-8 relative mr-3">
+                        <div class="absolute inset-0 border-2 border-brand-purple transform rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
+                        <div class="absolute inset-2 bg-brand-purple"></div>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tighter text-white">
+                        <span class="text-brand-purple">A</span>SI <span class="font-light">PRIME</span>
+                        <span class="block text-[0.6rem] font-mono tracking-[0.2em] text-gray-400 -mt-1">BEHAVIORAL FINANCE</span>
+                    </span>
+                </a>
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="#core" class="text-sm font-medium text-gray-300 hover:text-brand-purple transition-colors">The Engine</a>
+                    <a href="#software" class="text-sm font-medium text-gray-300 hover:text-brand-purple transition-colors">Software Stack</a>
+                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-purple transition-colors">Service Packs</a>
+                    <a href="#geography" class="text-sm font-medium text-gray-300 hover:text-brand-purple transition-colors">Global Coverage</a>
+                    <a href="../index.html" class="px-5 py-2 text-xs font-mono border border-brand-purple text-brand-purple hover:bg-brand-purple hover:text-white transition rounded-full">HoldCo Home</a>
+                </div>
+                <button id="mobile-menu-btn" class="lg:hidden text-gray-300"><svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#020617] border-b border-slate-800 absolute w-full">
+            <div class="px-4 pt-4 pb-8 space-y-3"><a href="#core" class="block">The Engine</a><a href="#software" class="block">Software Stack</a><a href="#services" class="block">Service Packs</a><a href="#geography" class="block">Global Coverage</a><a href="../index.html" class="block text-brand-purple">HoldCo Home</a></div>
+        </div>
+    </nav>
+
+    <header class="pt-40 pb-24 hero-bf border-b border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">Behavioral Finance <br><span class="text-gradient-bf">by ASI PRIME</span></h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto font-light">Deep learning sentiment models, cognitive bias detection, and alternative data – transforming irrationality into systematic alpha.</p>
+        </div>
+    </header>
+
+    <!-- Core Stats -->
+    <section class="py-20 bg-slate-950 border-b border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-purple">15+</div><p class="text-gray-400 mt-2">Years of historical sentiment data</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-purple">200M</div><p class="text-gray-400 mt-2">Daily social & news events processed</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-purple">0.71</div><p class="text-gray-400 mt-2">Avg. sentiment alpha correlation (net)</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-purple">80+</div><p class="text-gray-400 mt-2">Alternative data sources</p></div>
+        </div>
+    </section>
+
+    <!-- Core Philosophy (The Engine) -->
+    <section id="core" class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="fade-item"><h2 class="text-3xl font-bold mb-6">Sentiment & Behavioural Alpha Engine</h2><p class="text-gray-400 leading-relaxed mb-4">Our proprietary NLP models ingest structured and unstructured data from news wires, social media, regulatory filings, and satellite imagery. We transform human emotion – fear, greed, herding – into actionable trading signals.</p><p class="text-gray-400 leading-relaxed">The system identifies cognitive biases (overconfidence, loss aversion, confirmation bias) and measures deviations from rational expectations. These behavioural residuals are then integrated into our quant trading strategies.</p><div class="mt-6 flex flex-wrap gap-3"><span class="px-3 py-1 bg-slate-800 text-brand-purple text-xs font-mono">Transformer NLP</span><span class="px-3 py-1 bg-slate-800 text-brand-purple text-xs font-mono">Sentiment LSTM</span><span class="px-3 py-1 bg-slate-800 text-brand-purple text-xs font-mono">Bias detection</span></div></div>
+                <div class="fade-item bg-slate-900 p-6 rounded-sm border-l-2 border-brand-purple"><h3 class="text-white font-bold text-xl mb-3">Behavioral signals we generate</h3><ul class="space-y-2 text-gray-300 text-sm"><li>✓ Social media sentiment (Twitter, Reddit, StockTwits)</li><li>✓ News sentiment (Reuters, Bloomberg, FT, WSJ)</li><li>✓ Regulatory filing tone (SEC EDGAR, FCA notices)</li><li>✓ Retail flow analysis (order imbalance, gamma exposure)</li><li>✓ Fear/Greed index (volatility, put/call, safe‑haven flows)</li><li>✓ ESG sentiment & controversy detection</li></ul></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Software Stack & Infrastructure -->
+    <section id="software" class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Behavioral AI Infrastructure</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-12">A scalable, cloud‑native platform for real‑time sentiment analysis and bias modelling – delivering signals in under 50ms.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-purple/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5"><path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9"/><path d="M12 7v5l3 3"/><circle cx="12" cy="12" r="2"/></svg></div><h3 class="text-white font-bold">Emotion CORE</h3><p class="text-gray-400 text-sm mt-2">Transformer‑based NLP engine with fine‑tuned financial lexicon. Processes 50,000+ documents per second with entity‑level sentiment.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-purple/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg></div><h3 class="text-white font-bold">Bias Detector</h3><p class="text-gray-400 text-sm mt-2">Quantifies cognitive biases from text and order flow. Flags overconfidence, herding, and loss aversion in real time.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-purple/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5"><path d="M4 4 L20 4 L20 20 L4 20 Z M8 8 L16 8 M8 12 L16 12 M8 16 L12 16"/></svg></div><h3 class="text-white font-bold">Alternative Data Hub</h3><p class="text-gray-400 text-sm mt-2">Unified ingestion of satellite imagery, card transactions, geolocation, and web traffic – all correlated to market moves.</p></div>
+            </div>
+            <div class="mt-10 text-left bg-slate-900 p-6 rounded-sm"><h3 class="text-white font-bold mb-2">Technical specifications</h3><ul class="list-disc pl-5 text-gray-400 text-sm grid md:grid-cols-2 gap-x-6 gap-y-1"><li>Built on PyTorch + Hugging Face transformers</li><li>Real‑time streaming via Kafka + WebSockets</li><li>Historical archive: 15+ years of news, SEC filings, social media</li><li>Signal latency: < 50ms from event to output</li><li>Deployed on AWS (Graviton) + GPU clusters for training</li><li>API‑first: REST and WebSocket endpoints</li></ul></div>
+        </div>
+    </section>
+
+    <!-- Service Packs -->
+    <section id="services" class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Behavioral Finance Service Packs</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-purple">Sentiment Feed</h3><p class="text-gray-400 text-sm mt-2">Real‑time entity‑level sentiment scores (positive/negative/neutral) for equities, FX, and crypto. Delivered via WebSocket or REST.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Monthly subscription</span><div class="text-2xl font-bold text-white">£6,500</div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-purple">Bias & Flow Analytics</h3><p class="text-gray-400 text-sm mt-2">Adds cognitive bias scores, retail flow analysis, and sentiment‑based risk overlays. Includes historical backtesting.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Typical</span><div class="text-2xl font-bold text-white">£12,000<span class="text-sm font-normal text-gray-400">/month</span></div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-purple">Alpha Signal Factory</h3><p class="text-gray-400 text-sm mt-2">Custom behavioural alpha models, alternative data integration, and quant research partnership. Co‑developed signals.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Custom pricing</span><div class="text-2xl font-bold text-white">Contact us</div></div></div>
+            </div>
+            <p class="text-center text-gray-500 text-xs mt-8">All feeds include 24/7 API availability, sample code (Python/Node), and dedicated support.</p>
+        </div>
+    </section>
+
+    <!-- Global Data Coverage Map -->
+    <section id="geography" class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div><h2 class="text-3xl font-bold mb-4">Global Alternative Data Footprint</h2><p class="text-gray-400 mb-4">We source and normalise unstructured data from every major region – giving you a true global view of sentiment and behavioural drivers.</p><ul class="space-y-2 text-sm text-gray-300"><li><span class="text-brand-purple">▸</span> Americas: SEC filings, social media (Twitter, Reddit, StockTwits), satellite imagery</li><li><span class="text-brand-purple">▸</span> EMEA: Regulatory databases, news (Reuters, FT, local languages), web traffic</li><li><span class="text-brand-purple">▸</span> Asia‑Pacific: Social platforms (Weibo, Twitter), corporate disclosures, supply chain data</li><li><span class="text-brand-purple">▸</span> Global: ESG reports, patent filings, consumer card transactions</li></ul><p class="text-gray-400 text-sm mt-6">All data is cleaned, normalised, and ready for quantitative modelling.</p></div>
+                <div class="custom-map-container h-[400px] rounded-sm" id="dataMap"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sector Analysis / Use Cases -->
+    <section class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Behavioural Alpha in Practice</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-purple"><h3 class="text-white font-bold text-xl">Hedge Funds & Quant Funds</h3><p class="text-gray-400 text-sm mt-2">Incorporate sentiment and bias scores into existing multi‑factor models. Our signals have shown consistent alpha even after controlling for traditional factors.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-purple"><h3 class="text-white font-bold text-xl">Asset Managers & Mutual Funds</h3><p class="text-gray-400 text-sm mt-2">Enhance fundamental analysis with real‑time sentiment and controversy detection. Identify inflection points before the market.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-purple"><h3 class="text-white font-bold text-xl">Corporate IR & Strategy</h3><p class="text-gray-400 text-sm mt-2">Monitor investor sentiment, detect emerging controversies, and measure brand health across social and traditional media.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-purple"><h3 class="text-white font-bold text-xl">Risk & Compliance</h3><p class="text-gray-400 text-sm mt-2">Early warning for reputational risk, ESG controversies, or sudden shifts in stakeholder sentiment.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research / Case Study with image -->
+    <section class="py-20 bg-slate-950">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5" class="mx-auto mb-4"><path d="M12 2 L12 6 M12 18 L12 22 M4.93 4.93 L7.76 7.76 M16.24 16.24 L19.07 19.07 M2 12 L6 12 M18 12 L22 12 M4.93 19.07 L7.76 16.24 M16.24 7.76 L19.07 4.93"/><circle cx="12" cy="12" r="3"/></svg>
+            <p class="text-gray-300 text-lg italic">“ASI PRIME’s behavioural signals improved our long‑short equity portfolio’s information ratio by 0.5. The sentiment‑based risk overlay alone saved three drawdowns in 2024.”</p>
+            <p class="text-white font-bold mt-4">— Head of Quantitative Research, $5bn long‑short fund</p>
+            <div class="mt-8 flex justify-center">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="AI sentiment analysis dashboard" class="rounded-sm w-full max-w-2xl img-glow">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#010204] pt-16 pb-10 border-t border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 text-center text-gray-500 text-xs"><p>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. Behavioral Finance Division.</p><p class="mt-2"><a href="../index.html" class="text-brand-purple hover:underline">← Return to Holding Company</a></p></div>
+    </footer>
+
+    <script>
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if(mobileBtn) mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        const map = L.map('dataMap').setView([30, 0], 2);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB', subdomains: 'abcd' }).addTo(map);
+        const dataHubs = [[51.5074, -0.1278], [40.7128, -74.0060], [1.3521, 103.8198], [35.6895, 139.6917]];
+        dataHubs.forEach(h => L.marker(h).addTo(map).bindPopup('Alternative data ingestion hub'));
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.fade-item').forEach(el => {
+            gsap.set(el, { opacity: 0, y: 20 });
+            ScrollTrigger.create({ trigger: el, start: "top 85%", onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }), once: true });
+        });
+    </script>
+</body>
+</html>
