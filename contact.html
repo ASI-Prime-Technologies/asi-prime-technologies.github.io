@@ -11,15 +11,79 @@
         .glass-card { background: rgba(5,8,15,0.7); backdrop-filter: blur(16px); border: 1px solid #1e293b; border-radius: 1.5rem; }
         .input-field, .select-field, .textarea-field { background: #0f172a; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 0.75rem 1rem; width: 100%; color: white; transition: all 0.2s; }
         .input-field:focus, .select-field:focus, .textarea-field:focus { border-color: #0ea5e9; outline: none; box-shadow: 0 0 0 3px rgba(14,165,233,0.2); }
-        .btn-submit { background: #0ea5e9; border-radius: 0.75rem; padding: 0.875rem; font-weight: 600; width: 100%; transition: all 0.2s; }
+        .btn-submit { background: #0ea5e9; border-radius: 0.75rem; padding: 0.875rem; font-weight: 600; width: 100%; transition: all 0.2s; cursor: pointer; }
         .btn-submit:hover { background: #0284c7; transform: translateY(-2px); }
-        .success-check { stroke-dasharray: 50; stroke-dashoffset: 50; animation: drawCheck 0.5s ease forwards; }
-        @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+        /* Success check animation overlay */
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5,8,15,0.95);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        .success-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .success-check {
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: drawCheck 0.6s ease forwards;
+        }
+        @keyframes drawCheck {
+            to { stroke-dashoffset: 0; }
+        }
         /* Email preview modal */
-        .email-preview { background: #ffffff; color: #1e293b; font-family: 'Inter', sans-serif; border-radius: 1rem; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; }
+        .email-preview {
+            background: #ffffff;
+            color: #1e293b;
+            font-family: 'Inter', sans-serif;
+            border-radius: 1rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .email-preview.active {
+            transform: scale(1);
+            opacity: 1;
+        }
         .email-header { background: #f1f5f9; padding: 1rem; border-bottom: 1px solid #e2e8f0; }
         .email-body { padding: 1.5rem; }
         .email-logo { display: inline-block; font-weight: bold; background: #0ea5e9; color: white; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-size: 0.8rem; }
+        .preview-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        .preview-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .fade-out {
+            animation: fadeOut 0.3s ease forwards;
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     </style>
 </head>
 <body class="py-12 px-4">
@@ -75,77 +139,73 @@
         </div>
     </div>
 
-    <!-- Success Modal with institutional email preview -->
-    <div id="successModal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 hidden transition-all p-4">
-        <div class="max-w-2xl w-full">
-            <div class="email-preview shadow-2xl">
-                <div class="email-header flex justify-between items-center">
-                    <div class="flex items-center gap-2">
-                        <span class="email-logo">ASI PRIME</span>
-                        <span class="text-xs text-slate-500">Holdings PLC</span>
-                    </div>
-                    <button id="closeModalBtn" class="text-slate-400 hover:text-slate-700 text-xl">&times;</button>
+    <!-- Step 1: Success animation overlay -->
+    <div id="successOverlay" class="success-overlay">
+        <div class="text-center">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                <circle cx="40" cy="40" r="36" stroke="#0ea5e9" stroke-width="3" fill="none"/>
+                <path class="success-check" d="M25 40 L35 50 L55 30" stroke="#0ea5e9" stroke-width="5" stroke-linecap="round" fill="none"/>
+            </svg>
+            <p class="text-white text-lg mt-4 font-medium">Submission received</p>
+        </div>
+    </div>
+
+    <!-- Step 2: Email preview modal overlay -->
+    <div id="previewOverlay" class="preview-modal-overlay">
+        <div class="email-preview" id="emailPreviewCard">
+            <div class="email-header flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="email-logo">ASI PRIME</span>
+                    <span class="text-xs text-slate-500">Holdings PLC</span>
                 </div>
-                <div class="email-body">
-                    <div class="flex items-center gap-3 mb-4">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                            <rect x="2" y="2" width="36" height="36" rx="6" stroke="#0ea5e9" stroke-width="2" fill="#0ea5e9" fill-opacity="0.1"/>
-                            <path d="M12 16 L20 22 L28 16" stroke="#0ea5e9" stroke-width="2" fill="none"/>
-                            <path d="M12 20 L12 28 L28 28 L28 20" stroke="#0ea5e9" stroke-width="2" fill="none"/>
-                        </svg>
-                        <div>
-                            <h2 class="text-lg font-bold text-slate-800">Inquiry Received</h2>
-                            <p class="text-xs text-slate-500">ASI PRIME Investor Relations</p>
-                        </div>
-                    </div>
-                    <div class="border-t border-slate-200 my-4"></div>
-                    <div id="emailPreviewContent" class="space-y-3 text-sm text-slate-700">
-                        <!-- dynamic content will be injected -->
-                    </div>
-                    <div class="mt-6 p-3 bg-slate-100 rounded-lg text-center text-xs text-slate-500">
-                        This is an automated confirmation. A dedicated IR officer will respond within 2 business days.
-                    </div>
-                </div>
-                <div class="p-4 bg-slate-50 rounded-b-2xl flex justify-center">
-                    <button id="closeModalBtn2" class="px-6 py-2 bg-brand-blue text-white rounded-full text-sm hover:bg-brand-dark transition">Close</button>
-                </div>
+                <button id="closePreviewBtn" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="email-body" id="emailPreviewBody">
+                <!-- dynamic content will be injected -->
+            </div>
+            <div class="p-4 bg-slate-50 rounded-b-2xl flex justify-center">
+                <button id="closePreviewBtn2" class="px-6 py-2 bg-brand-blue text-white rounded-full text-sm hover:bg-brand-dark transition">Close</button>
             </div>
         </div>
     </div>
 
     <script>
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
+        const form = document.getElementById('contactForm');
+        const successOverlay = document.getElementById('successOverlay');
+        const previewOverlay = document.getElementById('previewOverlay');
+        const emailPreviewBody = document.getElementById('emailPreviewBody');
+        const closeBtns = [document.getElementById('closePreviewBtn'), document.getElementById('closePreviewBtn2')];
 
-            // Gather data
-            const fullName = document.getElementById('fullName').value;
-            const email = document.getElementById('email').value;
-            const institution = document.getElementById('institution').value || "N/A";
-            const role = document.getElementById('role').value || "N/A";
-            const aum = document.getElementById('aum').value;
-            const assetClasses = document.getElementById('assetClasses').value || "Not specified";
-            const systematic = document.getElementById('systematic').value;
-            const returnTarget = document.getElementById('returnTarget').value;
-            const referral = document.getElementById('referral').value || "Not specified";
-            const message = document.getElementById('message').value || "—";
-
-            // Build institutional email preview
-            const previewHTML = `
-                <p><strong>To:</strong> ${email}</p>
+        // Helper: generate email preview HTML from form data
+        function generateEmailPreview(data) {
+            return `
+                <div class="flex items-center gap-3 mb-4">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <rect x="2" y="2" width="36" height="36" rx="6" stroke="#0ea5e9" stroke-width="2" fill="#0ea5e9" fill-opacity="0.1"/>
+                        <path d="M12 16 L20 22 L28 16" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                        <path d="M12 20 L12 28 L28 28 L28 20" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                    </svg>
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800">Inquiry Received</h2>
+                        <p class="text-xs text-slate-500">ASI PRIME Investor Relations</p>
+                    </div>
+                </div>
+                <div class="border-t border-slate-200 my-4"></div>
+                <p><strong>To:</strong> ${data.email}</p>
                 <p><strong>Subject:</strong> ASI PRIME – Inquiry Acknowledgement & Next Steps</p>
                 <div class="my-3 border-t border-slate-200"></div>
-                <p>Dear ${fullName},</p>
+                <p>Dear ${data.fullName},</p>
                 <p>Thank you for your interest in ASI PRIME Technologies. Your confidential questionnaire has been received by our Investor Relations desk.</p>
                 <p><strong>Summary of your submission:</strong></p>
                 <ul class="list-disc pl-5 space-y-1">
-                    <li>Institution: ${institution}</li>
-                    <li>Role: ${role}</li>
-                    <li>AUM: ${aum}</li>
-                    <li>Asset classes: ${assetClasses}</li>
-                    <li>Current systematic exposure: ${systematic}</li>
-                    <li>Return target: ${returnTarget}</li>
-                    <li>Referral source: ${referral}</li>
-                    <li>Message: ${message.substring(0, 200)}</li>
+                    <li>Institution: ${data.institution}</li>
+                    <li>Role: ${data.role}</li>
+                    <li>AUM: ${data.aum}</li>
+                    <li>Asset classes: ${data.assetClasses}</li>
+                    <li>Current systematic exposure: ${data.systematic}</li>
+                    <li>Return target: ${data.returnTarget}</li>
+                    <li>Referral source: ${data.referral}</li>
+                    <li>Message: ${data.message.substring(0, 200)}</li>
                 </ul>
                 <p>Our team will review your request and schedule a confidential introduction call within 48 hours. In the meantime, you may access our investor pitch deck via the secure portal.</p>
                 <div class="my-4 p-3 bg-slate-100 rounded-md">
@@ -153,20 +213,73 @@
                 </div>
                 <p>Yours sincerely,<br><strong>Investor Relations</strong><br>ASI PRIME Technologies Holdings PLC<br>Canary Wharf, London</p>
             `;
+        }
 
-            document.getElementById('emailPreviewContent').innerHTML = previewHTML;
-            document.getElementById('successModal').classList.remove('hidden');
+        // Reset form fields
+        function resetForm() {
+            form.reset();
+            // Clear any default selections (selects may retain first option, that's fine)
+            // Additional manual clear not required except for checkboxes
+            document.getElementById('privacyConsent').checked = false;
+        }
 
-            // Optionally, here you would actually send the email via a backend API.
-            // For demo, we just show the preview.
+        // Handle form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Get form values
+            const formData = {
+                fullName: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                institution: document.getElementById('institution').value.trim() || "N/A",
+                role: document.getElementById('role').value.trim() || "N/A",
+                aum: document.getElementById('aum').value,
+                assetClasses: document.getElementById('assetClasses').value.trim() || "Not specified",
+                systematic: document.getElementById('systematic').value,
+                returnTarget: document.getElementById('returnTarget').value,
+                referral: document.getElementById('referral').value.trim() || "Not specified",
+                message: document.getElementById('message').value.trim() || "—"
+            };
+
+            // Store data for preview
+            window.pendingFormData = formData;
+
+            // Step 1: Show success overlay
+            successOverlay.classList.add('active');
+
+            // After 1.5 seconds, fade out success overlay, then show preview modal
+            setTimeout(() => {
+                successOverlay.classList.add('fade-out');
+                setTimeout(() => {
+                    successOverlay.classList.remove('active', 'fade-out');
+                    // Step 2: Generate and show preview modal
+                    emailPreviewBody.innerHTML = generateEmailPreview(formData);
+                    previewOverlay.classList.add('active');
+                    // Make email preview card animate in
+                    const card = document.getElementById('emailPreviewCard');
+                    card.classList.add('active');
+                }, 300);
+            }, 1500);
         });
 
-        document.getElementById('closeModalBtn').addEventListener('click', () => {
-            document.getElementById('successModal').classList.add('hidden');
+        // Close preview modal and reset form
+        function closePreviewAndReset() {
+            previewOverlay.classList.remove('active');
+            const card = document.getElementById('emailPreviewCard');
+            card.classList.remove('active');
+            resetForm();
+        }
+
+        closeBtns.forEach(btn => {
+            if (btn) btn.addEventListener('click', closePreviewAndReset);
         });
-        document.getElementById('closeModalBtn2').addEventListener('click', () => {
-            document.getElementById('successModal').classList.add('hidden');
+
+        // Also close when clicking outside the email preview (on overlay)
+        previewOverlay.addEventListener('click', (e) => {
+            if (e.target === previewOverlay) {
+                closePreviewAndReset();
+            }
         });
     </script>
 </body>
-</html>
+</html></html>
