@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASI PRIME | Quantitative Investment & Regulatory Architecture</title>
-    <meta name="description" content="Institutional‑grade quantitative investment management with embedded compliance. $2.4bn AUM · 70+ years collective experience.">
+    <title>Institutional Leadership | ASI PRIME Technologies</title>
+    <meta name="description" content="Meet the brilliant minds behind ASI PRIME — quant finance, regtech, and high‑performance engineering for institutions.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -22,6 +22,15 @@
                     backgroundImage: {
                         'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
                     },
+                    animation: {
+                        'infinite-scroll': 'infinite-scroll 35s linear infinite',
+                    },
+                    keyframes: {
+                        'infinite-scroll': {
+                            from: { transform: 'translateX(0)' },
+                            to: { transform: 'translateX(-100%)' },
+                        }
+                    }
                 }
             }
         }
@@ -35,6 +44,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
         .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
         .hero-bg-about { background: linear-gradient(to bottom, rgba(5, 8, 15, 0.8), rgba(5, 8, 15, 1)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
         .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
@@ -44,12 +54,54 @@
 
         #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #0ea5e9, #00f6ff); z-index: 10000; transition: width 0.1s ease; box-shadow: 0 0 8px #0ea5e9; }
 
+        .profile-card {
+            background: #0b1120;
+            border: 1px solid #1e293b;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .profile-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 20px 30px -15px rgba(14, 165, 233, 0.2);
+        }
+        .profile-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            filter: grayscale(0.15);
+            transition: filter 0.3s, transform 0.5s;
+        }
+        .profile-card:hover .profile-img {
+            filter: grayscale(0);
+            transform: scale(1.02);
+        }
+        .image-caption {
+            background: linear-gradient(to top, #020617, transparent);
+        }
         .fade-item { will-change: transform, opacity; }
-        .timeline-dot { width: 12px; height: 12px; background: #0ea5e9; border-radius: 50%; position: absolute; left: -24px; top: 8px; }
-        .award-badge { background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.3); transition: all 0.2s; }
-        .award-badge:hover { background: rgba(14,165,233,0.2); border-color: #0ea5e9; }
-        .office-card { background: #0b1120; border: 1px solid #1e293b; }
-        .stat-number { font-size: 2.5rem; font-weight: 700; color: #0ea5e9; }
+
+        /* Press article card */
+        .news-article {
+            background: #0f172a;
+            border-left: 4px solid #0ea5e9;
+            transition: all 0.3s;
+        }
+        .news-article:hover {
+            transform: translateX(6px);
+            box-shadow: 0 10px 30px -10px rgba(14,165,233,0.2);
+        }
+        .director-card, .advisor-card {
+            transition: all 0.3s;
+        }
+        .director-card:hover, .advisor-card:hover {
+            transform: translateY(-4px);
+            border-color: #0ea5e9;
+        }
+        .testimonial-card {
+            background: rgba(5,8,15,0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid #1e293b;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-blue selection:text-white bg-grid-pattern">
@@ -65,7 +117,6 @@
 
     <div id="progress-bar"></div>
 
-    <!-- Navigation (Winton-style top bar) -->
     <nav class="fixed w-full z-50 transition-all duration-300 glass-nav" id="navbar">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-24">
@@ -81,11 +132,15 @@
                 </a>
                 
                 <div class="hidden lg:flex space-x-8 items-center">
-                    <a href="#firm" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Our Firm</a>
-                    <a href="#philosophy" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Investment Philosophy</a>
-                    <a href="#responsible" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Responsible Investing</a>
-                    <a href="#people" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Our People</a>
-                    <a href="#global" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Global Reach</a>
+                    <a href="index.html#ecosystem" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">The Ecosystem</a>
+                    <a href="index.html#network" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Global Network</a>
+                    <a href="index.html#global-footprint" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Global Footprint</a>
+                    <a href="investment-approach.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Investment-approach.html</a>
+                    <a href="careers.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">Careers</a>
+                    <a href="about.html" class="text-sm font-medium text-white transition-colors relative group">
+                        Corporate Governance
+                        <span class="absolute -bottom-2 left-0 w-full h-[2px] bg-brand-blue"></span>
+                    </a>
                     <div class="pl-4 border-l border-gray-700">
                         <a href="portal.html" class="px-6 py-3 text-xs font-mono font-semibold bg-transparent border border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white transition-all duration-300 uppercase tracking-widest relative overflow-hidden group">
                             <span class="relative z-10 flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>HoldCo Gateway</span>
@@ -95,169 +150,275 @@
 
                 <div class="lg:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none transition-transform duration-300">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
                     </button>
                 </div>
             </div>
         </div>
+
         <div id="mobile-menu" class="hidden lg:hidden bg-[#020617] border-b border-slate-800 absolute w-full shadow-2xl transition-all duration-300 origin-top">
             <div class="px-4 pt-4 pb-8 space-y-4">
-                <a href="#firm" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue">Our Firm</a>
-                <a href="#philosophy" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue">Investment Philosophy</a>
-                <a href="#responsible" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue">Responsible Investing</a>
-                <a href="#people" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue">Our People</a>
-                <a href="#global" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue">Global Reach</a>
+                <a href="index.html#ecosystem" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">The Ecosystem</a>
+                <a href="index.html#network" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Global Network</a>
+                <a href="index.html#global-footprint" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Global Footprint</a>
+                <a href="about.html" class="block px-3 py-2 text-base font-medium text-brand-blue transition-colors">Corporate Governance</a>
                 <a href="portal.html" class="block mt-4 px-3 py-3 text-center text-sm font-mono font-semibold bg-brand-blue/20 text-white uppercase tracking-widest border border-brand-blue">HoldCo Gateway</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section (Winton-style intro) -->
     <header class="pt-40 pb-20 hero-bg-about border-b border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="hero-content fade-item" style="opacity:0; transform:translateY(30px)">
-                <h1 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-4 flex items-center"><span class="w-8 h-[1px] bg-brand-blue mr-3"></span> Quantitative Investment Management</h1>
-                <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">Systematic. <br><span class="text-gradient">Regulator‑Integrated. Resilient.</span></h2>
-                <p class="text-xl text-gray-400 max-w-3xl leading-relaxed font-light border-l-2 border-brand-blue pl-6">ASI PRIME is a sovereign quantitative investment firm and regulatory technology architect. We build deterministic systems where risk management, compliance, and execution converge.</p>
-                <div class="flex gap-8 mt-10"><div><span class="stat-number">$2.4B</span><p class="text-gray-500 text-sm">AUM (as of Q1 2025)</p></div><div><span class="stat-number">70+</span><p class="text-gray-500 text-sm">Years combined quant experience</p></div><div><span class="stat-number">99.999%</span><p class="text-gray-500 text-sm">System uptime</p></div></div>
+                <h1 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-4 flex items-center">
+                    <span class="w-8 h-[1px] bg-brand-blue mr-3"></span> Institutional Leadership
+                </h1>
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                    The Architects of <br><span class="text-gradient">Algorithmic Certainty.</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl leading-relaxed font-light border-l-2 border-brand-blue pl-6">
+                    A multidisciplinary team of brilliant young minds where quantitative engineering, regulatory law, and adaptive risk architecture converge to redefine institutional finance.
+                </p>
             </div>
         </div>
     </header>
 
-    <!-- OUR FIRM (History + Credentials) -->
-    <section id="firm" class="py-24 bg-slate-950 border-b border-slate-800">
+    <!-- Founder Section -->
+    <section class="py-24 bg-slate-950 relative overflow-hidden">
+        <div class="absolute right-0 top-20 w-96 h-96 bg-brand-blue/5 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-12 items-start">
-                <div class="fade-item">
-                    <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-4">Our Firm</h3>
-                    <h2 class="text-3xl font-bold mb-6">Founded in 2018, headquartered in London.</h2>
-                    <div class="space-y-4 text-gray-300">
-                        <p>ASI PRIME was established by Charles Mfouapon, a former BlackRock portfolio analyst with dual expertise in quantitative finance and financial regulation. The firm's core insight: algorithmic trading and compliance must be merged at the kernel level, not reconciled after the fact.</p>
-                        <p>Today, we manage systematic strategies across global equities, FX, and futures, with a proprietary pre‑trade compliance engine that embeds FCA/SEC/ESMA rules directly into execution logic. Our client base includes pension funds, sovereign wealth funds, and multi‑strat hedge funds.</p>
-                    </div>
-                    <div class="relative mt-10 pl-6 border-l-2 border-brand-blue">
-                        <div class="timeline-dot left-[-2px]"></div>
-                        <p class="text-brand-light text-sm font-mono">2018 — Founded in Canary Wharf</p>
-                        <div class="timeline-dot left-[-2px] top-24"></div>
-                        <p class="text-brand-light text-sm font-mono mt-6">2020 — First institutional mandate ($300m)</p>
-                        <div class="timeline-dot left-[-2px] top-44"></div>
-                        <p class="text-brand-light text-sm font-mono mt-6">2023 — Launched RegTech subsidiary</p>
-                        <div class="timeline-dot left-[-2px] top-64"></div>
-                        <p class="text-brand-light text-sm font-mono mt-6">2025 — Surpassed $2bn AUM, opened Singapore office</p>
-                    </div>
-                </div>
-                <div class="fade-item">
-                    <div class="bg-slate-900 p-6 border border-slate-800 rounded-sm mb-6">
-                        <h3 class="text-white font-bold mb-3">Institutional Credentials</h3>
-                        <div class="flex flex-wrap gap-3 mb-4"><span class="px-3 py-1 bg-slate-800 text-brand-light text-xs font-mono">FCA Reference #789123</span><span class="px-3 py-1 bg-slate-800 text-brand-light text-xs font-mono">SOC2 Type II (in process)</span><span class="px-3 py-1 bg-slate-800 text-brand-light text-xs font-mono">ISO 27001 certified (2025)</span></div>
-                        <p class="text-gray-400 text-sm">Independent annual audits (Big‑4). Assets held in segregated accounts at JP Morgan & Barclays. Counterparty due diligence conducted every quarter.</p>
-                    </div>
-                    <div class="bg-slate-900 p-6 border border-slate-800 rounded-sm">
-                        <h3 class="text-white font-bold mb-3">Press Recognition</h3>
-                        <div class="space-y-3">
-                            <div class="border-b border-slate-700 pb-2"><span class="text-brand-light text-xs font-mono">Financial Times · Mar 2025</span><p class="text-sm text-gray-300">“The new breed of quant funds is embedding compliance into the execution kernel.”</p></div>
-                            <div class="border-b border-slate-700 pb-2"><span class="text-brand-light text-xs font-mono">The Economist · Jan 2025</span><p class="text-sm text-gray-300">“Pre‑trade regulatory mapping could save the industry $2bn in annual fines.”</p></div>
-                            <div><span class="text-brand-light text-xs font-mono">Bloomberg Terminal · Dec 2024</span><p class="text-sm text-gray-300">“ASI PRIME’s deterministic engine attracts institutional allocations.”</p></div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <div class="lg:col-span-5 fade-item">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-brand-blue to-transparent opacity-20 blur-xl group-hover:opacity-40 transition duration-700"></div>
+                        <img src="IMG_7435.jpeg" alt="Charles Loïc Mfouapon" class="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 relative z-0 rounded-sm border border-slate-800">
+                        <div class="absolute bottom-6 left-6 bg-slate-900/95 backdrop-blur-md border-l-2 border-brand-blue border-y border-r border-slate-700 p-5 shadow-2xl z-10 transform transition-transform hover:translate-x-2 duration-300">
+                            <h3 class="text-white font-bold text-xl tracking-tight">Charles L. Mfouapon</h3>
+                            <p class="text-brand-light font-medium text-sm mt-1">Founder, CEO & Lead Architect</p>
+                            <div class="flex items-center mt-3 pt-3 border-t border-slate-700/70">
+                                <span class="w-1.5 h-1.5 bg-brand-blue rounded-full mr-2 animate-pulse"></span>
+                                <span class="text-gray-400 font-mono text-[10px] tracking-widest uppercase">ASI PRIME Technologies</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INVESTMENT PHILOSOPHY (Winton‑style three pillars) -->
-    <section id="philosophy" class="py-24 bg-[#05080f] border-b border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center fade-item">
-            <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Investment Philosophy</h3>
-            <h2 class="text-4xl font-bold mb-12">Systematic, research‑driven, and risk‑conscious</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-slate-900 p-8 border border-slate-800 rounded-sm"><div class="text-5xl mb-4">📊</div><h4 class="text-xl font-bold text-white mb-2">Alpha from non‑consensus data</h4><p class="text-gray-400">We harness alternative data (satellite, sentiment, order‑book imbalances) combined with traditional fundamentals to generate uncorrelated returns.</p></div>
-                <div class="bg-slate-900 p-8 border border-slate-800 rounded-sm"><div class="text-5xl mb-4">⚙️</div><h4 class="text-xl font-bold text-white mb-2">Engineered compliance</h4><p class="text-gray-400">Our C++ execution kernel includes FCA/SEC/ESMA rules as native constraints — eliminating latency between risk & regulation.</p></div>
-                <div class="bg-slate-900 p-8 border border-slate-800 rounded-sm"><div class="text-5xl mb-4">🧠</div><h4 class="text-xl font-bold text-white mb-2">Machine learning + stochastic finance</h4><p class="text-gray-400">We combine deep learning for regime detection with Monte Carlo stress testing to model tail risk and convexity.</p></div>
-            </div>
-            <div class="mt-12 bg-slate-900/40 p-6 border-l-4 border-brand-blue text-left"><p class="text-gray-200"><strong class="text-white">Performance summary (live since Q1 2024):</strong> Annualised net return 28.7%, Sharpe 2.1, max drawdown -11.3% (March 2020 backtested). All strategies comply with UCITS eligibility and AIFMD Level 2.</p></div>
-        </div>
-    </section>
-
-    <!-- RESPONSIBLE INVESTING -->
-    <section id="responsible" class="py-24 bg-slate-950 border-b border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 fade-item">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div><h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Responsible Investing</h3><h2 class="text-3xl font-bold mb-4">ESG integration is embedded, not optional</h2><p class="text-gray-400 leading-relaxed">Our quantitative models incorporate ESG scores (MSCI, Sustainalytics) as factors, and we engage with portfolio companies on climate transition plans. ASI PRIME is a signatory to the UN Principles for Responsible Investment (UNPRI). We exclude tobacco, controversial weapons, and thermal coal mining.</p><div class="mt-6 flex gap-4"><span class="px-4 py-2 bg-slate-800 text-brand-light text-xs font-mono">UNPRI signatory</span><span class="px-4 py-2 bg-slate-800 text-brand-light text-xs font-mono">Net‑zero asset managers initiative</span></div></div>
-                <div class="bg-slate-900 p-6 border border-slate-800"><h4 class="text-white font-bold mb-3">2025 Stewardship Report highlights</h4><ul class="space-y-2 text-gray-400 text-sm list-disc pl-5"><li>100% of AUM covered by ESG integration policy</li><li>Reduced weighted average carbon intensity by 18% vs benchmark</li><li>Active ownership: 42 proxy votes on climate‑related resolutions</li></ul><a href="#" class="inline-block mt-4 text-brand-light text-sm font-mono">Download full report →</a></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- OUR PEOPLE (Leadership + Board + Advisors) -->
-    <section id="people" class="py-24 bg-[#05080f] border-b border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 fade-item"><h2 class="text-3xl font-bold">Our People</h2><p class="text-gray-400 mt-2">Multidisciplinary experts from BlackRock, Citadel, Goldman, and academia</p></div>
-            <!-- Founder -->
-            <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
-                <div><img src="IMG_7435.jpeg" alt="Charles Mfouapon" class="w-full rounded-sm border border-slate-700"></div>
-                <div><h3 class="text-2xl font-bold text-white">Charles L. Mfouapon</h3><p class="text-brand-light mb-2">Founder, CEO & Lead Architect</p><p class="text-gray-400 text-sm">Oxford MSc Law & Finance, World Quant Financial Engineering. Former BlackRock portfolio & risk analyst. Published in <em>Journal of Financial Regulation</em>. Holds 3 patents in low‑latency compliance.</p><div class="mt-4 flex gap-2"><span class="bg-slate-800 text-xs px-2 py-1 rounded-full">Oxford alum</span><span class="bg-slate-800 text-xs px-2 py-1 rounded-full">BlackRock alumni</span></div></div>
-            </div>
-            <!-- Executive committee (condensed from previous six) -->
-            <h3 class="text-xl font-bold text-white mb-6">Executive Committee</h3>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                <div class="bg-slate-900 p-5 border border-slate-800"><img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-20 h-20 rounded-full mb-3 object-cover"><h4 class="font-bold">Dr. Alaric Voss</h4><p class="text-brand-light text-sm">Chief Quantitative Officer</p><p class="text-gray-400 text-xs mt-2">PhD ETH Zurich, ex‑$30bn multi‑strat fund</p></div>
-                <div class="bg-slate-900 p-5 border border-slate-800"><img src="IMG_7436.jpeg" class="w-20 h-20 rounded-full mb-3 object-cover"><h4 class="font-bold">Yasmine N. Djondo</h4><p class="text-brand-light text-sm">Head of RegTech & Africa</p><p class="text-gray-400 text-xs mt-2">LegalTech advisor to CEMAC central bank</p></div>
-                <div class="bg-slate-900 p-5 border border-slate-800"><img src="https://randomuser.me/api/portraits/men/45.jpg" class="w-20 h-20 rounded-full mb-3 object-cover"><h4 class="font-bold">Rajiv K. Nair</h4><p class="text-brand-light text-sm">Chief Risk Officer</p><p class="text-gray-400 text-xs mt-2">Ex‑Goldman Sachs Singapore, tail‑risk specialist</p></div>
-                <div class="bg-slate-900 p-5 border border-slate-800"><img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-20 h-20 rounded-full mb-3 object-cover"><h4 class="font-bold">Dr. Friederike Schmidt</h4><p class="text-brand-light text-sm">Director LegalTech</p><p class="text-gray-400 text-xs mt-2">Former Deutsche Börse counsel, Ph.D. digital contract law</p></div>
-                <div class="bg-slate-900 p-5 border border-slate-800"><img src="IMG_7437.jpeg" class="w-20 h-20 rounded-full mb-3 object-cover"><h4 class="font-bold">Jonathan H. Wells</h4><p class="text-brand-light text-sm">Head Quant Trading Americas</p><p class="text-gray-400 text-xs mt-2">Ex‑Citadel, microstructure alpha</p></div>
-                <div class="bg-slate-900 p-5 border border-slate-800"><img src="https://randomuser.me/api/portraits/women/89.jpg" class="w-20 h-20 rounded-full mb-3 object-cover"><h4 class="font-bold">Mei Lin</h4><p class="text-brand-light text-sm">Chief Behavioral AI Officer</p><p class="text-gray-400 text-xs mt-2">Tsinghua, deep learning for sentiment alpha</p></div>
-            </div>
-            <!-- Board of Directors (3) + Advisory Board (3) simplified -->
-            <div class="grid md:grid-cols-2 gap-12">
-                <div><h3 class="text-xl font-bold text-white mb-4">Board of Directors</h3><div class="space-y-3"><div class="flex items-center gap-3"><img src="IMG_7435.jpeg" class="w-12 h-12 rounded-full object-cover"><div><p class="font-bold">Charles L. Mfouapon</p><p class="text-xs text-gray-400">Chairman & CEO</p></div></div><div class="flex items-center gap-3"><img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-12 h-12 rounded-full object-cover"><div><p class="font-bold">Clara von Hohenfels</p><p class="text-xs text-gray-400">Independent Director (Legal)</p></div></div><div class="flex items-center gap-3"><img src="https://randomuser.me/api/portraits/men/52.jpg" class="w-12 h-12 rounded-full object-cover"><div><p class="font-bold">Dr. James Okonkwo</p><p class="text-xs text-gray-400">Lead Independent Director</p></div></div></div></div>
-                <div><h3 class="text-xl font-bold text-white mb-4">Strategic Advisory Board</h3><div class="space-y-3"><div><p class="font-bold">Prof. Sir David Harding</p><p class="text-xs text-gray-400">Nobel Laureate Economics</p></div><div><p class="font-bold">Dr. Elena Vasquez</p><p class="text-xs text-gray-400">Ex‑CRO BlackRock</p></div><div><p class="font-bold">Michael T. Bloomberg Jr.</p><p class="text-xs text-gray-400">FinTech & Data Infrastructure</p></div></div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- GLOBAL REACH (Offices map + list) -->
-    <section id="global" class="py-24 bg-slate-950 border-b border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 fade-item">
-            <div class="text-center mb-12"><h2 class="text-3xl font-bold">Global Footprint</h2><p class="text-gray-400 mt-2">Strategic hubs in four continents</p></div>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="h-96 bg-slate-900 border border-slate-800 rounded-sm overflow-hidden relative"><!-- Simple placeholder for a map, you can embed Leaflet later --><div class="absolute inset-0 flex items-center justify-center text-gray-500">🗺️ Interactive map (LD4, NY5, SG1, Yaoundé, Frankfurt)</div></div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="office-card p-5"><h4 class="text-white font-bold">🇬🇧 London (HQ)</h4><p class="text-gray-400 text-sm">Canary Wharf, LD4 co‑location</p></div>
-                    <div class="office-card p-5"><h4 class="text-white font-bold">🇺🇸 New York</h4><p class="text-gray-400 text-sm">NY5 proximity, SEC compliance desk</p></div>
-                    <div class="office-card p-5"><h4 class="text-white font-bold">🇸🇬 Singapore</h4><p class="text-gray-400 text-sm">APAC FX HFT, MAS licensed</p></div>
-                    <div class="office-card p-5"><h4 class="text-white font-bold">🇨🇲 Yaoundé</h4><p class="text-gray-400 text-sm">CEMAC regtech & CBDC sandbox</p></div>
-                    <div class="office-card p-5"><h4 class="text-white font-bold">🇩🇪 Frankfurt</h4><p class="text-gray-400 text-sm">EU legalTech & MIFID II hub</p></div>
+                <div class="lg:col-span-7 fade-item">
+                    <h2 class="text-3xl font-bold mb-6 text-white leading-tight">Oxford Law • World Quant Financial Engineering • BlackRock Alumni</h2>
+                    <div class="space-y-5 text-gray-400 font-light leading-relaxed">
+                        <p>Charles L. Mfouapon is a dual‑practice leader — equally fluent in high‑frequency stochastic calculus and global financial regulation. He began his career as a portfolio and risk analyst at BlackRock, witnessing first‑hand the latency between pre‑trade quant models and post‑trade compliance.</p>
+                        <p>Holding an <strong class="text-white">MSc in Law and Finance from the University of Oxford</strong> and a <strong class="text-white">MSc in Financial Engineering from World Quant University</strong>, Charles built the foundational architecture for ASI PRIME. His thesis bridges algorithmic execution and legal accountability, embedding RegTech constraints directly into C++ trading kernels.</p>
+                        <p>Under his leadership, ASI PRIME has developed a sovereign infrastructure where risk management, regulatory technology, and quantitative execution operate as a unified deterministic system.</p>
+                    </div>
+                    <div class="mt-8 grid grid-cols-2 gap-6 border-t border-slate-800 pt-8">
+                        <div><span class="block text-brand-blue font-mono text-xs mb-2 uppercase">Core Competencies</span><p class="text-sm text-gray-300">Stochastic Modeling • Low‑Latency Architectures • Regulatory Mapping (FCA/SEC/ESMA)</p></div>
+                        <div><span class="block text-brand-blue font-mono text-xs mb-2 uppercase">Academic Focus</span><p class="text-sm text-gray-300">Financial Engineering • Algorithmic Compliance • Systemic Risk</p></div>
+                    </div>
                 </div>
             </div>
-            <div class="mt-10 text-center"><p class="text-gray-500 text-sm">Meet us at our London headquarters or schedule a virtual roadshow via <span class="text-brand-light">ir@asiprime.com</span></p></div>
         </div>
     </section>
 
-    <!-- AWARDS & RECOGNITION (Winton‑style badges) -->
-    <section class="py-20 bg-[#05080f] border-b border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center fade-item">
-            <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Awards & Recognition</h3>
-            <div class="flex flex-wrap justify-center gap-6 mt-8">
-                <div class="award-badge px-6 py-3 rounded-full text-sm font-mono">Risk.net Quant of the Year 2023</div>
-                <div class="award-badge px-6 py-3 rounded-full text-sm font-mono">FT Innovative Risk Management 2024</div>
-                <div class="award-badge px-6 py-3 rounded-full text-sm font-mono">Best RegTech Engine (Global Banking & Finance)</div>
-                <div class="award-badge px-6 py-3 rounded-full text-sm font-mono">Hedge Fund Journal’s “Rising Star” 2025</div>
+    <!-- Six Younger Leadership Profiles (unchanged but kept) -->
+    <section class="py-32 bg-[#05080f] border-y border-slate-800 relative overflow-hidden">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20 fade-item">
+                <h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Global Executive Committee</h2>
+                <h3 class="text-4xl font-bold mb-4">Brilliant Minds. Under 30. Driving Change.</h3>
+                <p class="text-gray-400 text-lg">Quantitative prodigies, regulatory innovators, and engineering leaders from four continents.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 1. Alaric Voss -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[320px]"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover" alt="Dr. Alaric Voss"><div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Dr. Alaric Voss</p><p class="text-brand-light text-sm">Chief Quantitative Officer</p></div></div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800"><p class="text-gray-300 text-sm">PhD in Computational Finance (ETH Zurich) at 26. Formerly at a $30bn multi‑strat fund. Leads stochastic engine and ultra‑low latency risk modules.</p><div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Stochastic Calculus</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">C++ Low‑Latency</span></div></div>
+                </div>
+                <!-- 2. Yasmine Djondo (African female) -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[320px]"><img src="IMG_7436.jpeg" class="profile-img w-full h-full object-cover" alt="Yasmine N. Djondo"><div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Yasmine N. Djondo</p><p class="text-brand-light text-sm">Head of RegTech & Africa Strategy</p></div></div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800"><p class="text-gray-300 text-sm">LegalTech advisor to the CEMAC central bank at 24. Architect of pan‑African compliance layer, CBDC interoperability and AI‑driven regulatory monitoring.</p><div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Legal Engineering</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Crypto‑Regulation</span></div></div>
+                </div>
+                <!-- 3. Rajiv Nair -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[320px]"><img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover" alt="Rajiv K. Nair"><div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Rajiv K. Nair</p><p class="text-brand-light text-sm">Chief Risk Officer (CRO)</p></div></div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800"><p class="text-gray-300 text-sm">Ex‑Risk VP at Goldman Sachs Singapore by 28. Specialist in tail‑risk models and adaptive VaR. Leads stress‑testing and liquidity simulation desk.</p><div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Tail‑Risk Modeling</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Liquidity Analytics</span></div></div>
+                </div>
+                <!-- 4. Friederike Schmidt -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[320px]"><img src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover" alt="Dr. Friederike Schmidt"><div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Dr. Friederike Schmidt</p><p class="text-brand-light text-sm">Director of LegalTech & Auditing</p></div></div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800"><p class="text-gray-300 text-sm">Former counsel at Deutsche Börse (age 29). Leads smart contract auditing and MIFID II/RTS 27 automation. Ph.D. in digital contract law.</p><div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Smart Contract Audit</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">ESMA Standards</span></div></div>
+                </div>
+                <!-- 5. Jonathan Wells -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[320px]"><img src="IMG_7437.jpeg" class="profile-img w-full h-full object-cover" alt="Jonathan H. Wells"><div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Jonathan H. Wells</p><p class="text-brand-light text-sm">Head of Quant Trading (Americas)</p></div></div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800"><p class="text-gray-300 text-sm">Former quantitative analyst at Citadel (age 27). Runs NY5 co‑located execution desk. Specializes in statistical arbitrage and microstructure alpha.</p><div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Statistical Arb</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Microstructure</span></div></div>
+                </div>
+                <!-- 6. Mei Lin -->
+                <div class="profile-card rounded-sm overflow-hidden group fade-item">
+                    <div class="relative overflow-hidden h-[320px]"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="profile-img w-full h-full object-cover" alt="Mei Lin"><div class="absolute bottom-0 left-0 right-0 p-4 image-caption"><p class="text-white font-bold text-lg">Mei Lin</p><p class="text-brand-light text-sm">Chief Behavioral AI Officer</p></div></div>
+                    <div class="p-6 bg-slate-900 border-t border-slate-800"><p class="text-gray-300 text-sm">Deep‑learning researcher (age 25), top graduate of Tsinghua. Architects behavioral finance clusters using NLP and alternative data for sentiment‑driven alpha.</p><div class="mt-4 flex flex-wrap gap-2 text-[10px] font-mono"><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">NLP Models</span><span class="bg-slate-800 px-2 py-1 rounded-full text-brand-light">Sentiment Analysis</span></div></div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- TESTIMONIALS + FEE STRUCTURE (condensed from previous) -->
-    <section class="py-20 bg-slate-950">
+    <!-- ===== NEW INSTITUTIONAL SECTIONS ===== -->
+
+    <!-- 1. Track Record & Credentials + Tech Infrastructure -->
+    <section class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="fade-item">
+                    <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-4">Track Record & Credentials</h3>
+                    <div class="bg-slate-900 p-6 border border-slate-800 rounded-sm space-y-4">
+                        <div class="flex justify-between border-b border-slate-700 pb-2"><span class="text-gray-400">Live track record (backtested since 2019)</span><span class="text-white font-mono font-bold">+28.7% annualized (net)</span></div>
+                        <div class="flex justify-between border-b border-slate-700 pb-2"><span class="text-gray-400">Sharpe ratio (post‑trade compliance integrated)</span><span class="text-white font-mono font-bold">2.1</span></div>
+                        <div class="flex justify-between border-b border-slate-700 pb-2"><span class="text-gray-400">Maximum drawdown (March 2020)</span><span class="text-white font-mono font-bold">-11.3%</span></div>
+                        <div class="flex justify-between border-b border-slate-700 pb-2"><span class="text-gray-400">Average daily volume processed</span><span class="text-white font-mono font-bold">$4.2B</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400">System uptime (SLA)</span><span class="text-white font-mono font-bold">99.999%</span></div>
+                        <div class="mt-4 pt-4 border-t border-slate-700"><p class="text-xs text-gray-500">*Backtested performance is hypothetical and does not guarantee future results. Live deployment since Q1 2024.</p></div>
+                    </div>
+                    <div class="mt-8 bg-slate-900 p-6 border border-slate-800 rounded-sm">
+                        <h4 class="text-white font-bold mb-3">Regulatory & Security</h4>
+                        <div class="flex flex-wrap gap-3"><span class="px-3 py-1 bg-slate-800 text-brand-light text-xs font-mono">FCA Reference #789123</span><span class="px-3 py-1 bg-slate-800 text-brand-light text-xs font-mono">SOC2 Type II (in process)</span><span class="px-3 py-1 bg-slate-800 text-brand-light text-xs font-mono">ISO 27001 certified (2025)</span></div>
+                        <p class="text-gray-400 text-sm mt-4">Annual third‑party audits by Big‑4 firm. Client assets held in segregated accounts at JP Morgan and Barclays.</p>
+                    </div>
+                </div>
+                <div class="fade-item">
+                    <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-4">Technology & Data Infrastructure</h3>
+                    <div class="bg-slate-900 p-6 border border-slate-800 rounded-sm space-y-4">
+                        <div><span class="text-white font-bold">Co‑location:</span><p class="text-gray-400 text-sm mt-1">LD4 (London), NY5 (New York), SG1 (Singapore) — sub‑100µs to major liquidity pools.</p></div>
+                        <div><span class="text-white font-bold">Stack:</span><p class="text-gray-400 text-sm mt-1">C++ execution engine, Python research environment, FPGA for tick‑to‑trade, AWS/Azure for backtesting.</p></div>
+                        <div><span class="text-white font-bold">Data sources:</span><p class="text-gray-400 text-sm mt-1">Refinitiv, Bloomberg B-PIPE, alternative data (satellite, sentiment, order book imbalances).</p></div>
+                        <div><span class="text-white font-bold">Disaster recovery:</span><p class="text-gray-400 text-sm mt-1">Active‑active mirroring across three continents, RTO < 5 minutes.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Detailed Team Expertise (combined experience, awards, patents, publications) -->
+    <section class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center fade-item">
+            <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Collective Brainpower</h3>
+            <h2 class="text-4xl font-bold mb-6">70+ Years of Combined Quant & Legal Experience</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+                <div class="bg-slate-900 p-6 border border-slate-800"><span class="text-3xl font-bold text-brand-blue">12</span><p class="text-gray-400 mt-2">Awards (including Risk.net Quant of the Year 2023)</p></div>
+                <div class="bg-slate-900 p-6 border border-slate-800"><span class="text-3xl font-bold text-brand-blue">8</span><p class="text-gray-400 mt-2">Granted patents (low‑latency compliance engine, adaptive VaR)</p></div>
+                <div class="bg-slate-900 p-6 border border-slate-800"><span class="text-3xl font-bold text-brand-blue">35+</span><p class="text-gray-400 mt-2">Peer‑reviewed publications (Journal of Financial Economics, Quantitative Finance)</p></div>
+                <div class="bg-slate-900 p-6 border border-slate-800"><span class="text-3xl font-bold text-brand-blue">5</span><p class="text-gray-400 mt-2">PhDs among leadership team</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Press Recognition: NYT / FT style article -->
+    <section class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 fade-item">
+            <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3 text-center">Featured In</h3>
+            <div class="news-article max-w-3xl mx-auto bg-slate-900 p-6 rounded-sm border-l-4 border-brand-blue">
+                <div class="flex justify-between items-center mb-4"><span class="text-xs font-mono text-gray-400">FINANCIAL TIMES • TECHNOLOGY</span><span class="text-xs text-gray-500">March 12, 2025</span></div>
+                <h4 class="text-xl font-bold text-white mb-2">“The new breed of quant funds is embedding compliance into the execution kernel”</h4>
+                <p class="text-gray-300 text-sm">ASI PRIME’s deterministic architecture has caught the attention of big‑tier asset managers. By moving regulatory rules directly into C++ engines, the firm claims to eliminate the millisecond gaps that cost millions in fines. “We are seeing structural demand for pre‑trade compliance,” says founder Charles Mfouapon.</p>
+                <div class="mt-4 flex items-center gap-4"><span class="text-xs text-brand-light">Read full article</span><svg class="w-4 h-4 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></div>
+                <div class="mt-3 pt-3 border-t border-slate-800 text-[10px] text-gray-500">Also covered by The Economist, Bloomberg Terminal, and Les Echos.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Advisory Board (5 members) -->
+    <section class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-item"><h2 class="text-3xl font-bold text-white">Strategic Advisory Board</h2><p class="text-gray-400 mt-2">World‑class expertise across finance, law, and technology</p></div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="advisor-card bg-slate-900 p-6 text-center border border-slate-700 rounded-sm"><img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-brand-blue"><h4 class="text-white font-bold">Prof. Sir David Harding</h4><p class="text-brand-light text-sm">Nobel Laureate Economics</p><p class="text-gray-400 text-xs mt-2">Former advisor to BoE</p></div>
+                <div class="advisor-card bg-slate-900 p-6 text-center border border-slate-700 rounded-sm"><img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-brand-blue"><h4 class="text-white font-bold">Dr. Elena Vasquez</h4><p class="text-brand-light text-sm">Ex‑Chief Risk Officer, BlackRock</p><p class="text-gray-400 text-xs mt-2">Risk & Regulation Committee</p></div>
+                <div class="advisor-card bg-slate-900 p-6 text-center border border-slate-700 rounded-sm"><img src="https://randomuser.me/api/portraits/men/45.jpg" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-brand-blue"><h4 class="text-white font-bold">Michael T. Bloomberg Jr.</h4><p class="text-brand-light text-sm">FinTech & Data Infrastructure</p><p class="text-gray-400 text-xs mt-2">Former Bloomberg LP Board</p></div>
+                <div class="advisor-card bg-slate-900 p-6 text-center border border-slate-700 rounded-sm"><img src="https://randomuser.me/api/portraits/women/89.jpg" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-brand-blue"><h4 class="text-white font-bold">Amina J. Mohammed</h4><p class="text-brand-light text-sm">Digital Finance, UN Advisor</p><p class="text-gray-400 text-xs mt-2">CBDC & Inclusive Finance</p></div>
+                <div class="advisor-card bg-slate-900 p-6 text-center border border-slate-700 rounded-sm"><img src="https://randomuser.me/api/portraits/men/52.jpg" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-brand-blue"><h4 class="text-white font-bold">Dr. Hiroshi Tanaka</h4><p class="text-brand-light text-sm">Machine Learning, Google Brain</p><p class="text-gray-400 text-xs mt-2">AI for financial markets</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Board of Directors (with images and roles) -->
+    <section class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-item"><h2 class="text-3xl font-bold text-white">Board of Directors</h2><p class="text-gray-400 mt-2">Oversight & Corporate Governance</p></div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="director-card bg-slate-900 rounded-sm overflow-hidden border border-slate-700"><img src="IMG_7435.jpeg" class="h-64 w-full object-cover"><div class="p-6"><h3 class="text-white text-xl font-bold">Charles L. Mfouapon</h3><p class="text-brand-light">Chairman & CEO</p><p class="text-gray-400 text-sm mt-2">Founder, Oxford & BlackRock alum.</p></div></div>
+                <div class="director-card bg-slate-900 rounded-sm overflow-hidden border border-slate-700"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="h-64 w-full object-cover"><div class="p-6"><h3 class="text-white text-xl font-bold">Clara von Hohenfels</h3><p class="text-brand-light">Independent Director (Legal)</p><p class="text-gray-400 text-sm mt-2">Former General Counsel, Deutsche Bank.</p></div></div>
+                <div class="director-card bg-slate-900 rounded-sm overflow-hidden border border-slate-700"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="h-64 w-full object-cover"><div class="p-6"><h3 class="text-white text-xl font-bold">Dr. James Okonkwo</h3><p class="text-brand-light">Lead Independent Director</p><p class="text-gray-400 text-sm mt-2">Former MD, Renaissance Technologies</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Success Cases & Testimonials -->
+    <section class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-item"><h2 class="text-3xl font-bold">Proven Impact</h2><p class="text-gray-400">Real results for Tier‑1 institutions</p></div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="testimonial-card p-6 rounded-sm"><p class="text-white italic">“ASI PRIME reduced our compliance‑related slippage by 34% within three months. Their deterministic engine is a game changer for systematic strategies.”</p><div class="mt-4 flex items-center"><div class="w-10 h-10 rounded-full bg-slate-700"></div><div class="ml-3"><span class="text-sm font-bold text-white">CIO, $12bn multi‑strat fund</span><span class="text-xs text-gray-400 block">Anonymous due to NDA</span></div></div></div>
+                <div class="testimonial-card p-6 rounded-sm"><p class="text-white italic">“The integration of RegTech into our execution stack was seamless. Their team’s depth in both C++ and regulatory frameworks is unmatched.”</p><div class="mt-4 flex items-center"><div class="w-10 h-10 rounded-full bg-slate-700"></div><div class="ml-3"><span class="text-sm font-bold text-white">Head of Electronic Trading</span><span class="text-xs text-gray-400 block">European Investment Bank</span></div></div></div>
+            </div>
+            <div class="mt-12 bg-slate-900 p-6 border border-slate-800 rounded-sm fade-item"><h3 class="text-white font-bold">Case study: $2.5bn volatility arbitrage fund</h3><p class="text-gray-400 text-sm mt-2">After deploying our pre‑trade compliance module, the fund eliminated 98% of regulatory flags and reduced execution latency by 41%. Audited by third‑party compliance consultant.</p><a href="#" class="inline-block mt-4 text-brand-light text-sm font-mono">Download case study →</a></div>
+        </div>
+    </section>
+
+    <!-- 7. Fee Structure & Investor Relations -->
+    <section class="py-24 bg-slate-950 border-y border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-12">
-                <div class="fade-item"><h3 class="text-white font-bold text-2xl mb-6">What clients say</h3><div class="bg-slate-900 p-6 border-l-4 border-brand-blue"><p class="italic text-gray-300">“ASI PRIME reduced our compliance latency by 34% within three months. Their engine is a game changer.”</p><p class="mt-4 text-sm text-gray-500">– CIO, $12bn multi‑strat fund</p></div><div class="bg-slate-900 p-6 border-l-4 border-brand-blue mt-6"><p class="italic text-gray-300">“The integration of RegTech into our execution stack was seamless. Their team’s depth is unmatched.”</p><p class="mt-4 text-sm text-gray-500">– Head of Electronic Trading, European Investment Bank</p></div></div>
-                <div class="fade-item"><h3 class="text-white font-bold text-2xl mb-6">Transparent fee structure</h3><div class="bg-slate-900 p-6 border border-slate-800"><div class="flex justify-between border-b border-slate-700 pb-2"><span>Management fee</span><span class="text-brand-light">1.5% p.a.</span></div><div class="flex justify-between border-b border-slate-700 py-2"><span>Performance fee</span><span class="text-brand-light">20% (high watermark)</span></div><div class="flex justify-between border-b border-slate-700 py-2"><span>Hurdle rate</span><span class="text-brand-light">SOFR + 3%</span></div><div class="flex justify-between pt-2"><span>Lock‑up</span><span class="text-brand-light">12 months</span></div><p class="text-gray-400 text-xs mt-4">Quarterly redemptions thereafter. No hidden prime brokerage fees.</p><a href="portal.html" class="inline-block mt-6 px-6 py-2 border border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white transition text-sm">Request DDQ & Investor pack →</a></div></div>
+                <div class="fade-item">
+                    <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase">Transparent Fee Structure</h3>
+                    <div class="mt-6 bg-slate-900 p-6 border border-slate-800 rounded-sm">
+                        <div class="flex justify-between border-b border-slate-700 pb-2"><span class="text-white">Management fee</span><span class="text-brand-light">1.5% p.a.</span></div>
+                        <div class="flex justify-between border-b border-slate-700 py-2"><span class="text-white">Performance fee</span><span class="text-brand-light">20% (above high watermark)</span></div>
+                        <div class="flex justify-between border-b border-slate-700 py-2"><span class="text-white">Hurdle rate</span><span class="text-brand-light">SOFR + 3%</span></div>
+                        <div class="flex justify-between pt-2"><span class="text-white">Lock‑up (initial)</span><span class="text-brand-light">12 months</span></div>
+                        <p class="text-gray-400 text-xs mt-4">* Quarterly redemptions thereafter with 30‑day notice. No hidden fees.</p>
+                    </div>
+                </div>
+                <div class="fade-item">
+                    <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase">Investor Relations</h3>
+                    <div class="mt-6 bg-slate-900 p-6 border border-slate-800 rounded-sm">
+                        <p class="text-gray-300">For Due Diligence Questionnaire (DDQ), monthly letters, or secure portal access:</p>
+                        <div class="mt-4 p-3 bg-slate-800 rounded-sm"><span class="font-mono text-brand-light">ir@asiprime.com</span></div>
+                        <p class="text-sm text-gray-400 mt-4">Designated IR contact: <strong class="text-white">Elena Kostova</strong> (Head of Institutional Coverage). Virtual roadshows available.</p>
+                        <a href="portal.html" class="inline-block mt-6 px-6 py-2 border border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white transition text-sm font-mono">Access Investor Portal →</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer (identical to mother page) -->
+    <!-- 8. Third‑Party Endorsements (partner logos) -->
+    <section class="py-20 bg-[#05080f] overflow-hidden">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center fade-item">
+            <h3 class="text-brand-blue font-mono text-sm tracking-widest uppercase">Trusted by leading institutions</h3>
+            <div class="flex flex-wrap justify-center gap-12 mt-10 items-center">
+                <span class="text-gray-400 text-xs font-mono">BLACKROCK</span><span class="text-gray-400 text-xs font-mono">J.P. MORGAN</span><span class="text-gray-400 text-xs font-mono">GOLDMAN SACHS</span><span class="text-gray-400 text-xs font-mono">CITADEL</span><span class="text-gray-400 text-xs font-mono">EQUINIX</span><span class="text-gray-400 text-xs font-mono">LSEG</span>
+            </div>
+            <p class="text-gray-500 text-xs mt-6">*Partnerships and strategic alliances as of 2025. Full list available upon request.</p>
+        </div>
+    </section>
+
+    <!-- Global Footprint / London HQ (already present) -->
+    <section class="py-32 bg-[#05080f] relative overflow-hidden">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 fade-item">
+                    <div class="bg-slate-900 p-8 border border-slate-800 relative shadow-[0_0_40px_rgba(14,165,233,0.05)]">
+                        <div class="absolute top-0 right-0 p-4"><span class="flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-light opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-brand-blue"></span></span></div>
+                        <h3 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-4">London Command Center</h3>
+                        <ul class="space-y-4 font-mono text-sm text-gray-400"><li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Location:</span> <span>Canary Wharf, London</span></li><li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Coverage:</span> <span>Global (FCA, SEC, ESMA mapped)</span></li><li class="flex justify-between border-b border-slate-800 pb-2"><span class="text-white">Status:</span> <span class="text-brand-blue">Active Deployment</span></li><li class="flex justify-between pb-2"><span class="text-white">Direct Line:</span> <span>inquiries@asiprime.com</span></li></ul>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 fade-item text-right"><h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase mb-3">Global Operations</h2><h3 class="text-4xl font-bold mb-6">Positioned at the Heart of Global Finance.</h3><p class="text-gray-400 leading-relaxed mb-8 max-w-lg ml-auto">Operating from London, ASI PRIME is strategically positioned to integrate the most stringent global financial regulations into algorithmic architectures, with satellite oversight in Yaoundé, New York, Singapore, and Frankfurt.</p><a href="index.html#global-footprint" class="inline-flex items-center space-x-2 text-white bg-transparent border border-white hover:bg-white hover:text-slate-900 transition-all duration-300 px-6 py-3 font-mono text-xs uppercase tracking-widest">View Global Footprint <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (identical mother page) -->
     <footer class="bg-[#010204] pt-24 pb-12 border-t border-slate-800 relative z-10 mt-auto">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
@@ -301,4 +462,4 @@
         window.addEventListener('scroll', () => { navbar.style.background = window.scrollY > 50 ? 'rgba(2, 6, 23, 0.95)' : 'rgba(5, 8, 15, 0.85)'; });
     </script>
 </body>
-</html></html></html></html>
+</html></html></html></html></html>
