@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#05080f]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quant Trading | ASI PRIME Technologies</title>
+    <meta name="description" content="High‑frequency systematic execution, statistical arbitrage, and low‑latency infrastructure for institutional traders.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
+                        // Primary brand colour for Quant Trading: Amber/Yellow
+                        brand: { amber: '#f59e0b', gold: '#d97706', yellow: '#eab308' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%23f59e0b' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
+        .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .hero-qt { background: linear-gradient(135deg, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.8)), url('https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=2000&q=100') center/cover no-repeat fixed; }
+        .text-gradient-qt { background: linear-gradient(to right, #ffffff, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-qt { background: #f59e0b; transition: all 0.2s; }
+        .btn-qt:hover { background: #d97706; transform: translateY(-2px); }
+        .stat-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
+        .stat-card:hover { border-color: #f59e0b; transform: translateY(-4px); }
+        .service-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
+        .service-card:hover { border-color: #f59e0b; box-shadow: 0 10px 25px -10px rgba(245,158,11,0.2); }
+        .fade-item { will-change: transform, opacity; opacity: 0; transform: translateY(20px); }
+        #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #f59e0b, #d97706); z-index: 10000; transition: width 0.1s ease; }
+        .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; }
+        .img-glow { transition: filter 0.3s; filter: grayscale(0.1); }
+        .img-glow:hover { filter: grayscale(0); }
+    </style>
+</head>
+<body class="antialiased bg-grid-pattern">
+
+    <div id="progress-bar"></div>
+
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-nav" id="navbar">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="../index.html" class="flex-shrink-0 flex items-center group">
+                    <div class="w-8 h-8 relative mr-3">
+                        <div class="absolute inset-0 border-2 border-brand-amber transform rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
+                        <div class="absolute inset-2 bg-brand-amber"></div>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tighter text-white">
+                        <span class="text-brand-amber">A</span>SI <span class="font-light">PRIME</span>
+                        <span class="block text-[0.6rem] font-mono tracking-[0.2em] text-gray-400 -mt-1">QUANT TRADING</span>
+                    </span>
+                </a>
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="#core" class="text-sm font-medium text-gray-300 hover:text-brand-amber transition-colors">The Engine</a>
+                    <a href="#software" class="text-sm font-medium text-gray-300 hover:text-brand-amber transition-colors">Software Stack</a>
+                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-amber transition-colors">Service Packs</a>
+                    <a href="#geography" class="text-sm font-medium text-gray-300 hover:text-brand-amber transition-colors">Global Coverage</a>
+                    <a href="../index.html" class="px-5 py-2 text-xs font-mono border border-brand-amber text-brand-amber hover:bg-brand-amber hover:text-white transition rounded-full">HoldCo Home</a>
+                </div>
+                <button id="mobile-menu-btn" class="lg:hidden text-gray-300"><svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#020617] border-b border-slate-800 absolute w-full">
+            <div class="px-4 pt-4 pb-8 space-y-3"><a href="#core" class="block">The Engine</a><a href="#software" class="block">Software Stack</a><a href="#services" class="block">Service Packs</a><a href="#geography" class="block">Global Coverage</a><a href="../index.html" class="block text-brand-amber">HoldCo Home</a></div>
+        </div>
+    </nav>
+
+    <header class="pt-40 pb-24 hero-qt border-b border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">Quant Trading <br><span class="text-gradient-qt">by ASI PRIME</span></h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto font-light">Sub‑microsecond execution, statistical arbitrage, and systematic alpha generation – deployed across 50+ global venues.</p>
+        </div>
+    </header>
+
+    <!-- Core Stats -->
+    <section class="py-20 bg-slate-950 border-b border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-amber">3.2B</div><p class="text-gray-400 mt-2">Daily orders processed</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-amber">38µs</div><p class="text-gray-400 mt-2">Avg. tick‑to‑trade latency</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-amber">50+</div><p class="text-gray-400 mt-2">Exchanges & venues</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-amber">99.999%</div><p class="text-gray-400 mt-2">Uptime (hard SLA)</p></div>
+        </div>
+    </section>
+
+    <!-- Core Philosophy (The Engine) -->
+    <section id="core" class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="fade-item"><h2 class="text-3xl font-bold mb-6">High‑Frequency Execution Engine</h2><p class="text-gray-400 leading-relaxed mb-4">Our proprietary C++ kernel bypasses the operating system, delivering deterministic sub‑microsecond order routing. We deploy directly on exchange gateways (LD4, NY5, TY3, SG1) with hardware timestamping and FPGA acceleration for critical path calculations.</p><p class="text-gray-400 leading-relaxed">We specialize in statistical arbitrage, market‑making, and event‑driven strategies. All algorithms are backtested on 15+ years of tick data and deployed with real‑time risk checks.</p><div class="mt-6 flex flex-wrap gap-3"><span class="px-3 py-1 bg-slate-800 text-brand-amber text-xs font-mono">C++20 / FPGA</span><span class="px-3 py-1 bg-slate-800 text-brand-amber text-xs font-mono">Kernel bypass</span><span class="px-3 py-1 bg-slate-800 text-brand-amber text-xs font-mono">Hardware timestamp</span></div></div>
+                <div class="fade-item bg-slate-900 p-6 rounded-sm border-l-2 border-brand-amber"><h3 class="text-white font-bold text-xl mb-3">Key trading capabilities</h3><ul class="space-y-2 text-gray-300 text-sm"><li>✓ Statistical arbitrage (pair trading, co‑integration)</li><li>✓ Market making across equities, FX, futures, options</li><li>✓ Latency arbitrage & queue positioning</li><li>✓ Event‑driven strategies (earnings, macro releases)</li><li>✓ Smart order routing & liquidity detection</li><li>✓ Real‑time PnL attribution & risk limits</li></ul></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Software Stack & Infrastructure -->
+    <section id="software" class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Trading Infrastructure</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-12">A vertically integrated stack from research to production – all optimised for speed and determinism.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-amber/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg></div><h3 class="text-white font-bold">Titan Execution</h3><p class="text-gray-400 text-sm mt-2">Low‑latency order management system (OMS) with FIX 4.4/5.0 and proprietary binary protocols. Supports 10M+ orders per second.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-amber/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div><h3 class="text-white font-bold">Alpha Lab</h3><p class="text-gray-400 text-sm mt-2">Python‑based research environment with GPU‑accelerated backtesting (500+ signals parallel). Direct production deployment via containerised strategies.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-amber/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><path d="M4.93 4.93l2.83 2.83 M16.24 16.24l2.83 2.83"/><path d="M19.07 4.93l-2.83 2.83 M7.76 16.24l-2.83 2.83"/><circle cx="12" cy="12" r="3"/></svg></div><h3 class="text-white font-bold">AI Signal Engine</h3><p class="text-gray-400 text-sm mt-2">Machine learning models for alpha generation (gradient boosting, transformers). Real‑time inference < 10µs.</p></div>
+            </div>
+            <div class="mt-10 text-left bg-slate-900 p-6 rounded-sm"><h3 class="text-white font-bold mb-2">Technical specifications</h3><ul class="list-disc pl-5 text-gray-400 text-sm grid md:grid-cols-2 gap-x-6 gap-y-1"><li>Co‑located at LD4, NY5, TY3, SG1, HK3</li><li>Custom FPGA for market data decoding & order routing</li><li>Solarflare OpenOnload kernel bypass</li><li>Hardware timestamping (PTP, GPS)</li><li>Redundant fibre paths with automatic failover (< 1ms)</li><li>Real‑time risk gates (position, loss, rate)</li></ul></div>
+        </div>
+    </section>
+
+    <!-- Service Packs (Trading Strategies) -->
+    <section id="services" class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Quantitative Strategies & Service Packs</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-amber">Statistical Arbitrage</h3><p class="text-gray-400 text-sm mt-2">Pair trading, mean reversion, and co‑integration strategies across equities, ETFs, and futures. Backtested Sharpe > 2.1 (net).</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Monthly subscription</span><div class="text-2xl font-bold text-white">£18,000</div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-amber">Market Making</h3><p class="text-gray-400 text-sm mt-2">Automated two‑sided quoting across FX, options, and crypto. Customisable spread, inventory, and skew management.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Revenue share model</span><div class="text-2xl font-bold text-white">Contact us</div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-amber">Event‑Driven Alpha</h3><p class="text-gray-400 text-sm mt-2">Earnings announcements, macroeconomic releases, and central bank communications – executed within milliseconds of data publication.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Typical</span><div class="text-2xl font-bold text-white">£25,000<span class="text-sm font-normal text-gray-400">/month</span></div></div></div>
+            </div>
+            <p class="text-center text-gray-500 text-xs mt-8">All strategies can be deployed as a signal feed (API) or fully managed execution. Performance fees available for institutional capital.</p>
+        </div>
+    </section>
+
+    <!-- Global Exchange Coverage & Low‑Latency Map -->
+    <section id="geography" class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div><h2 class="text-3xl font-bold mb-4">Global Low‑Latency Footprint</h2><p class="text-gray-400 mb-4">We are directly connected to 50+ exchanges and dark pools across five continents. All routes are fibre‑optic with minimal hops.</p><ul class="space-y-2 text-sm text-gray-300"><li><span class="text-brand-amber">▸</span> Americas: NYSE, NASDAQ, CME, B3 (São Paulo)</li><li><span class="text-brand-amber">▸</span> EMEA: LSE, Deutsche Börse, Euronext, SIX, MOEX</li><li><span class="text-brand-amber">▸</span> Asia‑Pacific: SGX, HKEX, ASX, TSE, KRX</li><li><span class="text-brand-amber">▸</span> FX: 40+ currency pairs via EBS, Refinitiv, FXall</li></ul><p class="text-gray-400 text-sm mt-6">Round‑trip latency (including risk checks): London < 40µs, New York < 60µs, Singapore < 80µs.</p></div>
+                <div class="custom-map-container h-[400px] rounded-sm" id="tradeMap"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sector Analysis / Institutional Use -->
+    <section class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Who Uses Our Quant Trading Infrastructure</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-amber"><h3 class="text-white font-bold text-xl">Hedge Funds & Prop Shops</h3><p class="text-gray-400 text-sm mt-2">Plug‑and‑play access to low‑latency execution, market data, and pre‑built alpha signals. Reduce time‑to‑market from months to days.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-amber"><h3 class="text-white font-bold text-xl">Broker‑Dealers & Banks</h3><p class="text-gray-400 text-sm mt-2">White‑labelled smart order routing, internalisation engine, and best execution analytics. Compliant with MiFID II/RTS 27.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-amber"><h3 class="text-white font-bold text-xl">Asset Managers & Family Offices</h3><p class="text-gray-400 text-sm mt-2">Systematic overlay strategies – portfolio hedging, volatility targeting, and liquidity provision – without internal quant teams.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-amber"><h3 class="text-white font-bold text-xl">Crypto Quantitative Funds</h3><p class="text-gray-400 text-sm mt-2">Low‑latency connectivity to Binance, Coinbase, FTX (and other major venues) with unified risk and execution.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study / Testimonial with image -->
+    <section class="py-20 bg-slate-950">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="flex justify-center mb-4">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M18 3 L20 5 L18 7 M6 3 L4 5 L6 7 M12 9 L12 21 M9 18 L12 21 L15 18"/><path d="M3 11 L21 11"/></svg>
+            </div>
+            <p class="text-gray-300 text-lg italic">“ASI PRIME’s quant trading platform reduced our execution slippage by 42% and improved Sharpe by 0.7. The FPGA‑accelerated order routing is simply best‑in‑class.”</p>
+            <p class="text-white font-bold mt-4">— Head of Electronic Trading, $8bn multi‑strat fund</p>
+            <div class="mt-8 flex justify-center">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="Trading floor analytics" class="rounded-sm w-full max-w-2xl img-glow">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#010204] pt-16 pb-10 border-t border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 text-center text-gray-500 text-xs"><p>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. Quant Trading Division.</p><p class="mt-2"><a href="../index.html" class="text-brand-amber hover:underline">← Return to Holding Company</a></p></div>
+    </footer>
+
+    <script>
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if(mobileBtn) mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        const map = L.map('tradeMap').setView([30, 0], 2);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB', subdomains: 'abcd' }).addTo(map);
+        const tradingHubs = [[51.5074, -0.1278], [40.7128, -74.0060], [1.3521, 103.8198], [35.6895, 139.6917], [37.5665, 126.9780]];
+        tradingHubs.forEach(h => L.marker(h).addTo(map).bindPopup('Trading hub: co‑located execution'));
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.fade-item').forEach(el => {
+            gsap.set(el, { opacity: 0, y: 20 });
+            ScrollTrigger.create({ trigger: el, start: "top 85%", onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }), once: true });
+        });
+    </script>
+</body>
+</html>
