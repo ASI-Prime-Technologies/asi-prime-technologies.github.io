@@ -3,61 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply | ASI PRIME Careers</title>
+    <title>Application Portal | ASI PRIME Careers</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background: #05080f; color: #f8fafc; }
-        .glass-card { background: rgba(5,8,15,0.7); backdrop-filter: blur(12px); border: 1px solid #1e293b; }
-        .input-field, .select-field { background: #0f172a; border: 1px solid #1e293b; color: white; border-radius: 0.5rem; padding: 0.75rem 1rem; width: 100%; }
-        .input-field:focus, .select-field:focus { border-color: #0ea5e9; outline: none; }
-        .btn-submit { background: #0ea5e9; transition: all 0.2s; padding: 0.75rem; border-radius: 0.5rem; font-weight: 600; }
-        .btn-submit:hover { background: #0284c7; transform: translateY(-2px); }
+        .bg-grid-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .glass-card { background: rgba(5,8,15,0.7); backdrop-filter: blur(16px); border: 1px solid #1e293b; border-radius: 1.5rem; }
+        .step-active { background: #0ea5e9; color: white; border-color: #0ea5e9; }
+        .step-completed { background: #0ea5e9; color: white; border-color: #0ea5e9; }
+        .step-inactive { background: #1e293b; color: #94a3b8; border-color: #334155; }
+        .input-field, .select-field, .textarea-field {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: white;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .input-field:focus, .select-field:focus, .textarea-field:focus {
+            border-color: #0ea5e9;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.2);
+        }
+        .file-upload {
+            background: #0f172a;
+            border: 1px dashed #1e293b;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .file-upload:hover { border-color: #0ea5e9; background: #0f172a; }
+        .btn-primary { background: #0ea5e9; transition: all 0.2s; border-radius: 0.75rem; font-weight: 600; padding: 0.75rem 1.5rem; }
+        .btn-primary:hover { background: #0284c7; transform: translateY(-2px); }
+        .btn-secondary { background: transparent; border: 1px solid #475569; border-radius: 0.75rem; padding: 0.75rem 1.5rem; transition: all 0.2s; }
+        .btn-secondary:hover { border-color: #0ea5e9; color: #0ea5e9; }
+        .error-text { color: #f87171; font-size: 0.75rem; margin-top: 0.25rem; }
+        .section-title { font-size: 1.25rem; font-weight: 700; border-left: 3px solid #0ea5e9; padding-left: 0.75rem; margin-bottom: 1.5rem; }
     </style>
 </head>
-<body class="bg-grid-pattern min-h-screen py-12">
-    <div class="max-w-3xl mx-auto px-4">
-        <div class="glass-card rounded-2xl p-8">
-            <div class="flex items-center gap-3 mb-6">
-                <a href="careers.html" class="text-brand-blue hover:underline text-sm">← Back to Careers</a>
-                <span class="text-gray-600">|</span>
-                <span class="text-xs font-mono text-gray-500">Secure Application</span>
-            </div>
-            <h1 class="text-3xl font-bold mb-2">Job Application</h1>
-            <p id="roleLocationDisplay" class="text-brand-light text-sm mb-6"></p>
-            
-            <form id="applicationForm" class="space-y-5">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div><label class="block text-sm font-medium mb-1">First name *</label><input type="text" id="firstName" class="input-field" required></div>
-                    <div><label class="block text-sm font-medium mb-1">Last name *</label><input type="text" id="lastName" class="input-field" required></div>
-                </div>
-                <div><label class="block text-sm font-medium mb-1">Email *</label><input type="email" id="email" class="input-field" required></div>
-                <div><label class="block text-sm font-medium mb-1">Phone (optional)</label><input type="tel" id="phone" class="input-field"></div>
-                <div><label class="block text-sm font-medium mb-1">LinkedIn / GitHub profile</label><input type="url" id="profileUrl" class="input-field" placeholder="https://linkedin.com/in/..."></div>
-                <div><label class="block text-sm font-medium mb-1">Cover letter / Motivation</label><textarea id="coverLetter" rows="4" class="input-field" placeholder="Why are you interested in this role?"></textarea></div>
-                <div><label class="block text-sm font-medium mb-1">Upload CV (PDF)</label><input type="file" id="cv" accept=".pdf" class="input-field p-2"></div>
-                <div class="flex items-start gap-2">
-                    <input type="checkbox" id="terms" required class="mt-1 accent-brand-blue">
-                    <label class="text-sm text-gray-400">I confirm that the information provided is accurate and I agree to the <a href="terms.html" class="text-brand-blue">privacy policy</a>.</label>
-                </div>
-                <button type="submit" class="btn-submit w-full font-mono uppercase tracking-wider">Submit Application</button>
-            </form>
-            <p class="text-gray-500 text-xs text-center mt-6">All applications are encrypted. We will contact you within 10 business days.</p>
+<body class="bg-grid-pattern antialiased">
+
+    <!-- Simple preloader (optional but consistent) -->
+    <div id="preloader" style="position:fixed; inset:0; background:#05080f; z-index:9999; display:flex; align-items:center; justify-content:center; transition:opacity 0.5s">
+        <div class="flex space-x-2"><div class="w-2 h-8 bg-brand-blue animate-pulse"></div><div class="w-2 h-8 bg-brand-blue animate-pulse delay-150"></div><div class="w-2 h-8 bg-brand-blue animate-pulse delay-300"></div><span class="ml-4 text-white font-mono">ASI PRIME</span></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Header with back button -->
+        <div class="mb-6 flex items-center justify-between">
+            <a href="careers.html" class="text-brand-blue hover:underline flex items-center gap-1 text-sm font-mono">← Back to Careers</a>
+            <span class="text-xs text-gray-500 font-mono">Secure Application Portal</span>
         </div>
+
+        <!-- Role & Location Banner -->
+        <div class="glass-card p-6 mb-8 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold">Application for</h1>
+            <p id="roleLocationDisplay" class="text-brand-light text-xl mt-1 font-mono"></p>
+            <p class="text-gray-400 text-sm mt-3">Please complete all sections. You may save and return later.</p>
+        </div>
+
+        <!-- Stepper -->
+        <div class="flex justify-between mb-10 px-2">
+            <div class="step-item text-center w-1/4" data-step="1"><div class="step-circle w-8 h-8 rounded-full border-2 flex items-center justify-center mx-auto step-active">1</div><span class="text-xs mt-1 block">Personal</span></div>
+            <div class="step-item text-center w-1/4" data-step="2"><div class="step-circle w-8 h-8 rounded-full border-2 flex items-center justify-center mx-auto step-inactive">2</div><span class="text-xs mt-1 block">Education</span></div>
+            <div class="step-item text-center w-1/4" data-step="3"><div class="step-circle w-8 h-8 rounded-full border-2 flex items-center justify-center mx-auto step-inactive">3</div><span class="text-xs mt-1 block">Experience</span></div>
+            <div class="step-item text-center w-1/4" data-step="4"><div class="step-circle w-8 h-8 rounded-full border-2 flex items-center justify-center mx-auto step-inactive">4</div><span class="text-xs mt-1 block">Documents</span></div>
+        </div>
+
+        <!-- Multi‑step Form -->
+        <form id="applicationForm" class="glass-card p-6 md:p-8 space-y-8">
+            <!-- Step 1: Personal Information -->
+            <div id="step1" class="step-content">
+                <h2 class="section-title">Personal Details</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div><label class="block text-sm font-medium mb-1">First name *</label><input type="text" class="input-field" name="firstName" required></div>
+                    <div><label class="block text-sm font-medium mb-1">Last name *</label><input type="text" class="input-field" name="lastName" required></div>
+                    <div><label class="block text-sm font-medium mb-1">Email *</label><input type="email" class="input-field" name="email" required></div>
+                    <div><label class="block text-sm font-medium mb-1">Phone (incl. country code)</label><input type="tel" class="input-field" name="phone"></div>
+                    <div class="md:col-span-2"><label class="block text-sm font-medium mb-1">LinkedIn / GitHub / Personal website</label><input type="url" class="input-field" name="profileUrl"></div>
+                    <div><label class="block text-sm font-medium mb-1">Current location (city, country)</label><input type="text" class="input-field" name="location" required></div>
+                    <div><label class="block text-sm font-medium mb-1">Visa sponsorship required?</label><select class="select-field" name="visaRequired"><option value="No">No</option><option value="Yes">Yes</option></select></div>
+                </div>
+            </div>
+
+            <!-- Step 2: Education (dynamic entries) -->
+            <div id="step2" class="step-content hidden">
+                <h2 class="section-title">Academic Background</h2>
+                <div id="educationList">
+                    <div class="education-entry border border-slate-800 p-4 rounded-lg mb-4 relative">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div><label class="text-sm">Institution *</label><input type="text" class="input-field mt-1" name="edu_institution[]" required></div>
+                            <div><label class="text-sm">Degree / Qualification *</label><input type="text" class="input-field mt-1" name="edu_degree[]" required></div>
+                            <div><label class="text-sm">Field of study</label><input type="text" class="input-field mt-1" name="edu_field[]"></div>
+                            <div><label class="text-sm">Year of graduation</label><input type="text" class="input-field mt-1" name="edu_year[]" placeholder="2025"></div>
+                        </div>
+                        <button type="button" class="remove-edu absolute top-2 right-2 text-red-400 text-xs hover:text-red-300">Remove</button>
+                    </div>
+                </div>
+                <button type="button" id="addEducation" class="btn-secondary text-sm mt-2">+ Add another degree</button>
+            </div>
+
+            <!-- Step 3: Work Experience (dynamic) -->
+            <div id="step3" class="step-content hidden">
+                <h2 class="section-title">Professional Experience</h2>
+                <div id="experienceList">
+                    <div class="exp-entry border border-slate-800 p-4 rounded-lg mb-4 relative">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div><label class="text-sm">Employer *</label><input type="text" class="input-field mt-1" name="emp_employer[]" required></div>
+                            <div><label class="text-sm">Job title *</label><input type="text" class="input-field mt-1" name="emp_title[]" required></div>
+                            <div><label class="text-sm">Start date (MM/YYYY)</label><input type="text" class="input-field mt-1" name="emp_start[]" placeholder="01/2020"></div>
+                            <div><label class="text-sm">End date (MM/YYYY) or "Present"</label><input type="text" class="input-field mt-1" name="emp_end[]" placeholder="Present"></div>
+                            <div class="md:col-span-2"><label class="text-sm">Key responsibilities & achievements</label><textarea rows="2" class="textarea-field mt-1" name="emp_desc[]"></textarea></div>
+                        </div>
+                        <button type="button" class="remove-exp absolute top-2 right-2 text-red-400 text-xs">Remove</button>
+                    </div>
+                </div>
+                <button type="button" id="addExperience" class="btn-secondary text-sm mt-2">+ Add another role</button>
+            </div>
+
+            <!-- Step 4: Documents & Additional Info -->
+            <div id="step4" class="step-content hidden">
+                <h2 class="section-title">Supporting Materials</h2>
+                <div class="space-y-6">
+                    <div><label class="block text-sm font-medium mb-2">Upload CV / Resume (PDF) *</label><div class="file-upload" id="cvUpload">📄 Click to upload or drag & drop<br><span class="text-xs text-gray-400">PDF only, max 5MB</span><input type="file" id="cvFile" accept=".pdf" class="hidden" required></div><div id="cvName" class="text-xs text-gray-400 mt-1"></div></div>
+                    <div><label class="block text-sm font-medium mb-2">Cover letter (optional)</label><div class="file-upload" id="clUpload">📝 Upload cover letter (PDF or DOC)<input type="file" id="clFile" accept=".pdf,.doc,.docx" class="hidden"></div><div id="clName" class="text-xs text-gray-400 mt-1"></div></div>
+                    <div><label class="block text-sm font-medium mb-2">Transcripts (optional)</label><div class="file-upload" id="transcriptUpload">🎓 Upload academic transcripts (PDF)<input type="file" id="transcriptFile" accept=".pdf" class="hidden"></div><div id="transcriptName" class="text-xs text-gray-400 mt-1"></div></div>
+                    <div><label class="block text-sm font-medium mb-2">References (optional) – names and emails</label><textarea rows="3" class="textarea-field" name="references" placeholder="Dr. Jane Smith, jane@university.edu, +44 20 7946 0138&#10;Mr. John Doe, john@fund.com"></textarea></div>
+                    <div><label class="block text-sm font-medium mb-2">Additional information / portfolio link</label><textarea rows="2" class="textarea-field" name="additionalInfo" placeholder="GitHub repos, research papers, awards..."></textarea></div>
+                    <div class="flex items-start gap-2 mt-4"><input type="checkbox" id="dataConsent" class="mt-1 accent-brand-blue" required><label class="text-sm text-gray-400">I confirm that all information provided is accurate and I consent to the processing of my data for recruitment purposes (GDPR compliant).</label></div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between pt-6 border-t border-slate-800">
+                <button type="button" id="prevBtn" class="btn-secondary px-6 hidden">← Previous</button>
+                <button type="button" id="nextBtn" class="btn-primary px-8 ml-auto">Next →</button>
+                <button type="submit" id="submitBtn" class="btn-primary px-8 hidden">Submit Application</button>
+            </div>
+        </form>
     </div>
 
     <script>
-        // Get role and location from URL parameters
+        // Parse URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const role = urlParams.get('role') || 'Quantitative Researcher';
-        const location = urlParams.get('location') || 'London';
-        document.getElementById('roleLocationDisplay').innerText = `Applying for: ${role} (${location})`;
+        const locationParam = urlParams.get('location') || 'London';
+        document.getElementById('roleLocationDisplay').innerText = `${role} (${locationParam})`;
 
-        document.getElementById('applicationForm').addEventListener('submit', (e) => {
+        // --------------------------------------------------------------
+        // Step management
+        let currentStep = 1;
+        const steps = [1,2,3,4];
+        const stepContents = {
+            1: document.getElementById('step1'),
+            2: document.getElementById('step2'),
+            3: document.getElementById('step3'),
+            4: document.getElementById('step4')
+        };
+        const stepCircles = document.querySelectorAll('.step-circle');
+        const stepItems = document.querySelectorAll('.step-item');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function updateStepUI() {
+            // Show/hide step contents
+            Object.keys(stepContents).forEach(step => {
+                stepContents[step].classList.add('hidden');
+            });
+            stepContents[currentStep].classList.remove('hidden');
+
+            // Update circles
+            stepItems.forEach((item, idx) => {
+                const stepNum = idx + 1;
+                const circle = item.querySelector('.step-circle');
+                if (stepNum === currentStep) {
+                    circle.classList.remove('step-inactive', 'step-completed');
+                    circle.classList.add('step-active');
+                } else if (stepNum < currentStep) {
+                    circle.classList.remove('step-inactive', 'step-active');
+                    circle.classList.add('step-completed');
+                } else {
+                    circle.classList.remove('step-active', 'step-completed');
+                    circle.classList.add('step-inactive');
+                }
+            });
+
+            // Buttons
+            if (currentStep === 1) prevBtn.classList.add('hidden');
+            else prevBtn.classList.remove('hidden');
+
+            if (currentStep === 4) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+        }
+
+        // Simple validation per step
+        function validateStep(step) {
+            if (step === 1) {
+                const first = document.querySelector('input[name="firstName"]').value.trim();
+                const last = document.querySelector('input[name="lastName"]').value.trim();
+                const email = document.querySelector('input[name="email"]').value.trim();
+                const location = document.querySelector('input[name="location"]').value.trim();
+                if (!first || !last || !email || !location) {
+                    alert('Please fill all required fields in Personal Details.');
+                    return false;
+                }
+                if (!email.includes('@')) { alert('Enter a valid email address.'); return false; }
+                return true;
+            }
+            if (step === 2) {
+                const eduInstitutions = document.querySelectorAll('input[name="edu_institution[]"]');
+                for (let i=0; i<eduInstitutions.length; i++) {
+                    if (!eduInstitutions[i].value.trim()) {
+                        alert('Please fill institution name for each education entry (or remove empty entries).');
+                        return false;
+                    }
+                }
+                return true;
+            }
+            if (step === 3) {
+                const employers = document.querySelectorAll('input[name="emp_employer[]"]');
+                for (let i=0; i<employers.length; i++) {
+                    if (!employers[i].value.trim()) {
+                        alert('Please fill employer name for each experience entry (or remove empty entries).');
+                        return false;
+                    }
+                }
+                return true;
+            }
+            if (step === 4) {
+                const cvFile = document.getElementById('cvFile').files[0];
+                if (!cvFile) {
+                    alert('Please upload your CV (PDF).');
+                    return false;
+                }
+                if (!document.getElementById('dataConsent').checked) {
+                    alert('You must consent to data processing to submit your application.');
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                updateStepUI();
+            }
+        });
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepUI();
+            }
+        });
+
+        // --------------------------------------------------------------
+        // Dynamic Education rows
+        document.getElementById('addEducation').addEventListener('click', () => {
+            const container = document.getElementById('educationList');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'education-entry border border-slate-800 p-4 rounded-lg mb-4 relative';
+            newEntry.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><label class="text-sm">Institution *</label><input type="text" class="input-field mt-1" name="edu_institution[]" required></div>
+                    <div><label class="text-sm">Degree / Qualification *</label><input type="text" class="input-field mt-1" name="edu_degree[]" required></div>
+                    <div><label class="text-sm">Field of study</label><input type="text" class="input-field mt-1" name="edu_field[]"></div>
+                    <div><label class="text-sm">Year of graduation</label><input type="text" class="input-field mt-1" name="edu_year[]"></div>
+                </div>
+                <button type="button" class="remove-edu absolute top-2 right-2 text-red-400 text-xs hover:text-red-300">Remove</button>
+            `;
+            container.appendChild(newEntry);
+            attachRemoveEdu(newEntry);
+        });
+        function attachRemoveEdu(entry) {
+            entry.querySelector('.remove-edu').addEventListener('click', () => entry.remove());
+        }
+        document.querySelectorAll('.remove-edu').forEach(btn => btn.addEventListener('click', (e) => e.target.closest('.education-entry').remove()));
+
+        // Experience rows
+        document.getElementById('addExperience').addEventListener('click', () => {
+            const container = document.getElementById('experienceList');
+            const newExp = document.createElement('div');
+            newExp.className = 'exp-entry border border-slate-800 p-4 rounded-lg mb-4 relative';
+            newExp.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><label class="text-sm">Employer *</label><input type="text" class="input-field mt-1" name="emp_employer[]" required></div>
+                    <div><label class="text-sm">Job title *</label><input type="text" class="input-field mt-1" name="emp_title[]" required></div>
+                    <div><label class="text-sm">Start date (MM/YYYY)</label><input type="text" class="input-field mt-1" name="emp_start[]" placeholder="01/2020"></div>
+                    <div><label class="text-sm">End date (MM/YYYY) or "Present"</label><input type="text" class="input-field mt-1" name="emp_end[]" placeholder="Present"></div>
+                    <div class="md:col-span-2"><label class="text-sm">Key responsibilities & achievements</label><textarea rows="2" class="textarea-field mt-1" name="emp_desc[]"></textarea></div>
+                </div>
+                <button type="button" class="remove-exp absolute top-2 right-2 text-red-400 text-xs">Remove</button>
+            `;
+            container.appendChild(newExp);
+            attachRemoveExp(newExp);
+        });
+        function attachRemoveExp(entry) {
+            entry.querySelector('.remove-exp').addEventListener('click', () => entry.remove());
+        }
+        document.querySelectorAll('.remove-exp').forEach(btn => btn.addEventListener('click', (e) => e.target.closest('.exp-entry').remove()));
+
+        // File upload handlers (display names)
+        function setupFileUpload(triggerId, fileInputId, displaySpanId) {
+            const trigger = document.getElementById(triggerId);
+            const input = document.getElementById(fileInputId);
+            const display = document.getElementById(displaySpanId);
+            trigger.addEventListener('click', () => input.click());
+            input.addEventListener('change', () => {
+                if (input.files.length) display.innerText = input.files[0].name;
+                else display.innerText = '';
+            });
+        }
+        setupFileUpload('cvUpload', 'cvFile', 'cvName');
+        setupFileUpload('clUpload', 'clFile', 'clName');
+        setupFileUpload('transcriptUpload', 'transcriptFile', 'transcriptName');
+
+        // --------------------------------------------------------------
+        // Form submission
+        document.getElementById('applicationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            alert(`Application for ${role} at ${location} submitted.\nOur recruitment team will review your CV and reach out.`);
-            // In production, you would send form data to server
+            if (!validateStep(4)) return;
+
+            // Build FormData object for server submission (simulate)
+            const formData = new FormData();
+            // Append role and location
+            formData.append('role', role);
+            formData.append('location', locationParam);
+            // Personal fields
+            const personalFields = ['firstName', 'lastName', 'email', 'phone', 'profileUrl', 'location', 'visaRequired'];
+            personalFields.forEach(f => {
+                const val = document.querySelector(`input[name="${f}"]`)?.value || '';
+                formData.append(f, val);
+            });
+            // Education (dynamic)
+            const eduInst = document.querySelectorAll('input[name="edu_institution[]"]');
+            const eduDeg = document.querySelectorAll('input[name="edu_degree[]"]');
+            const eduField = document.querySelectorAll('input[name="edu_field[]"]');
+            const eduYear = document.querySelectorAll('input[name="edu_year[]"]');
+            for (let i=0; i<eduInst.length; i++) {
+                formData.append(`edu_institution_${i}`, eduInst[i].value);
+                formData.append(`edu_degree_${i}`, eduDeg[i]?.value || '');
+                formData.append(`edu_field_${i}`, eduField[i]?.value || '');
+                formData.append(`edu_year_${i}`, eduYear[i]?.value || '');
+            }
+            // Experience
+            const empEmployer = document.querySelectorAll('input[name="emp_employer[]"]');
+            const empTitle = document.querySelectorAll('input[name="emp_title[]"]');
+            const empStart = document.querySelectorAll('input[name="emp_start[]"]');
+            const empEnd = document.querySelectorAll('input[name="emp_end[]"]');
+            const empDesc = document.querySelectorAll('textarea[name="emp_desc[]"]');
+            for (let i=0; i<empEmployer.length; i++) {
+                formData.append(`emp_employer_${i}`, empEmployer[i].value);
+                formData.append(`emp_title_${i}`, empTitle[i]?.value || '');
+                formData.append(`emp_start_${i}`, empStart[i]?.value || '');
+                formData.append(`emp_end_${i}`, empEnd[i]?.value || '');
+                formData.append(`emp_desc_${i}`, empDesc[i]?.value || '');
+            }
+            // Additional fields
+            formData.append('references', document.querySelector('textarea[name="references"]')?.value || '');
+            formData.append('additionalInfo', document.querySelector('textarea[name="additionalInfo"]')?.value || '');
+            // Files
+            if (document.getElementById('cvFile').files[0]) formData.append('cv', document.getElementById('cvFile').files[0]);
+            if (document.getElementById('clFile').files[0]) formData.append('coverLetter', document.getElementById('clFile').files[0]);
+            if (document.getElementById('transcriptFile').files[0]) formData.append('transcript', document.getElementById('transcriptFile').files[0]);
+
+            // Simulate submission (replace with actual fetch)
+            alert('Your application has been submitted securely. Our recruitment team will review your profile and contact you within 10 business days.');
+            // console.log([...formData.entries()]);
+            // In production: fetch('/api/apply', { method: 'POST', body: formData })
+        });
+
+        // Initial Step UI
+        updateStepUI();
+
+        // Preloader removal
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                setTimeout(() => preloader.style.display = 'none', 500);
+            }, 500);
         });
     </script>
 </body>
-</html>
+</html></html>
