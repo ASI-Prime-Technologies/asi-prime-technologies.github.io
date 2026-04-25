@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#05080f]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | ASI PRIME Technologies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; background: #05080f; color: #f8fafc; background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E"); } .glass-card { background: rgba(5,8,15,0.6); backdrop-filter: blur(12px); border: 1px solid #1e293b; border-radius: 1rem; } #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #0ea5e9, #00f6ff); z-index: 10000; }</style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    <div class="max-w-4xl mx-auto px-4 py-20">
+        <div class="glass-card p-8">
+            <h1 class="text-3xl font-bold mb-6">Investor FAQ</h1>
+            <div class="space-y-6 text-gray-300">
+                <div><h2 class="text-white text-xl font-semibold">What is the minimum investment?</h2><p class="mt-1">For the flagship composite strategy: $5M. Lower minimums may be available for family offices or long‑term commitments.</p></div>
+                <div><h2 class="text-white text-xl font-semibold">What are the fees?</h2><p class="mt-1">Management fee: 1.5% per annum. Performance fee: 20% above a high water mark, with a SOFR + 3% hurdle.</p></div>
+                <div><h2 class="text-white text-xl font-semibold">What is the liquidity / redemption terms?</h2><p class="mt-1">Initial lock‑up: 12 months. Thereafter, quarterly redemptions with 30 days’ notice.</p></div>
+                <div><h2 class="text-white text-xl font-semibold">How do I access due diligence materials?</h2><p class="mt-1">Log into the <a href="investor-login.html" class="text-brand-blue">Secure Investor Portal</a> or request a DDQ from <a href="mailto:ir@asiprime.com" class="text-brand-blue">ir@asiprime.com</a>.</p></div>
+                <div><h2 class="text-white text-xl font-semibold">Are the strategies audited?</h2><p class="mt-1">Yes, by a Big‑4 firm annually. Audited financials are available to qualified investors upon request.</p></div>
+                <div><h2 class="text-white text-xl font-semibold">Which regulators oversee ASI PRIME?</h2><p class="mt-1">We are registered with the FCA (UK) and operate in compliance with SEC (US) and ESMA (EU) regulations. Our affiliates hold local licences where required.</p></div>
+                <div><h2 class="text-white text-xl font-semibold">How do I get in touch with Investor Relations?</h2><p class="mt-1">Email <a href="mailto:ir@asiprime.com" class="text-brand-blue">ir@asiprime.com</a> or use the <a href="contact.html" class="text-brand-blue">contact form</a>.</p></div>
+            </div>
+        </div>
+    </div>
+    <script>window.addEventListener('scroll', () => { const winScroll = document.body.scrollTop || document.documentElement.scrollTop; const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; document.getElementById('progress-bar').style.width = (winScroll / height) * 100 + '%'; });</script>
+</body>
+</html>
