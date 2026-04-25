@@ -18,4 +18,4 @@ Disallow: /*?ref=
 Disallow: /*?utm_
 
 # Sitemap location (required for SEO)
-Sitemap: https://asi-prime.com/sitemap.xml
+Sitemap: https://asi-prime-technologies.github.io/asi-prime-technologies/robots.txt
