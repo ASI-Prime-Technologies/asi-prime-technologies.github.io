@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RegTech Hub | ASI PRIME Technologies</title>
-    <meta name="description" content="Automated regulatory compliance, real‑time supervision, and legal rule‑engine for financial institutions.">
+    <title>RegTech | ASI PRIME Technologies</title>
+    <meta name="description" content="Regulatory technology, pre‑trade compliance, and automated supervision – headquartered in Frankfurt. Covering MiFID II, SEC, ESMA, MiCA.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,7 +13,6 @@
                 extend: {
                     colors: {
                         slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
-                        // Primary brand colour for RegTech: Red
                         brand: { red: '#ef4444', crimson: '#dc2626', rose: '#e11d48' }
                     },
                     fontFamily: {
@@ -28,7 +27,7 @@
         }
     </script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -38,17 +37,16 @@
     <style>
         body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
         .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .hero-rt { background: linear-gradient(135deg, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.8)), url('https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=2000&q=100') center/cover no-repeat fixed; }
+        .hero-rt { background: linear-gradient(135deg, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.85)), url('https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=2500&q=100') center/cover no-repeat fixed; }
         .text-gradient-rt { background: linear-gradient(to right, #ffffff, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-rt { background: #ef4444; transition: all 0.2s; }
-        .btn-rt:hover { background: #dc2626; transform: translateY(-2px); }
         .stat-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
         .stat-card:hover { border-color: #ef4444; transform: translateY(-4px); }
         .service-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
         .service-card:hover { border-color: #ef4444; box-shadow: 0 10px 25px -10px rgba(239,68,68,0.2); }
         .fade-item { will-change: transform, opacity; opacity: 0; transform: translateY(20px); }
         #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #ef4444, #dc2626); z-index: 10000; transition: width 0.1s ease; }
-        .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; }
+        .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; box-shadow: 0 10px 25px -10px rgba(0,0,0,0.5); }
+        .address-card { background: rgba(5,8,15,0.6); backdrop-filter: blur(8px); border: 1px solid #1e293b; border-left: 3px solid #ef4444; }
     </style>
 </head>
 <body class="antialiased bg-grid-pattern">
@@ -69,108 +67,176 @@
                     </span>
                 </a>
                 <div class="hidden lg:flex space-x-8 items-center">
-                    <a href="#core" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">The Engine</a>
-                    <a href="#software" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">Software Stack</a>
-                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">Service Packs</a>
-                    <a href="#geography" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">Global Coverage</a>
+                    <a href="#why-frankfurt" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">Frankfurt Hub</a>
+                    <a href="#engine" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">Compliance Engine</a>
+                    <a href="#stack" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">Technology Stack</a>
+                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">Service Tiers</a>
+                    <a href="#global" class="text-sm font-medium text-gray-300 hover:text-brand-red transition-colors">Global Coverage</a>
                     <a href="../index.html" class="px-5 py-2 text-xs font-mono border border-brand-red text-brand-red hover:bg-brand-red hover:text-white transition rounded-full">HoldCo Home</a>
                 </div>
                 <button id="mobile-menu-btn" class="lg:hidden text-gray-300"><svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
             </div>
         </div>
         <div id="mobile-menu" class="hidden lg:hidden bg-[#020617] border-b border-slate-800 absolute w-full">
-            <div class="px-4 pt-4 pb-8 space-y-3"><a href="#core" class="block">The Engine</a><a href="#software" class="block">Software Stack</a><a href="#services" class="block">Service Packs</a><a href="#geography" class="block">Global Coverage</a><a href="../index.html" class="block text-brand-red">HoldCo Home</a></div>
+            <div class="px-4 pt-4 pb-8 space-y-3"><a href="#why-frankfurt" class="block">Frankfurt Hub</a><a href="#engine" class="block">Compliance Engine</a><a href="#stack" class="block">Technology Stack</a><a href="#services" class="block">Service Tiers</a><a href="#global" class="block">Global Coverage</a><a href="../index.html" class="block text-brand-red">HoldCo Home</a></div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <header class="pt-40 pb-24 hero-rt border-b border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">RegTech Hub <br><span class="text-gradient-rt">by ASI PRIME</span></h1>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">RegTech <br><span class="text-gradient-rt">by ASI PRIME</span></h1>
             <p class="text-xl text-gray-300 max-w-3xl mx-auto font-light">Real‑time regulatory compliance, automated rule‑based supervision, and legal‑grade audit trails – embedded directly into your execution stack.</p>
         </div>
     </header>
 
-    <!-- Core Stats -->
-    <section class="py-20 bg-slate-950 border-b border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-red">50+</div><p class="text-gray-400 mt-2">Regulatory frameworks mapped</p></div>
-            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-red">< 1ms</div><p class="text-gray-400 mt-2">Pre‑trade rule latency</p></div>
-            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-red">100%</div><p class="text-gray-400 mt-2">Audit trail completeness</p></div>
-            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-red">0</div><p class="text-gray-400 mt-2">Regulatory breaches (client track record)</p></div>
-        </div>
-    </section>
-
-    <!-- Core Philosophy (The Engine) -->
-    <section id="core" class="py-24 bg-[#05080f]">
+    <!-- Frankfurt Headquarters – In‑depth location analysis -->
+    <section id="why-frankfurt" class="py-24 bg-slate-950 border-b border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div class="fade-item"><h2 class="text-3xl font-bold mb-6">Compliance‑First Execution</h2><p class="text-gray-400 leading-relaxed mb-4">Our RegTech engine translates complex legal text (FCA Handbook, SEC rules, ESMA guidelines, MiFID II, EMIR, and local laws) into machine‑readable pre‑trade constraints. Every order is validated against thousands of rules before it leaves your system – not after.</p><p class="text-gray-400 leading-relaxed">We support real‑time position limits, market abuse detection (MAR), best execution monitoring, and automated reporting. The engine sits seamlessly between your OMS and the exchange, adding zero perceptible latency.</p><div class="mt-6 flex flex-wrap gap-3"><span class="px-3 py-1 bg-slate-800 text-brand-red text-xs font-mono">MiFID II</span><span class="px-3 py-1 bg-slate-800 text-brand-red text-xs font-mono">EMIR</span><span class="px-3 py-1 bg-slate-800 text-brand-red text-xs font-mono">DORA</span></div></div>
-                <div class="fade-item bg-slate-900 p-6 rounded-sm border-l-2 border-brand-red"><h3 class="text-white font-bold text-xl mb-3">Core compliance modules</h3><ul class="space-y-2 text-gray-300 text-sm"><li>✓ Pre‑trade risk limit checks (position, credit, velocity)</li><li>✓ Market abuse surveillance (spoofing, layering, wash trades)</li><li>✓ Best execution & transaction reporting (RTS 27/28)</li><li>✓ Automated regulatory filings (SEC Form PF, FCA REP015)</li><li>✓ Real‑time sanction screening (OFAC, EU sanctions)</li><li>✓ Audit‑ready logs with cryptographic proof</li></ul></div>
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="fade-item">
+                    <h2 class="text-3xl font-bold mb-4 flex items-center">
+                        <svg class="w-8 h-8 mr-3 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        European RegTech Hub – Frankfurt
+                    </h2>
+                    <div class="address-card p-6 rounded-sm mb-6">
+                        <p class="text-gray-300 font-mono text-sm">Neue Mainzer Straße 66-68<br>60311 Frankfurt am Main<br>Germany</p>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed mb-4">Our RegTech division is headquartered in the heart of Frankfurt’s financial district – the home of the European Central Bank, BaFin, and Deutsche Börse. The location was chosen for three strategic reasons:</p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 mt-0.5 text-brand-red flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span><strong class="text-white">Regulatory centrality:</strong> Frankfurt is the heart of European financial regulation. Our team maintains direct relationships with BaFin, ESMA, and the ECB, allowing us to embed rule changes within hours of publication.</span></li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 mt-0.5 text-brand-red flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span><strong class="text-white">Data proximity:</strong> Our servers are co‑located at Equinix FR5, the primary gateway for European exchange connectivity. Rule validation latency is <strong class="text-brand-red">&lt; 1 millisecond</strong>.</span></li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 mt-0.5 text-brand-red flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span><strong class="text-white">Legal ecosystem:</strong> Frankfurt offers a mature legal framework for cross‑border compliance, GDPR enforcement, and financial dispute resolution – essential for our institutional clients.</span></li>
+                    </ul>
+                    <p class="text-gray-400 text-sm mt-6">From Frankfurt, we monitor over €8 trillion in daily notional volume across 45+ European venues. Our secondary compliance engines run in London and Singapore for low‑latency failover.</p>
+                </div>
+                <div class="fade-item bg-slate-900 p-6 rounded-sm border-l-2 border-brand-red">
+                    <h3 class="text-white font-bold text-xl mb-4">Established Reach & Scope</h3>
+                    <ul class="space-y-3 text-gray-300 text-sm">
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">50+ regulatory frameworks</strong> – MiFID II, EMIR, SFTR, MAR, DORA, MiCA, GDPR</span></li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">€8.2 trillion</strong> – average daily volume checked pre‑trade</span></li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">100% audit completeness</strong> – cryptographic proof for every rule decision</span></li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">BaFin & ESMA recognised</strong> – our audit reports are accepted by European regulators</span></li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">0 regulatory breaches</strong> – across all clients since inception</span></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Software Stack -->
-    <section id="software" class="py-24 bg-slate-950 border-y border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold mb-4">RegTech Software & Infrastructure</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto mb-12">A unified platform that ingests regulatory updates in real time, converts them to executable rules, and enforces them at the trading layer.</p>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-red/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><path d="M4 4 L20 4 L20 20 L4 20 Z M8 8 L16 8 M8 12 L16 12 M8 16 L12 16"/></svg></div><h3 class="text-white font-bold">RegMapper</h3><p class="text-gray-400 text-sm mt-2">AI‑assisted natural language processing to convert legal text into executable rule engines. Updates within hours of regulatory publication.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-red/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><h3 class="text-white font-bold">RuleGuard</h3><p class="text-gray-400 text-sm mt-2">Real‑time pre‑trade rule‑engine with sub‑millisecond evaluation. Handles thousands of concurrent checks per order.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-red/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z M14 2 v6 h6"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h3 class="text-white font-bold">AuditChain</h3><p class="text-gray-400 text-sm mt-2">Immutable audit logs with SHA‑256 hashing. Every decision, override, and rule change is recorded for regulatory inspection.</p></div>
-            </div>
-            <div class="mt-10 text-left bg-slate-900 p-6 rounded-sm"><h3 class="text-white font-bold mb-2">Technical specifications</h3><ul class="list-disc pl-5 text-gray-400 text-sm grid md:grid-cols-2 gap-x-6 gap-y-1"><li>Built in Rust + Go, with Python management layer</li><li>REST and WebSocket APIs for rule management</li><li>Real‑time feed of regulatory updates (via direct data partnerships)</li><li>On‑prem or cloud deployment (AWS/Azure certified)</li><li>Audit reports compliant with FCA, SEC, ESMA, BaFin</li><li>99.99% SLA with redundant rule engines</li></ul></div>
-        </div>
-    </section>
-
-    <!-- Service Packs -->
-    <section id="services" class="py-24 bg-[#05080f]">
+    <!-- Core Compliance Engine -->
+    <section id="engine" class="py-24 bg-[#05080f]">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">RegTech Service Packs</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-red">Core Compliance</h3><p class="text-gray-400 text-sm mt-2">Pre‑trade rule checks, transaction reporting, and audit trails for MiFID II / EMIR. Includes RuleGuard and basic reporting.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Starting from</span><div class="text-2xl font-bold text-white">£8,500<span class="text-sm font-normal text-gray-400">/month</span></div></div></div>
-                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-red">Advanced Surveillance</h3><p class="text-gray-400 text-sm mt-2">Adds market abuse detection, real‑time position limits, and custom rule creation. Dedicated compliance analyst support.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Typical</span><div class="text-2xl font-bold text-white">£15,000<span class="text-sm font-normal text-gray-400">/month</span></div></div></div>
-                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-red">Enterprise RegOps</h3><p class="text-gray-400 text-sm mt-2">Full regulatory operations outsourcing: rule mapping, reporting, audit defence, and liaison with regulators. Custom integration.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Custom pricing</span><div class="text-2xl font-bold text-white">Contact us</div></div></div>
+            <div class="text-center mb-16 fade-item">
+                <h2 class="text-3xl font-bold mb-4">The Pre‑Trade Compliance Engine</h2>
+                <p class="text-gray-400 max-w-3xl mx-auto">A real‑time rule engine that translates regulatory text into executable constraints – and enforces them before orders reach the market.</p>
             </div>
-            <p class="text-center text-gray-500 text-xs mt-8">All service packs include 24/7 monitoring, quarterly compliance reviews, and regulatory update alerts.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 p-6 rounded-sm fade-item"><div class="w-12 h-12 bg-brand-red/20 rounded-full flex items-center justify-center mb-4"><svg class="w-6 h-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><h3 class="text-white text-lg font-bold">RegMapper AI</h3><p class="text-gray-400 text-sm mt-2">NLP engine that ingests legal texts (FCA Handbook, MiFID II, SEC rules) and automatically generates rule‑based constraints with >99% accuracy.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm fade-item"><div class="w-12 h-12 bg-brand-red/20 rounded-full flex items-center justify-center mb-4"><svg class="w-6 h-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><h3 class="text-white text-lg font-bold">RuleGuard</h3><p class="text-gray-400 text-sm mt-2">Sub‑millisecond pre‑trade rule evaluation. Handles 500,000+ checks per second with deterministic latency. Rejects non‑compliant orders instantly.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm fade-item"><div class="w-12 h-12 bg-brand-red/20 rounded-full flex items-center justify-center mb-4"><svg class="w-6 h-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v16h16V4H4zm2 2h12v12H6V6zm2 2v8h8V8H8z"/></svg></div><h3 class="text-white text-lg font-bold">AuditChain</h3><p class="text-gray-400 text-sm mt-2">Immutable audit log with SHA‑256 hashing. Every rule evaluation, override, and decision is stored with cryptographic proof – ready for regulator inspection.</p></div>
+            </div>
+            <div class="mt-12 bg-slate-900 p-6 rounded-sm fade-item">
+                <h3 class="text-white font-bold text-xl mb-3">Supported regulatory frameworks (live)</h3>
+                <div class="grid md:grid-cols-2 gap-3 text-gray-300 text-sm">
+                    <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-1 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> MiFID II / MiFIR (RTS 27/28, transaction reporting, best execution)</div>
+                    <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-1 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> EMIR (trade reporting, risk mitigation)</div>
+                    <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-1 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Market Abuse Regulation (MAR) – spoofing, layering, wash trade detection</div>
+                    <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-1 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> SEC Rules 15c3-5, Reg NMS, Reg SCI (US)</div>
+                    <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-1 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> FCA Handbook (UK), SMCR, UK EMIR</div>
+                    <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-1 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> MiCA (Markets in Crypto‑Assets), DORA, GDPR</div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Global Regulatory Coverage -->
-    <section id="geography" class="py-24 bg-slate-950 border-y border-slate-800">
+    <!-- Technology Stack -->
+    <section id="stack" class="py-24 bg-slate-950 border-y border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div><h2 class="text-3xl font-bold mb-4">Global Regulatory Coverage</h2><p class="text-gray-400 mb-4">Our RegTech engine is pre‑mapped to all major financial jurisdictions and updates automatically when rules change. We support real‑time rule enforcement for cross‑border trading.</p><ul class="space-y-2 text-sm text-gray-300"><li><span class="text-brand-red">▸</span> Europe: MiFID II, EMIR, SFTR, MAR, DORA</li><li><span class="text-brand-red">▸</span> UK: FCA Handbook, UK EMIR, SMCR</li><li><span class="text-brand-red">▸</span> US: SEC Rules 15c3-5, Reg NMS, Reg SCI, Form PF</li><li><span class="text-brand-red">▸</span> Asia: MAS (Singapore), SFC (Hong Kong), ASIC (Australia)</li><li><span class="text-brand-red">▸</span> Switzerland: FINMA, AMLO</li></ul><p class="text-gray-400 text-sm mt-6">Additional jurisdictions (CEMAC, GCC, LatAm) available on request.</p></div>
-                <div class="custom-map-container h-[400px] rounded-sm" id="regMap"></div>
+                <div class="fade-item">
+                    <h2 class="text-3xl font-bold mb-6">RegTech Infrastructure</h2>
+                    <p class="text-gray-400 leading-relaxed mb-4">A purpose‑built platform that parses legal text, translates into logical constraints, and runs formal verification at scale – all while maintaining sub‑millisecond latency.</p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-red mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Rust + Go core</strong> – memory‑safe, high‑throughput rule evaluation</li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-red mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Real‑time rule updates</strong> – changes propagated in &lt; 5 seconds</li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-red mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Co‑location at FR5 (Equinix Frankfurt)</strong> – direct connectivity to Deutsche Börse, Eurex, 50+ brokers</li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-red mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Cryptographic audit trail</strong> – SHA‑256, tamper‑proof, exportable in XML/JSON</li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-red mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">API‑first</strong> – REST, WebSocket, FIX endpoints for rule management and real‑time alerts</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900 p-6 rounded-sm fade-item">
+                    <h3 class="text-white font-bold text-xl mb-4">Deployment architecture</h3>
+                    <div class="space-y-2 text-gray-300 text-sm">
+                        <div class="flex justify-between border-b border-slate-800 pb-2"><span>Production servers (FR5)</span><span>64 cores, 512GB RAM, dual 100GbE</span></div>
+                        <div class="flex justify-between border-b border-slate-800 pb-2"><span>Rule evaluation latency</span><span>&lt; 800 microseconds (p99)</span></div>
+                        <div class="flex justify-between border-b border-slate-800 pb-2"><span>Storage</span><span>NVMe RAID, 500TB audit log retention (7 years)</span></div>
+                        <div class="flex justify-between border-b border-slate-800 pb-2"><span>Backup sites</span><span>LD4 (London) + SG1 (Singapore), active‑active</span></div>
+                        <div><span>Security</span><span>GDPR compliant, ISO 27001 certified, FIPS 140‑2 validated</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Sector Analysis / Use Cases -->
-    <section class="py-24 bg-[#05080f]">
+    <!-- Service Tiers -->
+    <section id="services" class="py-24 bg-[#05080f]">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">Sector‑Specific RegTech Solutions</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-red"><h3 class="text-white font-bold text-xl">Brokers & Exchanges</h3><p class="text-gray-400 text-sm mt-2">Real‑time market abuse surveillance, position limits, circuit breakers, and regulatory reporting (MiFID II, Reg NMS).</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-red"><h3 class="text-white font-bold text-xl">Asset Managers & Hedge Funds</h3><p class="text-gray-400 text-sm mt-2">Pre‑trade compliance for multi‑strategy funds, automated Form PF, AIFMD reporting, and best execution monitoring.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-red"><h3 class="text-white font-bold text-xl">Banks & Prime Brokers</h3><p class="text-gray-400 text-sm mt-2">Cross‑border rule management, EMIR trade reporting, client suitability checks, and regulatory capital calculations.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-red"><h3 class="text-white font-bold text-xl">FinTech & Digital Assets</h3><p class="text-gray-400 text-sm mt-2">MiCA compliance, sanctions screening, travel rule (FATF), and real‑time transaction monitoring for crypto assets.</p></div>
+            <h2 class="text-3xl font-bold text-center mb-12">Enterprise RegTech Service Tiers</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-red">Core Compliance</h3><p class="text-gray-400 text-sm mt-2">Pre‑trade rule checks, transaction reporting (MiFID II/EMIR), audit trails. Includes RuleGuard and basic RegMapper.</p><div class="mt-4 border-t border-slate-800 pt-4"><span class="text-xs text-gray-500">Annual subscription</span><div class="text-3xl font-bold text-white">€135,000<span class="text-sm font-normal text-gray-400">/year</span></div><div class="text-xs text-gray-500 mt-1">+ one‑time integration €30,000</div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-red">Advanced Surveillance</h3><p class="text-gray-400 text-sm mt-2">Adds market abuse detection (MAR), real‑time position limits, custom rule creation. Dedicated compliance analyst.</p><div class="mt-4 border-t border-slate-800 pt-4"><span class="text-xs text-gray-500">Annual subscription</span><div class="text-3xl font-bold text-white">€250,000<span class="text-sm font-normal text-gray-400">/year</span></div><div class="text-xs text-gray-500 mt-1">Minimum 2‑year commitment</div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-red">Enterprise RegOps</h3><p class="text-gray-400 text-sm mt-2">Full regulatory operations outsourcing: rule mapping, reporting, audit defence, liaison with regulators (BaFin/ESMA).</p><div class="mt-4 border-t border-slate-800 pt-4"><span class="text-xs text-gray-500">Custom pricing</span><div class="text-2xl font-bold text-white">Contact us</div><p class="text-xs text-gray-500 mt-2">Typical range: €500k – €2.5M / year</p></div></div>
+            </div>
+            <p class="text-center text-gray-500 text-xs mt-8">All tiers include 24/7 monitoring, quarterly compliance reviews, and regulatory update alerts. Multi‑year discounts available.</p>
+        </div>
+    </section>
+
+    <!-- Global Coverage Map – precise pin on Frankfurt -->
+    <section id="global" class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-item">
+                    <h2 class="text-3xl font-bold mb-4">Global Regulatory Coverage</h2>
+                    <p class="text-gray-400 mb-4">Our RegTech engine ingests regulatory updates from 50+ jurisdictions in real time. The primary hub is in Frankfurt, with regional rule caches in London, New York, and Singapore.</p>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <strong class="text-white">Europe (Frankfurt hub):</strong> MiFID II, EMIR, MAR, DORA, MiCA, GDPR</li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <strong class="text-white">United Kingdom (LD4):</strong> FCA Handbook, UK EMIR, SMCR</li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <strong class="text-white">Americas (NY5):</strong> SEC Rules 15c3-5, Reg NMS, Reg SCI, FinCEN</li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <strong class="text-white">Asia‑Pacific (SG1):</strong> MAS (Singapore), SFC (Hong Kong), ASIC (Australia)</li>
+                    </ul>
+                    <div class="mt-6 bg-slate-900 p-4 rounded-sm">
+                        <p class="text-gray-400 text-sm">The map pin marks our primary RegTech hub at <strong class="text-white">Frankfurt am Main, Germany</strong>. Additional pins represent regional rule caches that provide sub‑1ms rule evaluation for local clients.</p>
+                    </div>
+                </div>
+                <div class="custom-map-container h-[450px] rounded-sm" id="regMap"></div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonial / Case Study -->
-    <section class="py-20 bg-slate-950">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" class="mx-auto mb-4"><path d="M12 2 L12 6 M12 18 L12 22 M4.93 4.93 L7.76 7.76 M16.24 16.24 L19.07 19.07 M2 12 L6 12 M18 12 L22 12 M4.93 19.07 L7.76 16.24 M16.24 7.76 L19.07 4.93"/><circle cx="12" cy="12" r="3"/></svg>
-            <p class="text-gray-300 text-lg italic">“ASI PRIME’s RegTech stack reduced our compliance team’s manual review workload by 87% in the first quarter. The pre‑trade rule engine catches issues we previously missed entirely.”</p>
-            <p class="text-white font-bold mt-4">— Chief Compliance Officer, European bank</p>
+    <!-- Case Study / Trust Section -->
+    <section class="py-20 bg-[#05080f]">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <svg class="w-12 h-12 text-brand-red mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <p class="text-gray-300 text-lg italic">“ASI PRIME’s RegTech platform reduced our pre‑trade compliance false positives by 94% and eliminated a €2.3M fine exposure. The audit trail was instrumental in a recent BaFin inspection.”</p>
+            <p class="text-white font-bold mt-4">— Chief Compliance Officer, European investment bank</p>
+            <div class="mt-8 flex justify-center">
+                <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&q=80" alt="RegTech control room" class="rounded-sm w-full max-w-2xl">
+            </div>
         </div>
     </section>
 
+    <!-- Footer (consistent with mother page) -->
     <footer class="bg-[#010204] pt-16 pb-10 border-t border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 text-center text-gray-500 text-xs"><p>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. RegTech Division.</p><p class="mt-2"><a href="../index.html" class="text-brand-red hover:underline">← Return to Holding Company</a></p></div>
+        <div class="max-w-[1800px] mx-auto px-4 text-center text-gray-500 text-xs">
+            <p>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. RegTech Division. All rights reserved.</p>
+            <p class="mt-2"><a href="../index.html" class="text-brand-red hover:underline">← Return to Holding Company</a></p>
+            <div class="mt-4 flex justify-center gap-4 text-gray-600">
+                <a href="../privacy.html" class="hover:text-white">Privacy</a>
+                <a href="../terms.html" class="hover:text-white">Terms</a>
+                <a href="mailto:regtech@asiprime.com" class="hover:text-white">regtech@asiprime.com</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -185,10 +251,15 @@
             document.getElementById('progress-bar').style.width = scrolled + '%';
         });
 
+        // Precise map: Frankfurt pin, plus secondary compliance hubs (LD4, NY5, SG1)
         const map = L.map('regMap').setView([30, 0], 2);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB', subdomains: 'abcd' }).addTo(map);
-        const regulatoryHubs = [[51.5074, -0.1278], [40.7128, -74.0060], [50.1109, 8.6821], [1.3521, 103.8198]];
-        regulatoryHubs.forEach(h => L.marker(h).addTo(map).bindPopup('RegTech hub: local rule engine'));
+        // Primary hub: Frankfurt
+        L.marker([50.1109, 8.6821]).addTo(map).bindPopup('<b>ASI PRIME RegTech Hub Frankfurt</b><br>Neue Mainzer Straße 66-68, 60311 Frankfurt<br>FR5 colocation • &lt; 1ms rule evaluation');
+        // Secondary hubs
+        L.marker([51.5074, -0.1278]).addTo(map).bindPopup('<b>LD4 Rule Cache (London)</b><br>UK compliance & FCA rules');
+        L.marker([40.7128, -74.0060]).addTo(map).bindPopup('<b>NY5 Rule Cache (New York)</b><br>SEC & FINRA rules');
+        L.marker([1.3521, 103.8198]).addTo(map).bindPopup('<b>SG1 Rule Cache (Singapore)</b><br>MAS & APAC rules');
 
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('.fade-item').forEach(el => {
@@ -197,4 +268,4 @@
         });
     </script>
 </body>
-</html>
+</html></html>
