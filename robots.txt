@@ -1,0 +1,21 @@
+# robots.txt for ASI PRIME Technologies - Institutional Website
+# https://asi-prime.com/ (or your custom domain)
+
+User-agent: *
+Allow: /
+
+# Disallow sensitive / private areas
+Disallow: /investor-login.html
+Disallow: /investor-dashboard.html
+Disallow: /portal.html
+Disallow: /admin/
+Disallow: /assets/private/
+Disallow: /tmp/
+Disallow: /backup/
+
+# Disallow duplicate content / pagination (if any)
+Disallow: /*?ref=
+Disallow: /*?utm_
+
+# Sitemap location (required for SEO)
+Sitemap: https://asi-prime.com/sitemap.xml
