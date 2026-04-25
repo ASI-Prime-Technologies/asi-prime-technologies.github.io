@@ -72,19 +72,6 @@
         .loader-line { width: 2px; height: 40px; background: #0ea5e9; animation: pulse 1s infinite ease-in-out; }
         @keyframes pulse { 0%, 100% { transform: scaleY(0.5); opacity: 0.5; } 50% { transform: scaleY(1); opacity: 1; } }
 
-        /* Partner ticker - clean logos and text */
-        .partner-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin: 0 1.5rem;
-            white-space: nowrap;
-            transition: transform 0.2s;
-        }
-        .partner-item:hover { transform: scale(1.05); }
-        .partner-logo { height: 36px; width: auto; object-fit: contain; }
-        .partner-name { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: #f8fafc; }
-
         /* Map container */
         .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5); }
         .leaflet-popup-content-wrapper { background: #0b1120dd; backdrop-filter: blur(8px); color: white; border-left: 3px solid #0ea5e9; }
@@ -130,9 +117,16 @@
         .btn-disagree { background: transparent; border: 1px solid #475569; color: #cbd5e1; padding: 0.75rem 1.5rem; border-radius: 999px; cursor: pointer; transition: all 0.2s; }
         .btn-disagree:hover { border-color: #ef4444; color: #ef4444; }
 
-        /* Smooth scroll reveal */
+        /* Smooth scroll reveals - predefine initial states to avoid flicker */
         .gs-reveal-up, .gs-reveal-up-delay-1, .gs-reveal-up-delay-2, .gs-reveal-scale {
+            opacity: 0;
             will-change: transform, opacity;
+        }
+        .gs-reveal-up, .gs-reveal-up-delay-1, .gs-reveal-up-delay-2 {
+            transform: translateY(30px);
+        }
+        .gs-reveal-scale {
+            transform: scale(0.95);
         }
     </style>
 </head>
@@ -192,6 +186,18 @@
                         Corporate Governance
                         <span class="absolute -bottom-2 left-0 w-0 h-[2px] bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
                     </a>
+                    <a href="investment-approach.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">
+                        Investment Approach
+                        <span class="absolute -bottom-2 left-0 w-0 h-[2px] bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="careers.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">
+                        Careers
+                        <span class="absolute -bottom-2 left-0 w-0 h-[2px] bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="contact.html" class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group">
+                        Contact
+                        <span class="absolute -bottom-2 left-0 w-0 h-[2px] bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+                    </a>
                     <div class="pl-4 border-l border-gray-700">
                         <a href="investor-login.html" class="px-6 py-3 text-xs font-mono font-semibold bg-transparent border border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white transition-all duration-300 uppercase tracking-widest relative overflow-hidden group">
                             <span class="relative z-10 flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>Investor Login</span>
@@ -215,6 +221,9 @@
                 <a href="#network" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Global Network</a>
                 <a href="#global-footprint" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Global Footprint</a>
                 <a href="about.html" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Corporate Governance</a>
+                <a href="investment-approach.html" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Investment Approach</a>
+                <a href="careers.html" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Careers</a>
+                <a href="contact.html" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-brand-blue transition-colors">Contact</a>
                 <a href="investor-login.html" class="block mt-4 px-3 py-3 text-center text-sm font-mono font-semibold bg-brand-blue/20 text-white uppercase tracking-widest border border-brand-blue">Investor Login</a>
             </div>
         </div>
@@ -225,7 +234,7 @@
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#05080f]/50 to-[#05080f]"></div>
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div class="lg:col-span-7 hero-content">
+                <div class="lg:col-span-7 hero-content" style="opacity:0; transform:translateX(-30px)">
                     <div class="inline-flex items-center space-x-2 border border-brand-blue/30 bg-brand-blue/10 px-4 py-1.5 rounded-sm mb-8 backdrop-blur-sm">
                         <span class="w-1.5 h-1.5 bg-brand-accent rounded-full animate-ping"></span>
                         <span class="text-xs font-mono text-brand-light tracking-widest uppercase">London Headquarters // Global Reach</span>
@@ -243,7 +252,7 @@
                     </div>
                 </div>
                 
-                <div class="hidden lg:block lg:col-span-5 hero-visual relative float-subtle">
+                <div class="hidden lg:block lg:col-span-5 hero-visual relative float-subtle" style="opacity:0; transform:translateX(30px)">
                     <div class="absolute inset-0 bg-brand-blue/10 rounded-full blur-[120px]"></div>
                     <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-lg backdrop-blur-xl relative z-10 shadow-2xl transition-all duration-500 hover:border-brand-blue/50">
                         <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
@@ -317,9 +326,9 @@
                         <span class="inline-block mt-6 text-purple-400 font-mono text-xs uppercase tracking-widest group-hover:text-white">Access Hub →</span>
                     </div>
                 </a>
-                <!-- LegalTech -->
+                <!-- LegalTech - law books image (replaced) -->
                 <a href="/legaltech/index.html" class="block sub-card p-0 rounded-sm gs-reveal-up-delay-1 group md:col-span-2 lg:col-span-2">
-                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=1200&q=80" alt="LegalTech" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?w=1200&q=80" alt="Law books and legal auditing" class="absolute inset-0 w-full h-full object-cover">
                     <div class="p-8 sub-content h-full flex flex-col justify-end min-h-[350px]">
                         <div class="w-12 h-12 bg-slate-100/20 border border-slate-100/50 text-white flex items-center justify-center font-mono font-bold mb-4 backdrop-blur-sm">LT</div>
                         <h4 class="text-2xl font-bold text-white mb-2">LegalTech & Financial Auditing</h4>
@@ -331,42 +340,7 @@
         </div>
     </section>
 
-    <!-- Partner Ticker - 10 distinct companies with working logos and names -->
-    <section id="network" class="py-20 bg-[#020617] border-y border-slate-800 relative overflow-hidden">
-        <div class="max-w-[1800px] mx-auto text-center mb-8 relative z-20 gs-reveal-up">
-            <h3 class="text-sm font-mono text-gray-500 uppercase tracking-widest">Strategic Partners & Global Technology Allies</h3>
-        </div>
-        <div class="w-full relative overflow-hidden">
-            <div class="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-[#020617] to-transparent z-10"></div>
-            <div class="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-[#020617] to-transparent z-10"></div>
-            <div class="overflow-hidden whitespace-nowrap">
-                <div class="inline-block animate-infinite-scroll">
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BlackRock_logo.svg" class="partner-logo" alt="BlackRock"><span class="partner-name">BlackRock</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Equinix_logo.svg" class="partner-logo" alt="Equinix"><span class="partner-name">Equinix</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Bloomberg_logo.svg" class="partner-logo" alt="Bloomberg"><span class="partner-name">Bloomberg</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Palantir_Logo.svg" class="partner-logo" alt="Palantir"><span class="partner-name">Palantir</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Goldman_Sachs_logo.svg" class="partner-logo" alt="Goldman Sachs"><span class="partner-name">Goldman Sachs</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JPMorgan_Chase_logo.svg" class="partner-logo" alt="J.P. Morgan"><span class="partner-name">J.P. Morgan</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Citadel_Logo.svg" class="partner-logo" alt="Citadel"><span class="partner-name">Citadel</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/IBM_logo.svg" class="partner-logo" alt="IBM"><span class="partner-name">IBM</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="partner-logo" alt="AWS"><span class="partner-name">AWS</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="partner-logo" alt="Microsoft"><span class="partner-name">Microsoft</span></div>
-                </div>
-                <div class="inline-block animate-infinite-scroll" aria-hidden="true">
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BlackRock_logo.svg" class="partner-logo" alt="BlackRock"><span class="partner-name">BlackRock</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Equinix_logo.svg" class="partner-logo" alt="Equinix"><span class="partner-name">Equinix</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Bloomberg_logo.svg" class="partner-logo" alt="Bloomberg"><span class="partner-name">Bloomberg</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Palantir_Logo.svg" class="partner-logo" alt="Palantir"><span class="partner-name">Palantir</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Goldman_Sachs_logo.svg" class="partner-logo" alt="Goldman Sachs"><span class="partner-name">Goldman Sachs</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JPMorgan_Chase_logo.svg" class="partner-logo" alt="J.P. Morgan"><span class="partner-name">J.P. Morgan</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Citadel_Logo.svg" class="partner-logo" alt="Citadel"><span class="partner-name">Citadel</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/IBM_logo.svg" class="partner-logo" alt="IBM"><span class="partner-name">IBM</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" class="partner-logo" alt="AWS"><span class="partner-name">AWS</span></div>
-                    <div class="partner-item"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" class="partner-logo" alt="Microsoft"><span class="partner-name">Microsoft</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Partner Section REMOVED -->
 
     <!-- Global Footprint with precise map, geodesic lines, long justifications, Yaoundé -->
     <section id="global-footprint" class="py-28 bg-slate-950 relative overflow-hidden">
@@ -425,7 +399,7 @@
                 </div>
                 <div class="lg:col-span-4 grid grid-cols-1 sm:grid-cols-3 gap-8">
                     <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">The Ecosystem</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="/risk-management/index.html" class="hover:text-emerald-400 transition-colors">Risk Management</a></li><li><a href="/regtech/index.html" class="hover:text-blue-400 transition-colors">RegTech Solutions</a></li><li><a href="/quant-trading/index.html" class="hover:text-amber-400 transition-colors">Quant Trading</a></li><li><a href="/behavioral-finance/index.html" class="hover:text-purple-400 transition-colors">Behavioral Finance</a></li><li><a href="/legaltech/index.html" class="hover:text-white transition-colors">LegalTech & Auditing</a></li></ul></div>
-                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">HoldCo Operations</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="about.html" class="hover:text-white transition-colors">Corporate Governance</a></li><li><a href="pitch.html" target="_blank" class="hover:text-white transition-colors">Master Pitch Deck</a></li><li><a href="investor-login.html" class="hover:text-brand-blue transition-colors">Investor Login</a></li></ul></div>
+                    <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">HoldCo Operations</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="about.html" class="hover:text-white transition-colors">Corporate Governance</a></li><li><a href="investment-approach.html" class="hover:text-white transition-colors">Investment Approach</a></li><li><a href="careers.html" class="hover:text-white transition-colors">Careers</a></li><li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li><li><a href="investor-login.html" class="hover:text-brand-blue transition-colors">Investor Login</a></li></ul></div>
                     <div><h4 class="text-white font-mono text-xs mb-6 uppercase tracking-widest border-b border-slate-800 pb-3">Legal Framework</h4><ul class="space-y-4 text-sm text-gray-500"><li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Protocol</a></li><li><a href="terms.html" class="hover:text-white transition-colors">Master Services Agreement</a></li><li><a href="terms.html" class="hover:text-white transition-colors">SLA & Determinism</a></li></ul></div>
                 </div>
             </div>
@@ -486,7 +460,7 @@
             });
         });
 
-        // GSAP core animations
+        // GSAP core animations (smooth, no flicker)
         window.addEventListener('load', () => {
             gsap.registerPlugin(ScrollTrigger);
             
@@ -505,22 +479,22 @@
             for(let i=0; i<points.length-1; i++) L.polyline([points[i], points[i+1]], { color: '#0ea5e9', weight: 1.5, opacity: 0.4, dashArray: '6, 12' }).addTo(map);
             L.polyline([points[points.length-1], points[0]], { color: '#0ea5e9', weight: 1.5, opacity: 0.4, dashArray: '6, 12' }).addTo(map);
 
-            // Hero animations
-            gsap.fromTo(".hero-content", { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 1.2, ease: "power3.out" });
-            gsap.fromTo(".hero-visual", { x: 50, opacity: 0 }, { x: 0, opacity: 1, duration: 1.2, ease: "power3.out", delay: 0.2 });
+            // Hero animations (smooth)
+            gsap.to(".hero-content", { opacity: 1, x: 0, duration: 1.2, ease: "power3.out" });
+            gsap.to(".hero-visual", { opacity: 1, x: 0, duration: 1.2, ease: "power3.out", delay: 0.2 });
 
-            // Scroll reveals
+            // Scroll reveals (no flicker because initial states are set in CSS)
             gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
-                ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.fromTo(elem, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out" }), once: true });
+                ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }), once: true });
             });
             gsap.utils.toArray('.gs-reveal-up-delay-1').forEach(elem => {
-                ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.fromTo(elem, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.15 }), once: true });
+                ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.15 }), once: true });
             });
             gsap.utils.toArray('.gs-reveal-up-delay-2').forEach(elem => {
-                ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.fromTo(elem, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.3 }), once: true });
+                ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.to(elem, { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.3 }), once: true });
             });
             gsap.utils.toArray('.gs-reveal-scale').forEach(elem => {
-                ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.fromTo(elem, { scale: 0.95, y: 20, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 1.2, ease: "back.out(1.2)" }), once: true });
+                ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => gsap.to(elem, { opacity: 1, scale: 1, duration: 1.2, ease: "back.out(1.2)" }), once: true });
             });
 
             // Chart
@@ -540,4 +514,4 @@
         window.addEventListener('scroll', () => { navbar.style.background = window.scrollY > 50 ? 'rgba(2, 6, 23, 0.95)' : 'rgba(5, 8, 15, 0.85)'; });
     </script>
 </body>
-</html></html></html></html></html></html></html>
+</html></html></html></html></html></html></html></html>
