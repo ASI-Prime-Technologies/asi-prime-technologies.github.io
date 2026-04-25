@@ -5,57 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact & Questionnaire | ASI PRIME</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #05080f; color: #f8fafc; }
-        .glass-card { background: rgba(5,8,15,0.7); backdrop-filter: blur(12px); border: 1px solid #1e293b; }
-        .input-field, .select-field { background: #0f172a; border: 1px solid #1e293b; color: white; border-radius: 0.5rem; padding: 0.75rem 1rem; width: 100%; }
-        .input-field:focus, .select-field:focus { border-color: #0ea5e9; outline: none; }
-        .btn-submit { background: #0ea5e9; transition: all 0.2s; border-radius: 0.5rem; font-weight: 600; padding: 0.75rem; width: 100%; }
+        body { font-family: 'Inter', sans-serif; background: #05080f; color: #f8fafc; background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%230ea5e9' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E"); }
+        .glass-card { background: rgba(5,8,15,0.7); backdrop-filter: blur(16px); border: 1px solid #1e293b; border-radius: 1.5rem; }
+        .input-field, .select-field, .textarea-field { background: #0f172a; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 0.75rem 1rem; width: 100%; color: white; transition: all 0.2s; }
+        .input-field:focus, .select-field:focus, .textarea-field:focus { border-color: #0ea5e9; outline: none; box-shadow: 0 0 0 3px rgba(14,165,233,0.2); }
+        .btn-submit { background: #0ea5e9; border-radius: 0.75rem; padding: 0.875rem; font-weight: 600; width: 100%; transition: all 0.2s; }
         .btn-submit:hover { background: #0284c7; transform: translateY(-2px); }
+        .success-check { stroke-dasharray: 50; stroke-dashoffset: 50; animation: drawCheck 0.5s ease forwards; }
+        @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+        /* Email preview modal */
+        .email-preview { background: #ffffff; color: #1e293b; font-family: 'Inter', sans-serif; border-radius: 1rem; max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto; }
+        .email-header { background: #f1f5f9; padding: 1rem; border-bottom: 1px solid #e2e8f0; }
+        .email-body { padding: 1.5rem; }
+        .email-logo { display: inline-block; font-weight: bold; background: #0ea5e9; color: white; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-size: 0.8rem; }
     </style>
 </head>
-<body class="bg-grid-pattern py-12">
-    <div class="max-w-4xl mx-auto px-4">
-        <div class="glass-card rounded-2xl p-8">
-            <h1 class="text-3xl font-bold mb-2">Contact & Investor Questionnaire</h1>
-            <p class="text-gray-400 mb-6">For institutional inquiries, capital introductions, or partnership requests.</p>
-            
+<body class="py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Navigation back -->
+        <div class="mb-6">
+            <a href="index.html" class="text-brand-blue hover:underline flex items-center gap-2 text-sm">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                Back to Home
+            </a>
+        </div>
+
+        <div class="glass-card p-6 md:p-8">
+            <div class="text-center mb-8">
+                <div class="flex justify-center mb-3">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <rect x="4" y="4" width="40" height="40" rx="8" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                        <path d="M24 16 L24 32 M16 24 L32 24" stroke="#0ea5e9" stroke-width="2" stroke-linecap="square"/>
+                        <circle cx="24" cy="24" r="6" stroke="#0ea5e9" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold">Institutional Inquiry</h1>
+                <p class="text-gray-400 mt-2">For allocators, family offices, and strategic partners</p>
+            </div>
+
             <form id="contactForm" class="space-y-6">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div><label class="block text-sm font-medium mb-1">Full name *</label><input type="text" class="input-field" id="fullName" required></div>
-                    <div><label class="block text-sm font-medium mb-1">Email *</label><input type="email" class="input-field" id="email" required></div>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div><label class="block text-sm font-medium mb-1">Full name *</label><input type="text" id="fullName" class="input-field" required></div>
+                    <div><label class="block text-sm font-medium mb-1">Email *</label><input type="email" id="email" class="input-field" required></div>
                 </div>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div><label class="block text-sm font-medium mb-1">Firm / Institution</label><input type="text" class="input-field" id="firm"></div>
-                    <div><label class="block text-sm font-medium mb-1">Role / Title</label><input type="text" class="input-field" id="role"></div>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div><label class="block text-sm font-medium mb-1">Institution / Fund</label><input type="text" id="institution" class="input-field"></div>
+                    <div><label class="block text-sm font-medium mb-1">Role / Title</label><input type="text" id="role" class="input-field"></div>
                 </div>
-                
-                <hr class="border-slate-800">
-                <h3 class="text-xl font-semibold">Questionnaire (confidential)</h3>
-                
-                <div><label class="block text-sm font-medium mb-1">1. What is your approximate AUM / capital mandate?</label><select class="select-field" id="aum"><option value="< $50M">< $50M</option><option value="$50M – $250M">$50M – $250M</option><option value="$250M – $1B">$250M – $1B</option><option value="> $1B">> $1B</option></select></div>
-                <div><label class="block text-sm font-medium mb-1">2. Which asset classes are you most interested in?</label><input type="text" class="input-field" id="assetClasses" placeholder="e.g., equities, FX, commodities, rates"></div>
-                <div><label class="block text-sm font-medium mb-1">3. Are you currently using systematic / quantitative strategies?</label><select class="select-field" id="systematic"><option value="Yes">Yes</option><option value="No, discretionary only">No, discretionary only</option><option value="Considering">Considering</option></select></div>
-                <div><label class="block text-sm font-medium mb-1">4. What is your target annual net return expectation?</label><select class="select-field" id="returnTarget"><option value="5-10%">5-10%</option><option value="10-15%">10-15%</option><option value="15-20%">15-20%</option><option value="20%+">20%+</option></select></div>
-                <div><label class="block text-sm font-medium mb-1">5. How did you hear about ASI PRIME?</label><input type="text" class="input-field" id="referral" placeholder="Bloomberg, FT, referral, conference, etc."></div>
-                <div><label class="block text-sm font-medium mb-1">6. Any specific questions or message for our team?</label><textarea rows="3" class="input-field" id="message" placeholder="Please include any specific requests (DDQ, strategy deck, meeting request)"></textarea></div>
-                
+
+                <hr class="border-slate-800 my-2">
+                <h3 class="text-lg font-semibold">Questionnaire (confidential)</h3>
+
+                <div><label class="text-sm">1. Approximate AUM / mandate size</label><select id="aum" class="select-field"><option value="< $50M">< $50M</option><option value="$50M – $250M">$50M – $250M</option><option value="$250M – $1B">$250M – $1B</option><option value="> $1B">> $1B</option></select></div>
+                <div><label class="text-sm">2. Target asset classes</label><input type="text" id="assetClasses" class="input-field" placeholder="Equities, FX, commodities, crypto..."></div>
+                <div><label class="text-sm">3. Current systematic / quant exposure?</label><select id="systematic" class="select-field"><option>Yes, fully systematic</option><option>Hybrid (discretionary + systematic)</option><option>Traditional only</option><option>Exploring</option></select></div>
+                <div><label class="text-sm">4. Expected annual net return</label><select id="returnTarget" class="select-field"><option>5-10%</option><option>10-15%</option><option>15-20%</option><option>20%+</option></select></div>
+                <div><label class="text-sm">5. How did you hear about us?</label><input type="text" id="referral" class="input-field" placeholder="Bloomberg, FT, conference, referral..."></div>
+                <div><label class="text-sm">6. Message / specific request</label><textarea rows="3" id="message" class="textarea-field" placeholder="DDQ request, strategy deck, meeting, etc."></textarea></div>
+
                 <div class="flex items-start gap-2">
                     <input type="checkbox" id="privacyConsent" required class="mt-1 accent-brand-blue">
-                    <label class="text-sm text-gray-400">I agree to the processing of my data for the purpose of this inquiry. (GDPR compliant)</label>
+                    <label class="text-sm text-gray-400">I consent to the processing of my data for this inquiry (GDPR compliant).</label>
                 </div>
-                <button type="submit" class="btn-submit font-mono uppercase tracking-wider">Send Inquiry</button>
+
+                <button type="submit" class="btn-submit text-white font-mono uppercase tracking-wider">Submit Inquiry</button>
             </form>
-            <p class="text-gray-500 text-xs text-center mt-6">Our investor relations team will reply within 2 business days.</p>
+        </div>
+    </div>
+
+    <!-- Success Modal with institutional email preview -->
+    <div id="successModal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 hidden transition-all p-4">
+        <div class="max-w-2xl w-full">
+            <div class="email-preview shadow-2xl">
+                <div class="email-header flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <span class="email-logo">ASI PRIME</span>
+                        <span class="text-xs text-slate-500">Holdings PLC</span>
+                    </div>
+                    <button id="closeModalBtn" class="text-slate-400 hover:text-slate-700 text-xl">&times;</button>
+                </div>
+                <div class="email-body">
+                    <div class="flex items-center gap-3 mb-4">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                            <rect x="2" y="2" width="36" height="36" rx="6" stroke="#0ea5e9" stroke-width="2" fill="#0ea5e9" fill-opacity="0.1"/>
+                            <path d="M12 16 L20 22 L28 16" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                            <path d="M12 20 L12 28 L28 28 L28 20" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+                        </svg>
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-800">Inquiry Received</h2>
+                            <p class="text-xs text-slate-500">ASI PRIME Investor Relations</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-200 my-4"></div>
+                    <div id="emailPreviewContent" class="space-y-3 text-sm text-slate-700">
+                        <!-- dynamic content will be injected -->
+                    </div>
+                    <div class="mt-6 p-3 bg-slate-100 rounded-lg text-center text-xs text-slate-500">
+                        This is an automated confirmation. A dedicated IR officer will respond within 2 business days.
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-b-2xl flex justify-center">
+                    <button id="closeModalBtn2" class="px-6 py-2 bg-brand-blue text-white rounded-full text-sm hover:bg-brand-dark transition">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         document.getElementById('contactForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert("Your message has been encrypted and sent to our investor relations team. We will respond shortly.");
-            // In production: send data via fetch API to backend
+
+            // Gather data
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const institution = document.getElementById('institution').value || "N/A";
+            const role = document.getElementById('role').value || "N/A";
+            const aum = document.getElementById('aum').value;
+            const assetClasses = document.getElementById('assetClasses').value || "Not specified";
+            const systematic = document.getElementById('systematic').value;
+            const returnTarget = document.getElementById('returnTarget').value;
+            const referral = document.getElementById('referral').value || "Not specified";
+            const message = document.getElementById('message').value || "—";
+
+            // Build institutional email preview
+            const previewHTML = `
+                <p><strong>To:</strong> ${email}</p>
+                <p><strong>Subject:</strong> ASI PRIME – Inquiry Acknowledgement & Next Steps</p>
+                <div class="my-3 border-t border-slate-200"></div>
+                <p>Dear ${fullName},</p>
+                <p>Thank you for your interest in ASI PRIME Technologies. Your confidential questionnaire has been received by our Investor Relations desk.</p>
+                <p><strong>Summary of your submission:</strong></p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>Institution: ${institution}</li>
+                    <li>Role: ${role}</li>
+                    <li>AUM: ${aum}</li>
+                    <li>Asset classes: ${assetClasses}</li>
+                    <li>Current systematic exposure: ${systematic}</li>
+                    <li>Return target: ${returnTarget}</li>
+                    <li>Referral source: ${referral}</li>
+                    <li>Message: ${message.substring(0, 200)}</li>
+                </ul>
+                <p>Our team will review your request and schedule a confidential introduction call within 48 hours. In the meantime, you may access our investor pitch deck via the secure portal.</p>
+                <div class="my-4 p-3 bg-slate-100 rounded-md">
+                    <span class="font-mono text-xs">🔒 This communication is encrypted and intended for institutional investors only.</span>
+                </div>
+                <p>Yours sincerely,<br><strong>Investor Relations</strong><br>ASI PRIME Technologies Holdings PLC<br>Canary Wharf, London</p>
+            `;
+
+            document.getElementById('emailPreviewContent').innerHTML = previewHTML;
+            document.getElementById('successModal').classList.remove('hidden');
+
+            // Optionally, here you would actually send the email via a backend API.
+            // For demo, we just show the preview.
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('successModal').classList.add('hidden');
+        });
+        document.getElementById('closeModalBtn2').addEventListener('click', () => {
+            document.getElementById('successModal').classList.add('hidden');
         });
     </script>
 </body>
