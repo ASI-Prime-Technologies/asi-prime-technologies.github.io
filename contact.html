@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#05080f]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Questionnaire | ASI PRIME</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #05080f; color: #f8fafc; }
+        .glass-card { background: rgba(5,8,15,0.7); backdrop-filter: blur(12px); border: 1px solid #1e293b; }
+        .input-field, .select-field { background: #0f172a; border: 1px solid #1e293b; color: white; border-radius: 0.5rem; padding: 0.75rem 1rem; width: 100%; }
+        .input-field:focus, .select-field:focus { border-color: #0ea5e9; outline: none; }
+        .btn-submit { background: #0ea5e9; transition: all 0.2s; border-radius: 0.5rem; font-weight: 600; padding: 0.75rem; width: 100%; }
+        .btn-submit:hover { background: #0284c7; transform: translateY(-2px); }
+    </style>
+</head>
+<body class="bg-grid-pattern py-12">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="glass-card rounded-2xl p-8">
+            <h1 class="text-3xl font-bold mb-2">Contact & Investor Questionnaire</h1>
+            <p class="text-gray-400 mb-6">For institutional inquiries, capital introductions, or partnership requests.</p>
+            
+            <form id="contactForm" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-medium mb-1">Full name *</label><input type="text" class="input-field" id="fullName" required></div>
+                    <div><label class="block text-sm font-medium mb-1">Email *</label><input type="email" class="input-field" id="email" required></div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-medium mb-1">Firm / Institution</label><input type="text" class="input-field" id="firm"></div>
+                    <div><label class="block text-sm font-medium mb-1">Role / Title</label><input type="text" class="input-field" id="role"></div>
+                </div>
+                
+                <hr class="border-slate-800">
+                <h3 class="text-xl font-semibold">Questionnaire (confidential)</h3>
+                
+                <div><label class="block text-sm font-medium mb-1">1. What is your approximate AUM / capital mandate?</label><select class="select-field" id="aum"><option value="< $50M">< $50M</option><option value="$50M – $250M">$50M – $250M</option><option value="$250M – $1B">$250M – $1B</option><option value="> $1B">> $1B</option></select></div>
+                <div><label class="block text-sm font-medium mb-1">2. Which asset classes are you most interested in?</label><input type="text" class="input-field" id="assetClasses" placeholder="e.g., equities, FX, commodities, rates"></div>
+                <div><label class="block text-sm font-medium mb-1">3. Are you currently using systematic / quantitative strategies?</label><select class="select-field" id="systematic"><option value="Yes">Yes</option><option value="No, discretionary only">No, discretionary only</option><option value="Considering">Considering</option></select></div>
+                <div><label class="block text-sm font-medium mb-1">4. What is your target annual net return expectation?</label><select class="select-field" id="returnTarget"><option value="5-10%">5-10%</option><option value="10-15%">10-15%</option><option value="15-20%">15-20%</option><option value="20%+">20%+</option></select></div>
+                <div><label class="block text-sm font-medium mb-1">5. How did you hear about ASI PRIME?</label><input type="text" class="input-field" id="referral" placeholder="Bloomberg, FT, referral, conference, etc."></div>
+                <div><label class="block text-sm font-medium mb-1">6. Any specific questions or message for our team?</label><textarea rows="3" class="input-field" id="message" placeholder="Please include any specific requests (DDQ, strategy deck, meeting request)"></textarea></div>
+                
+                <div class="flex items-start gap-2">
+                    <input type="checkbox" id="privacyConsent" required class="mt-1 accent-brand-blue">
+                    <label class="text-sm text-gray-400">I agree to the processing of my data for the purpose of this inquiry. (GDPR compliant)</label>
+                </div>
+                <button type="submit" class="btn-submit font-mono uppercase tracking-wider">Send Inquiry</button>
+            </form>
+            <p class="text-gray-500 text-xs text-center mt-6">Our investor relations team will reply within 2 business days.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert("Your message has been encrypted and sent to our investor relations team. We will respond shortly.");
+            // In production: send data via fetch API to backend
+        });
+    </script>
+</body>
+</html>
