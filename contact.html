@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | ASI PRIME</title>
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23050a14' rx='20'/%3E%3Crect x='10' y='10' width='80' height='80' rx='12' fill='none' stroke='%230ea5e9' stroke-width='4'/%3E%3Cpath d='M30 50 L45 35 L60 50 L45 65 Z' fill='%230ea5e9' fill-opacity='0.8'/%3E%3Ccircle cx='45' cy='45' r='4' fill='%23ffffff'/%3E%3Ccircle cx='55' cy='55' r='4' fill='%23ffffff'/%3E%3C/svg%3E">
-            <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%23050a14' rx='30'/%3E%3Crect x='18' y='18' width='144' height='144' rx='20' fill='none' stroke='%230ea5e9' stroke-width='6'/%3E%3Cpath d='M54 90 L81 63 L108 90 L81 117 Z' fill='%230ea5e9' fill-opacity='0.8'/%3E%3C/svg%3E">
-    
+    <title>Contact & Questionnaire | ASI PRIME</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -17,82 +13,15 @@
         .input-field:focus, .select-field:focus, .textarea-field:focus { border-color: #0ea5e9; outline: none; box-shadow: 0 0 0 3px rgba(14,165,233,0.2); }
         .btn-submit { background: #0ea5e9; border-radius: 0.75rem; padding: 0.875rem; font-weight: 600; width: 100%; transition: all 0.2s; cursor: pointer; }
         .btn-submit:hover { background: #0284c7; transform: translateY(-2px); }
-        /* Success check animation overlay */
-        .success-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5,8,15,0.95);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s;
-        }
-        .success-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .success-check {
-            stroke-dasharray: 50;
-            stroke-dashoffset: 50;
-            animation: drawCheck 0.6s ease forwards;
-        }
-        @keyframes drawCheck {
-            to { stroke-dashoffset: 0; }
-        }
-        /* Email preview modal */
-        .email-preview {
-            background: #ffffff;
-            color: #1e293b;
-            font-family: 'Inter', sans-serif;
-            border-radius: 1rem;
-            max-width: 600px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            transform: scale(0.95);
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-        }
-        .email-preview.active {
-            transform: scale(1);
-            opacity: 1;
-        }
-        .email-header { background: #f1f5f9; padding: 1rem; border-bottom: 1px solid #e2e8f0; }
-        .email-body { padding: 1.5rem; }
-        .email-logo { display: inline-block; font-weight: bold; background: #0ea5e9; color: white; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-size: 0.8rem; }
-        .preview-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(12px);
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s ease, visibility 0.3s;
-        }
-        .preview-modal-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        .fade-out {
-            animation: fadeOut 0.3s ease forwards;
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .alert { border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; font-size: 0.875rem; }
+        .alert-success { background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; }
+        .alert-error { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #ef4444; }
+        .hidden { display: none; }
     </style>
 </head>
 <body class="py-12 px-4">
     <div class="max-w-4xl mx-auto">
-        <!-- Navigation back -->
         <div class="mb-6">
             <a href="index.html" class="text-brand-blue hover:underline flex items-center gap-2 text-sm">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
@@ -113,28 +42,35 @@
                 <p class="text-gray-400 mt-2">For allocators, family offices, and strategic partners</p>
             </div>
 
-            <form id="contactForm" class="space-y-6">
+            <!-- Alert messages -->
+            <div id="formAlert" class="alert hidden"></div>
+
+            <form id="contactForm" action="https://formspree.io/f/xkokebpq" method="POST" class="space-y-6">
+                <!-- Honeypot spam protection -->
+                <input type="text" name="_gotcha" style="display:none">
+                <input type="hidden" name="_subject" value="ASI PRIME - New Inquiry from Website">
+                
                 <div class="grid md:grid-cols-2 gap-5">
-                    <div><label class="block text-sm font-medium mb-1">Full name *</label><input type="text" id="fullName" class="input-field" required></div>
-                    <div><label class="block text-sm font-medium mb-1">Email *</label><input type="email" id="email" class="input-field" required></div>
+                    <div><label class="block text-sm font-medium mb-1">Full name *</label><input type="text" id="fullName" name="full_name" class="input-field" required></div>
+                    <div><label class="block text-sm font-medium mb-1">Email *</label><input type="email" id="email" name="email" class="input-field" required></div>
                 </div>
                 <div class="grid md:grid-cols-2 gap-5">
-                    <div><label class="block text-sm font-medium mb-1">Institution / Fund</label><input type="text" id="institution" class="input-field"></div>
-                    <div><label class="block text-sm font-medium mb-1">Role / Title</label><input type="text" id="role" class="input-field"></div>
+                    <div><label class="block text-sm font-medium mb-1">Institution / Fund</label><input type="text" id="institution" name="institution" class="input-field"></div>
+                    <div><label class="block text-sm font-medium mb-1">Role / Title</label><input type="text" id="role" name="role" class="input-field"></div>
                 </div>
 
                 <hr class="border-slate-800 my-2">
                 <h3 class="text-lg font-semibold">Questionnaire (confidential)</h3>
 
-                <div><label class="text-sm">1. Approximate AUM / mandate size</label><select id="aum" class="select-field"><option value="< $50M">< $50M</option><option value="$50M – $250M">$50M – $250M</option><option value="$250M – $1B">$250M – $1B</option><option value="> $1B">> $1B</option></select></div>
-                <div><label class="text-sm">2. Target asset classes</label><input type="text" id="assetClasses" class="input-field" placeholder="Equities, FX, commodities, crypto..."></div>
-                <div><label class="text-sm">3. Current systematic / quant exposure?</label><select id="systematic" class="select-field"><option>Yes, fully systematic</option><option>Hybrid (discretionary + systematic)</option><option>Traditional only</option><option>Exploring</option></select></div>
-                <div><label class="text-sm">4. Expected annual net return</label><select id="returnTarget" class="select-field"><option>5-10%</option><option>10-15%</option><option>15-20%</option><option>20%+</option></select></div>
-                <div><label class="text-sm">5. How did you hear about us?</label><input type="text" id="referral" class="input-field" placeholder="Bloomberg, FT, conference, referral..."></div>
-                <div><label class="text-sm">6. Message / specific request</label><textarea rows="3" id="message" class="textarea-field" placeholder="DDQ request, strategy deck, meeting, etc."></textarea></div>
+                <div><label class="text-sm">1. Approximate AUM / mandate size</label><select id="aum" name="aum" class="select-field"><option value="< $50M">< $50M</option><option value="$50M – $250M">$50M – $250M</option><option value="$250M – $1B">$250M – $1B</option><option value="> $1B">> $1B</option></select></div>
+                <div><label class="text-sm">2. Target asset classes</label><input type="text" id="assetClasses" name="asset_classes" class="input-field" placeholder="Equities, FX, commodities, crypto..."></div>
+                <div><label class="text-sm">3. Current systematic / quant exposure?</label><select id="systematic" name="systematic" class="select-field"><option>Yes, fully systematic</option><option>Hybrid (discretionary + systematic)</option><option>Traditional only</option><option>Exploring</option></select></div>
+                <div><label class="text-sm">4. Expected annual net return</label><select id="returnTarget" name="return_target" class="select-field"><option>5-10%</option><option>10-15%</option><option>15-20%</option><option>20%+</option></select></div>
+                <div><label class="text-sm">5. How did you hear about us?</label><input type="text" id="referral" name="referral" class="input-field" placeholder="Bloomberg, FT, conference, referral..."></div>
+                <div><label class="text-sm">6. Message / specific request</label><textarea rows="3" id="message" name="message" class="textarea-field" placeholder="DDQ request, strategy deck, meeting, etc."></textarea></div>
 
                 <div class="flex items-start gap-2">
-                    <input type="checkbox" id="privacyConsent" required class="mt-1 accent-brand-blue">
+                    <input type="checkbox" id="privacyConsent" name="privacy_consent" value="true" required class="mt-1 accent-brand-blue">
                     <label class="text-sm text-gray-400">I consent to the processing of my data for this inquiry (GDPR compliant).</label>
                 </div>
 
@@ -143,147 +79,46 @@
         </div>
     </div>
 
-    <!-- Step 1: Success animation overlay -->
-    <div id="successOverlay" class="success-overlay">
-        <div class="text-center">
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                <circle cx="40" cy="40" r="36" stroke="#0ea5e9" stroke-width="3" fill="none"/>
-                <path class="success-check" d="M25 40 L35 50 L55 30" stroke="#0ea5e9" stroke-width="5" stroke-linecap="round" fill="none"/>
-            </svg>
-            <p class="text-white text-lg mt-4 font-medium">Submission received</p>
-        </div>
-    </div>
-
-    <!-- Step 2: Email preview modal overlay -->
-    <div id="previewOverlay" class="preview-modal-overlay">
-        <div class="email-preview" id="emailPreviewCard">
-            <div class="email-header flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <span class="email-logo">ASI PRIME</span>
-                    <span class="text-xs text-slate-500">Holdings PLC</span>
-                </div>
-                <button id="closePreviewBtn" class="text-slate-400 hover:text-slate-700 text-2xl leading-none">&times;</button>
-            </div>
-            <div class="email-body" id="emailPreviewBody">
-                <!-- dynamic content will be injected -->
-            </div>
-            <div class="p-4 bg-slate-50 rounded-b-2xl flex justify-center">
-                <button id="closePreviewBtn2" class="px-6 py-2 bg-brand-blue text-white rounded-full text-sm hover:bg-brand-dark transition">Close</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const form = document.getElementById('contactForm');
-        const successOverlay = document.getElementById('successOverlay');
-        const previewOverlay = document.getElementById('previewOverlay');
-        const emailPreviewBody = document.getElementById('emailPreviewBody');
-        const closeBtns = [document.getElementById('closePreviewBtn'), document.getElementById('closePreviewBtn2')];
+        const alertDiv = document.getElementById('formAlert');
+        const submitBtn = form.querySelector('button[type="submit"]');
 
-        // Helper: generate email preview HTML from form data
-        function generateEmailPreview(data) {
-            return `
-                <div class="flex items-center gap-3 mb-4">
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                        <rect x="2" y="2" width="36" height="36" rx="6" stroke="#0ea5e9" stroke-width="2" fill="#0ea5e9" fill-opacity="0.1"/>
-                        <path d="M12 16 L20 22 L28 16" stroke="#0ea5e9" stroke-width="2" fill="none"/>
-                        <path d="M12 20 L12 28 L28 28 L28 20" stroke="#0ea5e9" stroke-width="2" fill="none"/>
-                    </svg>
-                    <div>
-                        <h2 class="text-lg font-bold text-slate-800">Inquiry Received</h2>
-                        <p class="text-xs text-slate-500">ASI PRIME Investor Relations</p>
-                    </div>
-                </div>
-                <div class="border-t border-slate-200 my-4"></div>
-                <p><strong>To:</strong> ${data.email}</p>
-                <p><strong>Subject:</strong> ASI PRIME – Inquiry Acknowledgement & Next Steps</p>
-                <div class="my-3 border-t border-slate-200"></div>
-                <p>Dear ${data.fullName},</p>
-                <p>Thank you for your interest in ASI PRIME Technologies. Your confidential questionnaire has been received by our Investor Relations desk.</p>
-                <p><strong>Summary of your submission:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Institution: ${data.institution}</li>
-                    <li>Role: ${data.role}</li>
-                    <li>AUM: ${data.aum}</li>
-                    <li>Asset classes: ${data.assetClasses}</li>
-                    <li>Current systematic exposure: ${data.systematic}</li>
-                    <li>Return target: ${data.returnTarget}</li>
-                    <li>Referral source: ${data.referral}</li>
-                    <li>Message: ${data.message.substring(0, 200)}</li>
-                </ul>
-                <p>Our team will review your request and schedule a confidential introduction call within 48 hours. In the meantime, you may access our investor pitch deck via the secure portal.</p>
-                <div class="my-4 p-3 bg-slate-100 rounded-md">
-                    <span class="font-mono text-xs">🔒 This communication is encrypted and intended for institutional investors only.</span>
-                </div>
-                <p>Yours sincerely,<br><strong>Investor Relations</strong><br>ASI PRIME Technologies Holdings PLC<br>Canary Wharf, London</p>
-            `;
-        }
-
-        // Reset form fields
-        function resetForm() {
-            form.reset();
-            // Clear any default selections (selects may retain first option, that's fine)
-            // Additional manual clear not required except for checkboxes
-            document.getElementById('privacyConsent').checked = false;
-        }
-
-        // Handle form submission
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
 
-            // Get form values
-            const formData = {
-                fullName: document.getElementById('fullName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                institution: document.getElementById('institution').value.trim() || "N/A",
-                role: document.getElementById('role').value.trim() || "N/A",
-                aum: document.getElementById('aum').value,
-                assetClasses: document.getElementById('assetClasses').value.trim() || "Not specified",
-                systematic: document.getElementById('systematic').value,
-                returnTarget: document.getElementById('returnTarget').value,
-                referral: document.getElementById('referral').value.trim() || "Not specified",
-                message: document.getElementById('message').value.trim() || "—"
-            };
-
-            // Store data for preview
-            window.pendingFormData = formData;
-
-            // Step 1: Show success overlay
-            successOverlay.classList.add('active');
-
-            // After 1.5 seconds, fade out success overlay, then show preview modal
-            setTimeout(() => {
-                successOverlay.classList.add('fade-out');
-                setTimeout(() => {
-                    successOverlay.classList.remove('active', 'fade-out');
-                    // Step 2: Generate and show preview modal
-                    emailPreviewBody.innerHTML = generateEmailPreview(formData);
-                    previewOverlay.classList.add('active');
-                    // Make email preview card animate in
-                    const card = document.getElementById('emailPreviewCard');
-                    card.classList.add('active');
-                }, 300);
-            }, 1500);
-        });
-
-        // Close preview modal and reset form
-        function closePreviewAndReset() {
-            previewOverlay.classList.remove('active');
-            const card = document.getElementById('emailPreviewCard');
-            card.classList.remove('active');
-            resetForm();
-        }
-
-        closeBtns.forEach(btn => {
-            if (btn) btn.addEventListener('click', closePreviewAndReset);
-        });
-
-        // Also close when clicking outside the email preview (on overlay)
-        previewOverlay.addEventListener('click', (e) => {
-            if (e.target === previewOverlay) {
-                closePreviewAndReset();
+            const formData = new FormData(form);
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    alertDiv.className = 'alert alert-success';
+                    alertDiv.textContent = '✅ Your message has been sent. Our investor relations team will respond within 2 business days.';
+                    alertDiv.classList.remove('hidden');
+                    form.reset();
+                    setTimeout(() => {
+                        alertDiv.classList.add('hidden');
+                    }, 8000);
+                } else {
+                    throw new Error('Formspree error');
+                }
+            } catch (err) {
+                alertDiv.className = 'alert alert-error';
+                alertDiv.textContent = '❌ There was a problem sending your message. Please email us directly at ir@asiprime.com.';
+                alertDiv.classList.remove('hidden');
+                setTimeout(() => alertDiv.classList.add('hidden'), 8000);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Inquiry';
             }
         });
     </script>
 </body>
-</html></html>
+</html></html></html>
