@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-[#05080f]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Management | ASI PRIME Technologies</title>
+    <meta name="description" content="Institutional‑grade risk analytics, real‑time VaR, and pre‑trade compliance for systematic funds.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
+                        brand: { green: '#10b981', emerald: '#059669', teal: '#14b8a6' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm20 20h20v20H20V20zM0 20h20v20H0V20zM20 0h20v20H20V0z' fill='%2310b981' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
+        .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .hero-rm { background: linear-gradient(135deg, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.8)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=2000&q=100') center/cover no-repeat fixed; }
+        .text-gradient-rm { background: linear-gradient(to right, #ffffff, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-rm { background: #10b981; transition: all 0.2s; }
+        .btn-rm:hover { background: #059669; transform: translateY(-2px); }
+        .stat-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
+        .stat-card:hover { border-color: #10b981; transform: translateY(-4px); }
+        .service-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
+        .service-card:hover { border-color: #10b981; box-shadow: 0 10px 25px -10px rgba(16,185,129,0.2); }
+        .fade-item { will-change: transform, opacity; opacity: 0; transform: translateY(20px); }
+        #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #10b981, #14b8a6); z-index: 10000; transition: width 0.1s ease; }
+        .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; }
+    </style>
+</head>
+<body class="antialiased bg-grid-pattern">
+
+    <div id="progress-bar"></div>
+
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-nav" id="navbar">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="../index.html" class="flex-shrink-0 flex items-center group">
+                    <div class="w-8 h-8 relative mr-3">
+                        <div class="absolute inset-0 border-2 border-brand-green transform rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
+                        <div class="absolute inset-2 bg-brand-green"></div>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tighter text-white">
+                        <span class="text-brand-green">A</span>SI <span class="font-light">PRIME</span>
+                        <span class="block text-[0.6rem] font-mono tracking-[0.2em] text-gray-400 -mt-1">RISK MANAGEMENT</span>
+                    </span>
+                </a>
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="#core" class="text-sm font-medium text-gray-300 hover:text-brand-green transition-colors">The Engine</a>
+                    <a href="#software" class="text-sm font-medium text-gray-300 hover:text-brand-green transition-colors">Software Stack</a>
+                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-green transition-colors">Service Packs</a>
+                    <a href="#geography" class="text-sm font-medium text-gray-300 hover:text-brand-green transition-colors">Global Coverage</a>
+                    <a href="../index.html" class="px-5 py-2 text-xs font-mono border border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition rounded-full">HoldCo Home</a>
+                </div>
+                <button id="mobile-menu-btn" class="lg:hidden text-gray-300"><svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#020617] border-b border-slate-800 absolute w-full">
+            <div class="px-4 pt-4 pb-8 space-y-3"><a href="#core" class="block">The Engine</a><a href="#software" class="block">Software Stack</a><a href="#services" class="block">Service Packs</a><a href="#geography" class="block">Global Coverage</a><a href="../index.html" class="block text-brand-green">HoldCo Home</a></div>
+        </div>
+    </nav>
+
+    <header class="pt-40 pb-24 hero-rm border-b border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">Risk Management <br><span class="text-gradient-rm">by ASI PRIME</span></h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto font-light">Enterprise‑grade real‑time risk analytics, adaptive VaR, and pre‑trade compliance – built for the most demanding systematic funds.</p>
+        </div>
+    </header>
+
+    <section class="py-20 bg-slate-950 border-b border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-green">$4.2T</div><p class="text-gray-400 mt-2">Total risk exposure monitored daily</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-green">< 100µs</div><p class="text-gray-400 mt-2">Latency to risk engine</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-green">99.999%</div><p class="text-gray-400 mt-2">System availability (SLA)</p></div>
+            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-green">150+</div><p class="text-gray-400 mt-2">Live risk signals / strategies</p></div>
+        </div>
+    </section>
+
+    <section id="core" class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="fade-item"><h2 class="text-3xl font-bold mb-6">Adaptive Risk Engine</h2><p class="text-gray-400 leading-relaxed mb-4">Our proprietary risk engine runs continuously across all asset classes. It combines historical VaR, expected shortfall, and stressed Monte Carlo simulations with real‑time market data. The engine is fully integrated with our pre‑trade compliance layer: any order breaching risk limits is rejected before it reaches the exchange.</p><p class="text-gray-400 leading-relaxed">We support multi‑factor risk decomposition, factor crowding analytics, and liquidity‑adjusted VaR. All calculations are accelerated by custom FPGAs, achieving sub‑100µs latency from order receipt to risk decision.</p><div class="mt-6 flex flex-wrap gap-3"><span class="px-3 py-1 bg-slate-800 text-brand-green text-xs font-mono">Adaptive VaR</span><span class="px-3 py-1 bg-slate-800 text-brand-green text-xs font-mono">Expected Shortfall</span><span class="px-3 py-1 bg-slate-800 text-brand-green text-xs font-mono">Monte Carlo</span></div></div>
+                <div class="fade-item bg-slate-900 p-6 rounded-sm border-l-2 border-brand-green"><h3 class="text-white font-bold text-xl mb-3">Key metrics we compute</h3><ul class="space-y-2 text-gray-300 text-sm"><li>✓ 1‑day / 10‑day VaR (historical, parametric, Monte Carlo)</li><li>✓ CVaR (Expected Shortfall) at 97.5% and 99%</li><li>✓ Liquidity‑adjusted VaR (L‑VaR) for illiquid positions</li><li>✓ Marginal and incremental VaR by strategy / desk</li><li>✓ Factor exposure: beta, momentum, carry, value, volatility</li><li>✓ Stress‑testing: historical scenarios (2008, 2020) + hypothetical shocks</li></ul></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="software" class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Risk Software & Infrastructure</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-12">We have built a proprietary, low‑latency risk platform from the ground up. It interfaces with all major OMS/EMS and provides real‑time dashboards, APIs, and audit trails.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5"><path d="M4 7 L12 3 L20 7 L12 11 L4 7 Z M20 7 L20 17 L12 21 L4 17 L4 7"/></svg></div><h3 class="text-white font-bold">RiskCore API</h3><p class="text-gray-400 text-sm mt-2">REST and WebSocket APIs for real‑time risk queries, portfolio snapshots, and scenario analysis.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg></div><h3 class="text-white font-bold">StressLab</h3><p class="text-gray-400 text-sm mt-2">Scenario‑based stress‑testing module with custom shocks, correlation breaks, and liquidity dry‑ups.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-green/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5"><path d="M20 12 L20 18 L12 22 L4 18 L4 12 M12 2 L20 6 L12 10 L4 6 L12 2 Z"/></svg></div><h3 class="text-white font-bold">FactorHub</h3><p class="text-gray-400 text-sm mt-2">Multi‑factor risk attribution and crowding analytics. Identifies hidden factor concentrations across portfolios.</p></div>
+            </div>
+            <div class="mt-10 text-left bg-slate-900 p-6 rounded-sm"><h3 class="text-white font-bold mb-2">Technical specifications</h3><ul class="list-disc pl-5 text-gray-400 text-sm grid md:grid-cols-2 gap-x-6 gap-y-1"><li>Built in C++20, Python API layer</li><li>FPGA acceleration for VaR calculations</li><li>Real‑time data feed from 50+ exchanges via kernel bypass</li><li>Audit‑trail compliant with FCA/SEC/ESMA rules</li><li>Deployed on dedicated bare‑metal servers at LD4, NY5, SG1</li><li>99.999% uptime SLA with active‑active disaster recovery</li></ul></div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Risk Service Packs</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-green">Core Risk</h3><p class="text-gray-400 text-sm mt-2">Daily VaR, stress tests, factor exposure, and regulatory reports (FCA/SEC Form PF). Includes access to RiskCore API.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Starting from</span><div class="text-2xl font-bold text-white">£12,500<span class="text-sm font-normal text-gray-400">/month</span></div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-green">Quantitative Risk</h3><p class="text-gray-400 text-sm mt-2">Adds Monte Carlo simulations, tail‑risk overlays, liquidity‑adjusted VaR, and custom factor modelling. Dedicated risk quant support.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Typical</span><div class="text-2xl font-bold text-white">£24,000<span class="text-sm font-normal text-gray-400">/month</span></div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-green">Enterprise</h3><p class="text-gray-400 text-sm mt-2">Fully custom integration, co‑located risk engine, real‑time pre‑trade risk checks for multiple strategies, dedicated SLAs.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Custom pricing</span><div class="text-2xl font-bold text-white">Contact us</div></div></div>
+            </div>
+            <p class="text-center text-gray-500 text-xs mt-8">All service packs include 24/7 monitoring, audit logs, and quarterly risk reviews. Multi‑year discounts available.</p>
+        </div>
+    </section>
+
+    <section id="geography" class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div><h2 class="text-3xl font-bold mb-4">Global Risk Coverage</h2><p class="text-gray-400 mb-4">Our risk engine ingests market data from 50+ exchanges across the Americas, EMEA, and Asia‑Pacific. We provide real‑time risk analytics for any portfolio, regardless of location.</p><ul class="space-y-2 text-sm text-gray-300"><li><span class="text-brand-green">▸</span> Americas: NYSE, NASDAQ, CME, B3</li><li><span class="text-brand-green">▸</span> EMEA: LSE, Deutsche Börse, Euronext, SIX</li><li><span class="text-brand-green">▸</span> Asia: SGX, HKEX, ASX, TSE, SHFE</li><li><span class="text-brand-green">▸</span> FX: 40+ currency pairs via institutional liquidity pools</li></ul><p class="text-gray-400 text-sm mt-6">All risk data is aggregated in our London hub, with regional replicas in New York and Singapore for sub‑1ms access.</p></div>
+                <div class="custom-map-container h-[400px] rounded-sm" id="riskMap"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-[#05080f]">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Sector‑Specific Risk Solutions</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-green"><h3 class="text-white font-bold text-xl">Hedge Funds & Asset Managers</h3><p class="text-gray-400 text-sm mt-2">Real‑time factor crowding, portfolio stress testing, and regulatory reporting (AIFMD, Form PF). Our engine runs alongside existing OMS/EMS with zero latency overhead.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-green"><h3 class="text-white font-bold text-xl">Prop Trading & HFT</h3><p class="text-gray-400 text-sm mt-2">Sub‑microsecond pre‑trade risk checks, position limit enforcement, and real‑time PnL attribution. Co‑located with major exchanges.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-green"><h3 class="text-white font-bold text-xl">Banks & Brokers</h3><p class="text-gray-400 text-sm mt-2">Enterprise‑wide risk aggregation, VaR backtesting, counterparty credit risk, and liquidity stress tests. Fully compliant with Basel III/IV.</p></div>
+                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-green"><h3 class="text-white font-bold text-xl">Family Offices & Endowments</h3><p class="text-gray-400 text-sm mt-2">Multi‑asset class risk reporting, tail‑risk hedging analytics, and custom scenario analysis. Designed for non‑quant portfolio managers.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-slate-950">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" class="mx-auto mb-4"><path d="M10 11 L14 7 M14 7 L18 11 M14 7 L14 17"/><path d="M6 17 L18 17"/><rect x="3" y="4" width="18" height="14" rx="1"/></svg>
+            <p class="text-gray-300 text-lg italic">“ASI PRIME’s risk engine reduced our VaR calculation latency from 200ms to 0.08ms. The pre‑trade limit checks alone saved us from three major compliance breaches in the first month.”</p>
+            <p class="text-white font-bold mt-4">— CRO, $12bn multi‑strat fund</p>
+        </div>
+    </section>
+
+    <footer class="bg-[#010204] pt-16 pb-10 border-t border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 text-center text-gray-500 text-xs"><p>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. Risk Management Division.</p><p class="mt-2"><a href="../index.html" class="text-brand-green hover:underline">← Return to Holding Company</a></p></div>
+    </footer>
+
+    <script>
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if(mobileBtn) mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        const map = L.map('riskMap').setView([30, 0], 2);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB', subdomains: 'abcd' }).addTo(map);
+        const hubs = [[51.5074, -0.1278], [40.7128, -74.0060], [1.3521, 103.8198]];
+        hubs.forEach(h => L.marker(h).addTo(map).bindPopup('Risk hub: real‑time analytics'));
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.fade-item').forEach(el => {
+            gsap.set(el, { opacity: 0, y: 20 });
+            ScrollTrigger.create({ trigger: el, start: "top 85%", onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }), once: true });
+        });
+    </script>
+</body>
+</html>
