@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LegalTech & Auditing | ASI PRIME Technologies</title>
-    <meta name="description" content="Smart contract auditing, cross‑border financial compliance, and mathematical validation of institutional structures.">
+    <meta name="description" content="Formal verification, smart contract auditing, tokenomics analysis, and cross‑border financial compliance – headquartered in Yaoundé, Cameroon.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,7 +13,6 @@
                 extend: {
                     colors: {
                         slate: { 900: '#0b1120', 800: '#1e293b', 950: '#020617' },
-                        // Primary brand colour for LegalTech: Gray/Slate
                         brand: { gray: '#94a3b8', slate: '#64748b', zinc: '#71717a', lightgray: '#cbd5e1' }
                     },
                     fontFamily: {
@@ -28,7 +27,7 @@
         }
     </script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -38,19 +37,17 @@
     <style>
         body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
         .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .hero-lt { background: linear-gradient(135deg, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.8)), url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=2000&q=100') center/cover no-repeat fixed; }
+        .hero-lt { background: linear-gradient(135deg, rgba(5, 8, 15, 0.95), rgba(5, 8, 15, 0.85)), url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=2500&q=100') center/cover no-repeat fixed; }
         .text-gradient-lt { background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-lt { background: #64748b; transition: all 0.2s; }
-        .btn-lt:hover { background: #475569; transform: translateY(-2px); }
         .stat-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
         .stat-card:hover { border-color: #94a3b8; transform: translateY(-4px); }
         .service-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
         .service-card:hover { border-color: #94a3b8; box-shadow: 0 10px 25px -10px rgba(148,163,184,0.2); }
         .fade-item { will-change: transform, opacity; opacity: 0; transform: translateY(20px); }
         #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #94a3b8, #64748b); z-index: 10000; transition: width 0.1s ease; }
-        .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; }
-        .img-glow { transition: filter 0.3s; filter: grayscale(0.1); }
-        .img-glow:hover { filter: grayscale(0); }
+        .custom-map-container { border-radius: 12px; overflow: hidden; border: 1px solid #1e293b; box-shadow: 0 10px 25px -10px rgba(0,0,0,0.5); }
+        .address-card { background: rgba(5,8,15,0.6); backdrop-filter: blur(8px); border: 1px solid #1e293b; border-left: 3px solid #94a3b8; }
+        .code-block { background: #0f172a; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 1rem; font-family: 'Fira Code', monospace; font-size: 0.75rem; overflow-x: auto; white-space: pre-wrap; }
     </style>
 </head>
 <body class="antialiased bg-grid-pattern">
@@ -71,112 +68,177 @@
                     </span>
                 </a>
                 <div class="hidden lg:flex space-x-8 items-center">
-                    <a href="#core" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">The Engine</a>
-                    <a href="#software" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">Software Stack</a>
-                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">Service Packs</a>
-                    <a href="#geography" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">Global Coverage</a>
+                    <a href="#why-yaounde" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">Yaoundé Hub</a>
+                    <a href="#capabilities" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">Capabilities</a>
+                    <a href="#technology" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">Technology</a>
+                    <a href="#services" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">Service Tiers</a>
+                    <a href="#global" class="text-sm font-medium text-gray-300 hover:text-brand-gray transition-colors">Global Reach</a>
                     <a href="../index.html" class="px-5 py-2 text-xs font-mono border border-brand-gray text-brand-gray hover:bg-brand-gray hover:text-white transition rounded-full">HoldCo Home</a>
                 </div>
                 <button id="mobile-menu-btn" class="lg:hidden text-gray-300"><svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
             </div>
         </div>
         <div id="mobile-menu" class="hidden lg:hidden bg-[#020617] border-b border-slate-800 absolute w-full">
-            <div class="px-4 pt-4 pb-8 space-y-3"><a href="#core" class="block">The Engine</a><a href="#software" class="block">Software Stack</a><a href="#services" class="block">Service Packs</a><a href="#geography" class="block">Global Coverage</a><a href="../index.html" class="block text-brand-gray">HoldCo Home</a></div>
+            <div class="px-4 pt-4 pb-8 space-y-3"><a href="#why-yaounde" class="block">Yaoundé Hub</a><a href="#capabilities" class="block">Capabilities</a><a href="#technology" class="block">Technology</a><a href="#services" class="block">Service Tiers</a><a href="#global" class="block">Global Reach</a><a href="../index.html" class="block text-brand-gray">HoldCo Home</a></div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <header class="pt-40 pb-24 hero-lt border-b border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">LegalTech & Auditing <br><span class="text-gradient-lt">by ASI PRIME</span></h1>
-            <p class="text-xl text-gray-300 max-w-3xl mx-auto font-light">Mathematical validation of smart contracts, cross‑border financial structures, and regulatory compliance – built by lawyers who code.</p>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto font-light">Formal verification, smart contract auditing, tokenomics analysis, and cross‑border financial compliance – built by lawyers who code, headquartered in Africa’s legal innovation hub.</p>
         </div>
     </header>
 
-    <!-- Core Stats -->
-    <section class="py-20 bg-slate-950 border-b border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-gray">500+</div><p class="text-gray-400 mt-2">Smart contracts audited</p></div>
-            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-gray">$40B+</div><p class="text-gray-400 mt-2">Value secured via audits</p></div>
-            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-gray">100%</div><p class="text-gray-400 mt-2">Post‑audit exploit reduction</p></div>
-            <div class="stat-card p-6 rounded-sm text-center"><div class="text-4xl font-bold text-brand-gray">15+</div><p class="text-gray-400 mt-2">Jurisdictional frameworks mapped</p></div>
-        </div>
-    </section>
-
-    <!-- Core Philosophy (The Engine) -->
-    <section id="core" class="py-24 bg-[#05080f]">
+    <!-- Yaoundé Headquarters – In‑depth location analysis -->
+    <section id="why-yaounde" class="py-24 bg-slate-950 border-b border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div class="fade-item"><h2 class="text-3xl font-bold mb-6">Formal Verification & Financial Auditing</h2><p class="text-gray-400 leading-relaxed mb-4">Our LegalTech engine combines traditional legal analysis with mathematical formal verification. We audit smart contracts, tokenomics, and cross‑border financial structures – identifying vulnerabilities that standard code reviews miss.</p><p class="text-gray-400 leading-relaxed">We model economic incentives, game‑theoretic attacks, and regulatory compliance simultaneously. Every audit produces a mathematically provable security guarantee (or a clear list of risk assumptions).</p><div class="mt-6 flex flex-wrap gap-3"><span class="px-3 py-1 bg-slate-800 text-brand-gray text-xs font-mono">Formal Verification</span><span class="px-3 py-1 bg-slate-800 text-brand-gray text-xs font-mono">Tokenomics Audit</span><span class="px-3 py-1 bg-slate-800 text-brand-gray text-xs font-mono">Regulatory Mapping</span></div></div>
-                <div class="fade-item bg-slate-900 p-6 rounded-sm border-l-2 border-brand-gray"><h3 class="text-white font-bold text-xl mb-3">What we audit</h3><ul class="space-y-2 text-gray-300 text-sm"><li>✓ Smart contracts (Ethereum, Solana, Cosmos, others)</li><li>✓ Tokenomics & incentive structures</li><li>✓ Cross‑border payment rails</li><li>✓ Institutional financial products (structured notes, ETFs)</li><li>✓ DAO governance frameworks</li><li>✓ Regulatory compliance (MiCA, SEC, FCA, ESMA)</li></ul></div>
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="fade-item">
+                    <h2 class="text-3xl font-bold mb-4 flex items-center">
+                        <svg class="w-8 h-8 mr-3 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        African LegalTech Hub – Yaoundé
+                    </h2>
+                    <div class="address-card p-6 rounded-sm mb-6">
+                        <p class="text-gray-300 font-mono text-sm">Immeuble Etoile, Boulevard du 20 Mai<br>Yaoundé, Centre Region<br>Cameroon</p>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed mb-4">Our LegalTech division is headquartered in Yaoundé – the heart of CEMAC’s economic community and a rising hub for digital finance and legal innovation. The location was chosen for three strategic reasons:</p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 mt-0.5 text-brand-gray flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span><strong class="text-white">CEMAC regulatory centralisation:</strong> Yaoundé hosts the Bank of Central African States (BEAC) and the regional financial market supervisor (COSUMAF). We have direct advisory relationships, enabling us to embed local rules into our formal verification engine.</span></li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 mt-0.5 text-brand-gray flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span><strong class="text-white">Pan‑African digital finance sandbox:</strong> Cameroon is one of the first CEMAC nations to launch a regulated digital finance testing framework. Our team works directly with central bank innovation labs on CBDC interoperability and crypto regulation.</span></li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 mt-0.5 text-brand-gray flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span><strong class="text-white">Cost‑efficient deep talent pool:</strong> Yaoundé offers a trained pool of legal engineers and computer scientists at a fraction of European costs, allowing us to scale formal verification without compromising quality.</span></li>
+                    </ul>
+                    <p class="text-gray-400 text-sm mt-6">From Yaoundé, we audit over 500 smart contracts annually and have secured over $40 billion in on‑chain value. Our secondary auditing centres operate in London (common law expertise) and Singapore (APAC regulatory coverage).</p>
+                </div>
+                <div class="fade-item bg-slate-900 p-6 rounded-sm border-l-2 border-brand-gray">
+                    <h3 class="text-white font-bold text-xl mb-4">Established Reach & Scope</h3>
+                    <ul class="space-y-3 text-gray-300 text-sm">
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">500+ smart contracts audited</strong> – Ethereum, Solana, Cosmos, Algorand, and custom L1/L2</span></li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">$40B+ value secured</strong> – cumulative TVL of audited protocols</span></li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">0 exploitable vulnerabilities after audit</strong> – across all client deployments</span></li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">15+ jurisdictional frameworks mapped</strong> – including OHADA, CEMAC, EU MiCA, UK, US, Singapore</span></li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <span><strong class="text-white">30+ legal engineers & PhDs</strong> – combining law degrees with formal methods expertise</span></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Software Stack & Infrastructure -->
-    <section id="software" class="py-24 bg-slate-950 border-y border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold mb-4">LegalTech Infrastructure</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto mb-12">A purpose‑built platform that parses legal text, translates into logical constraints, and runs formal verification at scale.</p>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-gray/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M4 4 L20 4 L20 20 L4 20 Z M8 7 L16 7 M8 12 L16 12 M8 17 L12 17"/></svg></div><h3 class="text-white font-bold">LexMapper</h3><p class="text-gray-400 text-sm mt-2">NLP engine that converts legal text (regulations, contracts) into machine‑executable rules. Supports multiple languages and jurisdictions.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-gray/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M12 2 L12 6 M12 18 L12 22 M4.93 4.93 L7.76 7.76 M16.24 16.24 L19.07 19.07 M2 12 L6 12 M18 12 L22 12"/><circle cx="12" cy="12" r="3"/></svg></div><h3 class="text-white font-bold">VeriSol</h3><p class="text-gray-400 text-sm mt-2">Formal verification engine using SMT solvers and interactive theorem proving. Proves invariants, detects reentrancy, and models economic attacks.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm"><div class="w-12 h-12 bg-brand-gray/20 rounded-full flex items-center justify-center mx-auto mb-4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M3 9 L12 3 L21 9 L12 15 L3 9 Z M12 15 L12 21 M9 18 L15 18"/></svg></div><h3 class="text-white font-bold">AuditChain</h3><p class="text-gray-400 text-sm mt-2">Immutable audit trail with cryptographic proofs for every finding. Clients receive signed reports and can verify results independently.</p></div>
-            </div>
-            <div class="mt-10 text-left bg-slate-900 p-6 rounded-sm"><h3 class="text-white font-bold mb-2">Technical specifications</h3><ul class="list-disc pl-5 text-gray-400 text-sm grid md:grid-cols-2 gap-x-6 gap-y-1"><li>Built on Coq, Lean, and Z3 SMT solvers</li><li>Supports Solidity, Rust, Vyper, and custom DSLs</li><li>Automated test generation (fuzzing + symbolic execution)</li><li>Gas optimisation & economic attack modelling</li><li>Integration with CI/CD pipelines (GitHub Actions, GitLab)</li><li>GDPR‑compliant data handling & encryption</li></ul></div>
-        </div>
-    </section>
-
-    <!-- Service Packs -->
-    <section id="services" class="py-24 bg-[#05080f]">
+    <!-- Core Capabilities – formal verification, tokenomics, cross-border -->
+    <section id="capabilities" class="py-24 bg-[#05080f]">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">LegalTech Service Packs</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-gray">Smart Contract Audit</h3><p class="text-gray-400 text-sm mt-2">Full formal verification, gas optimisation, and economic attack modelling. Includes detailed report and remediation guidance.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Fixed fee</span><div class="text-2xl font-bold text-white">£12,500<span class="text-sm font-normal text-gray-400">/contract</span></div></div></div>
-                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-gray">Tokenomics Audit</h3><p class="text-gray-400 text-sm mt-2">Economic modelling, incentive compatibility, and game‑theoretic analysis. Stress test against rational and adversarial actors.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Typical</span><div class="text-2xl font-bold text-white">£18,000<span class="text-sm font-normal text-gray-400">/model</span></div></div></div>
-                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-gray">Enterprise Compliance</h3><p class="text-gray-400 text-sm mt-2">Ongoing regulatory monitoring, cross‑border structure audits, and automated compliance reporting. Dedicated legal engineer.</p><div class="mt-4"><span class="text-xs font-mono text-gray-500">Annual retainer</span><div class="text-2xl font-bold text-white">Custom</div></div></div>
+            <div class="text-center mb-16 fade-item">
+                <h2 class="text-3xl font-bold mb-4">Auditing Capabilities</h2>
+                <p class="text-gray-400 max-w-3xl mx-auto">We don’t just review code – we mathematically prove properties, model economic incentives, and map legal structures into enforceable constraints.</p>
             </div>
-            <p class="text-center text-gray-500 text-xs mt-8">All audits include a confidentiality agreement and are conducted under English law jurisdiction.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 p-6 rounded-sm fade-item"><div class="w-12 h-12 bg-brand-gray/20 rounded-full flex items-center justify-center mb-4"><svg class="w-6 h-6 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div><h3 class="text-white text-lg font-bold">Formal Verification</h3><p class="text-gray-400 text-sm mt-2">We use interactive theorem proving (Coq, Lean) and SMT solvers (Z3) to prove correctness properties. Our proofs cover reentrancy, access control, arithmetic overflows, and invariants.</p><div class="code-block mt-3"><code>// Coq lemma proving that `withdraw` never exceeds balance
+Lemma withdraw_safe : forall (balance amount : nat),
+  amount <= balance ->
+  withdraw(balance, amount) = (balance - amount, amount).</code></div></div>
+                <div class="bg-slate-900 p-6 rounded-sm fade-item"><div class="w-12 h-12 bg-brand-gray/20 rounded-full flex items-center justify-center mb-4"><svg class="w-6 h-6 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><h3 class="text-white text-lg font-bold">Tokenomics & Economic Audit</h3><p class="text-gray-400 text-sm mt-2">We model incentive compatibility, game‑theoretic attacks, and long‑term sustainability. Simulate supply/demand, staking yields, and governance attacks.</p><div class="code-block mt-3"><code># Nash equilibrium simulation for validator gaming
+def simulate_game(validators, reward_schedule):
+    for round in range(max_rounds):
+        strategies = [v.optimal_strategy(others) for v in validators]
+        if nash_converged(strategies): break</code></div></div>
+                <div class="bg-slate-900 p-6 rounded-sm fade-item"><div class="w-12 h-12 bg-brand-gray/20 rounded-full flex items-center justify-center mb-4"><svg class="w-6 h-6 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v16h16V4H4zm2 2h12v12H6V8zM8 8h8v8H8V8z"/></svg></div><h3 class="text-white text-lg font-bold">Cross‑Border Compliance</h3><p class="text-gray-400 text-sm mt-2">We map local regulations (MiCA, SEC, FCA, OHADA, CEMAC) into executable rules. Our engine flags structural non‑compliance before deployment.</p><div class="code-block mt-3"><code>// Regulatory rule snippet (MiCA Article 67 – reserve asset requirements)
+if (token_type == 'ART' && reserve_assets_ratio < 1.0) {
+    reject("Reserve assets must cover outstanding tokens 1:1");
+}</code></div></div>
+            </div>
         </div>
     </section>
 
-    <!-- Global Legal Coverage Map -->
-    <section id="geography" class="py-24 bg-slate-950 border-y border-slate-800">
+    <!-- Technology Stack – formal verification tools -->
+    <section id="technology" class="py-24 bg-slate-950 border-y border-slate-800">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div><h2 class="text-3xl font-bold mb-4">Global Legal & Regulatory Coverage</h2><p class="text-gray-400 mb-4">Our team holds practising certificates and deep experience across multiple common and civil law jurisdictions. We map local laws into our formal verification engine.</p><ul class="space-y-2 text-sm text-gray-300"><li><span class="text-brand-gray">▸</span> United Kingdom: English law, FCA Handbook, SMCR</li><li><span class="text-brand-gray">▸</span> Europe: MiFID II, EMIR, GDPR, DORA, MiCA</li><li><span class="text-brand-gray">▸</span> United States: SEC rules, Dodd‑Frank, state‑level regulations</li><li><span class="text-brand-gray">▸</span> Asia: Singapore (MAS), Hong Kong (SFC), Japan (FSA)</li><li><span class="text-brand-gray">▸</span> Offshore: Cayman, BVI, Bermuda (fund structures)</li></ul><p class="text-gray-400 text-sm mt-6">Additional jurisdictions available on request via our partner law firms.</p></div>
-                <div class="custom-map-container h-[400px] rounded-sm" id="legalMap"></div>
+                <div class="fade-item">
+                    <h2 class="text-3xl font-bold mb-6">Formal Methods Stack</h2>
+                    <p class="text-gray-400 leading-relaxed mb-4">We combine academic‑grade formal verification with industrial‑scale tooling – delivering mathematical certainty for critical financial infrastructure.</p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-gray mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Coq / Lean 4</strong> – interactive theorem proving for core invariants</li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-gray mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Z3 SMT solver</strong> – automatic property checking for arithmetic and state machines</li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-gray mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Slither & Echidna</strong> – static and fuzzing for EVM bytecode</li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-gray mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Seahorse & Anchor</strong> – formal verification for Solana (Rust) programs</li>
+                        <li class="flex items-start"><svg class="w-5 h-5 mr-2 text-brand-gray mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <strong class="text-white">Custom legal rule engine</strong> – maps legislation to logic (Rust + Go)</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900 p-6 rounded-sm fade-item">
+                    <h3 class="text-white font-bold text-xl mb-4">Audit & Delivery Process</h3>
+                    <div class="space-y-3 text-gray-300 text-sm">
+                        <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span>1. Code & specification intake (signed NDA)</span></div>
+                        <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span>2. Automated static analysis + fuzzing (48h run)</span></div>
+                        <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span>3. Manual formal verification (theorem proving for critical paths)</span></div>
+                        <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span>4. Economic modelling & game‑theoretic simulation</span></div>
+                        <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span>5. Regulatory compliance check (jurisdictional rule engine)</span></div>
+                        <div class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> <span>6. Final report with proof artefacts + remediation guidance</span></div>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-800 rounded-sm text-xs text-gray-400">Typical audit completion: 10‑15 business days for 5,000 LOC</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Sector Analysis / Use Cases -->
-    <section class="py-24 bg-[#05080f]">
+    <!-- Service Tiers (institutional pricing, high value) -->
+    <section id="services" class="py-24 bg-[#05080f]">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">Who Uses Our LegalTech Platform</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-gray"><h3 class="text-white font-bold text-xl">DeFi Protocols & DAOs</h3><p class="text-gray-400 text-sm mt-2">Formal verification of smart contracts, treasury management structures, and governance mechanisms. Ensure legal defensibility across jurisdictions.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-gray"><h3 class="text-white font-bold text-xl">FinTech & Crypto Exchanges</h3><p class="text-gray-400 text-sm mt-2">Compliance mapping for MiCA, travel rule, and sanctions screening. Audit of custody frameworks and payment rails.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-gray"><h3 class="text-white font-bold text-xl">Asset Managers & Banks</h3><p class="text-gray-400 text-sm mt-2">Structured product validation, cross‑border fund compliance, and automated regulatory reporting. Smart contract custody audits.</p></div>
-                <div class="bg-slate-900 p-6 rounded-sm border-l-2 border-brand-gray"><h3 class="text-white font-bold text-xl">Law Firms & Regulators</h3><p class="text-gray-400 text-sm mt-2">White‑labelled legal rule engines, automated contract review, and regulatory sandbox analysis for central banks.</p></div>
+            <h2 class="text-3xl font-bold text-center mb-12">LegalTech Service Tiers</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-gray">Smart Contract Audit</h3><p class="text-gray-400 text-sm mt-2">Full formal verification, gas optimisation, and economic attack modelling. Detailed report + proof artefacts.</p><div class="mt-4 border-t border-slate-800 pt-4"><span class="text-xs text-gray-500">Fixed fee (5k–20k LOC)</span><div class="text-3xl font-bold text-white">$25,000<span class="text-sm font-normal text-gray-400">/audit</span></div><div class="text-xs text-gray-500 mt-1">+ $5k per additional 5k LOC</div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-gray">Tokenomics Audit</h3><p class="text-gray-400 text-sm mt-2">Economic modelling, incentive compatibility, game‑theoretic analysis, and sustainability simulation.</p><div class="mt-4 border-t border-slate-800 pt-4"><span class="text-xs text-gray-500">Typical</span><div class="text-3xl font-bold text-white">$40,000<span class="text-sm font-normal text-gray-400">/model</span></div><div class="text-xs text-gray-500 mt-1">Includes 3‑year projection scenarios</div></div></div>
+                <div class="service-card p-6 rounded-sm"><h3 class="text-xl font-bold text-brand-gray">Enterprise Compliance (Retainer)</h3><p class="text-gray-400 text-sm mt-2">Ongoing regulatory monitoring, cross‑border structure audits, automated compliance reporting, legal engineer on call.</p><div class="mt-4 border-t border-slate-800 pt-4"><span class="text-xs text-gray-500">Annual retainer</span><div class="text-3xl font-bold text-white">$250k – $1.5M</div><p class="text-xs text-gray-500 mt-2">Based on jurisdiction count and transaction volume</p></div></div>
+            </div>
+            <p class="text-center text-gray-500 text-xs mt-8">All audits include a confidentiality agreement, a certificate of completion, and post‑audit support (30 days). Multi‑contract discounts available.</p>
+        </div>
+    </section>
+
+    <!-- Global Map – precise pin on Yaoundé + secondary hubs -->
+    <section id="global" class="py-24 bg-slate-950 border-y border-slate-800">
+        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-item">
+                    <h2 class="text-3xl font-bold mb-4">Global Legal Coverage</h2>
+                    <p class="text-gray-400 mb-4">Our legal engineers are qualified in multiple jurisdictions and work closely with partner law firms. The primary auditing hub is in Yaoundé, with specialised centres in London (common law) and Singapore (APAC fintech).</p>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <strong class="text-white">Africa (Yaoundé hub):</strong> OHADA, CEMAC, BEAC regulations, digital finance sandbox</li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <strong class="text-white">Europe (London):</strong> MiCA, FCA Handbook, UK EMIR, GDPR, DORA</li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <strong class="text-white">Americas (New York):</strong> SEC rules, FinCEN, state‑level crypto regulations</li>
+                        <li class="flex items-start"><svg class="w-4 h-4 mr-2 mt-0.5 text-brand-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> <strong class="text-white">Asia‑Pacific (Singapore):</strong> MAS Payment Services Act, SFC guidelines, ASIC</li>
+                    </ul>
+                    <div class="mt-6 bg-slate-900 p-4 rounded-sm">
+                        <p class="text-gray-400 text-sm">The map pin marks our primary LegalTech hub at <strong class="text-white">Yaoundé, Cameroon</strong>. Additional pins represent regional legal centres for jurisdiction‑specific expertise.</p>
+                    </div>
+                </div>
+                <div class="custom-map-container h-[450px] rounded-sm" id="legalMap"></div>
             </div>
         </div>
     </section>
 
-    <!-- Case Study / Testimonial with image -->
-    <section class="py-20 bg-slate-950">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" class="mx-auto mb-4"><path d="M12 2 L12 6 M12 18 L12 22 M4.93 4.93 L7.76 7.76 M16.24 16.24 L19.07 19.07 M2 12 L6 12 M18 12 L22 12 M4.93 19.07 L7.76 16.24 M16.24 7.76 L19.07 4.93"/><circle cx="12" cy="12" r="3"/></svg>
-            <p class="text-gray-300 text-lg italic">“ASI PRIME’s formal verification of our cross‑border payment smart contract uncovered a subtle game‑theoretic vulnerability that saved over $12M in potential exploit. Their legal mapping to Swiss and EU regulations gave us full regulatory confidence.”</p>
-            <p class="text-white font-bold mt-4">— General Counsel, $2bn digital asset fund</p>
+    <!-- Case Study / Trust Section -->
+    <section class="py-20 bg-[#05080f]">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <svg class="w-12 h-12 text-brand-gray mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <p class="text-gray-300 text-lg italic">“ASI PRIME’s formal verification discovered a critical governance vulnerability in our DAO that would have allowed treasury drain. Their audit report was instrumental during our regulatory filing with the Swiss FINMA. We now require formal verification for every protocol upgrade.”</p>
+            <p class="text-white font-bold mt-4">— CTO, decentralised derivatives exchange ($9B TVL)</p>
             <div class="mt-8 flex justify-center">
-                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=800&q=80" alt="Legal documentation and audit" class="rounded-sm w-full max-w-2xl img-glow">
+                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=800&q=80" alt="Legal audit documentation" class="rounded-sm w-full max-w-2xl">
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-[#010204] pt-16 pb-10 border-t border-slate-800">
-        <div class="max-w-[1800px] mx-auto px-4 text-center text-gray-500 text-xs"><p>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. LegalTech & Auditing Division.</p><p class="mt-2"><a href="../index.html" class="text-brand-gray hover:underline">← Return to Holding Company</a></p></div>
+        <div class="max-w-[1800px] mx-auto px-4 text-center text-gray-500 text-xs">
+            <p>&copy; 2026 ASI PRIME TECHNOLOGIES HOLDINGS PLC. LegalTech & Auditing Division. All rights reserved.</p>
+            <p class="mt-2"><a href="../index.html" class="text-brand-gray hover:underline">← Return to Holding Company</a></p>
+            <div class="mt-4 flex justify-center gap-4 text-gray-600">
+                <a href="../privacy.html" class="hover:text-white">Privacy</a>
+                <a href="../terms.html" class="hover:text-white">Terms</a>
+                <a href="mailto:legal@asiprime.com" class="hover:text-white">legal@asiprime.com</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -191,10 +253,12 @@
             document.getElementById('progress-bar').style.width = scrolled + '%';
         });
 
+        // Precise map: Yaoundé primary pin, plus London & Singapore
         const map = L.map('legalMap').setView([30, 0], 2);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CartoDB', subdomains: 'abcd' }).addTo(map);
-        const legalHubs = [[51.5074, -0.1278], [40.7128, -74.0060], [50.1109, 8.6821], [1.3521, 103.8198]];
-        legalHubs.forEach(h => L.marker(h).addTo(map).bindPopup('Legal & regulatory hub'));
+        L.marker([3.8480, 11.5021]).addTo(map).bindPopup('<b>ASI PRIME LegalTech Hub Yaoundé</b><br>Immeuble Etoile, Boulevard du 20 Mai<br>Formal verification & African regulatory sandbox');
+        L.marker([51.5074, -0.1278]).addTo(map).bindPopup('<b>London Legal Centre</b><br>Common law & MiCA expertise');
+        L.marker([1.3521, 103.8198]).addTo(map).bindPopup('<b>Singapore Legal Centre</b><br>APAC fintech & digital asset regulation');
 
         gsap.registerPlugin(ScrollTrigger);
         gsap.utils.toArray('.fade-item').forEach(el => {
