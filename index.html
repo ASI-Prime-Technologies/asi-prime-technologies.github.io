@@ -387,53 +387,78 @@
         </div>
     </section>
     
-        <!-- May Day Employee Appreciation Section -->
-    <section id="may-day" class="py-24 bg-[#05080f] relative border-t border-b border-slate-800 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-brand-blue/5 to-transparent pointer-events-none"></div>
+            <!-- May Day Employee Appreciation Section with Founder's Message -->
+    <section id="may-day" class="py-24 relative border-t border-b border-slate-800 overflow-hidden">
+        <!-- UK Flag Background with Dark Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1600&q=80" alt="UK Flag Background" class="w-full h-full object-cover opacity-20">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#05080f] via-[#05080f]/90 to-[#05080f]/80"></div>
+        </div>
+
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-12 gap-12 items-center">
+            <div class="grid lg:grid-cols-12 gap-16 items-center">
                 
                 <!-- Content Column -->
-                <div class="lg:col-span-5 gs-reveal-up">
+                <div class="lg:col-span-6 gs-reveal-up">
                     <div class="inline-flex items-center space-x-2 border border-brand-blue/30 bg-brand-blue/10 px-4 py-1.5 rounded-sm mb-6 backdrop-blur-sm">
                         <span class="w-1.5 h-1.5 bg-brand-accent rounded-full animate-pulse"></span>
-                        <span class="text-xs font-mono text-brand-light tracking-widest uppercase">Internal // Employee Recognition</span>
+                        <span class="text-xs font-mono text-brand-light tracking-widest uppercase">Internal // Leadership Communiqué</span>
                     </div>
-                    <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white tracking-tight">Happy May Day to the <span class="text-gradient">ASI PRIME</span> Network.</h2>
-                    <p class="text-gray-400 text-lg leading-relaxed mb-8 border-l-2 border-slate-700 pl-4">
-                        On this International Workers' Day, we extend our deepest gratitude to the architects, quants, compliance officers, and engineers across our global operational hubs. Your relentless pursuit of precision and algorithmic resilience is the driving force behind our sovereign financial ecosystem. 
-                        ~ Charles Mfouapon, Founder
+                    
+                    <h2 class="text-4xl md:text-5xl font-bold mb-8 text-white tracking-tight leading-tight">
+                        A Message of Appreciation <br>
+                        <span class="text-gradient">to the Global Network.</span>
+                    </h2>
+
+                    <!-- Original Message -->
+                    <p class="text-gray-400 text-lg leading-relaxed mb-6">
+                        On this International Workers' Day, we extend our deepest gratitude to the architects, quants, compliance officers, and engineers across our global operational hubs. Your relentless pursuit of precision and algorithmic resilience is the driving force behind our sovereign financial ecosystem.
                     </p>
-                    <div class="flex items-center space-x-4">
-                        <div class="flex -space-x-4">
-                            <!-- Employee Avatar Stack -->
-                            <img class="w-12 h-12 rounded-full border-2 border-[#05080f] object-cover" src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=200&q=80" alt="Team Member">
-                            <img class="w-12 h-12 rounded-full border-2 border-[#05080f] object-cover" src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=200&q=80" alt="Team Member">
-                            <img class="w-12 h-12 rounded-full border-2 border-[#05080f] object-cover" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&q=80" alt="Team Member">
+
+                    <!-- Founder's Personal Message -->
+                    <div class="bg-white/5 border-l-2 border-brand-blue p-8 mb-8 backdrop-blur-md rounded-r-lg">
+                        <p class="text-gray-200 italic leading-relaxed mb-6">
+                            "The strength of ASI PRIME lies not in our code, but in the brilliant minds that conceive it. As we continue to bridge the gap between high-frequency finance and legal engineering, I am profoundly honored to lead a team that defines the future of institutional infrastructure every day. Thank you for your unwavering commitment."
+                        </p>
+                        
+                        <!-- Signature Area -->
+                        <div class="flex flex-col">
+                            <span class="text-3xl font-light text-white opacity-90 mb-2 italic tracking-tighter" style="font-family: 'Georgia', serif;">
+                                Charles Mfouapon
+                            </span>
+                            <span class="text-xs font-mono text-brand-light uppercase tracking-[0.3em]">
+                                Founder & Managing Partner
+                            </span>
                         </div>
-                        <span class="text-sm font-mono text-gray-500 uppercase tracking-wider">+4,200 Global Employees</span>
+                    </div>
+
+                    <div class="flex items-center space-x-6">
+                        <a href="about.html" class="text-sm font-mono text-white hover:text-brand-blue transition-colors flex items-center group">
+                            VIEW LEADERSHIP PROFILE 
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </a>
+                        <div class="h-4 w-[1px] bg-slate-700"></div>
+                        <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Employee Count: 4,200+ Nodes</span>
                     </div>
                 </div>
 
                 <!-- Visuals Column -->
-                <div class="lg:col-span-7 grid grid-cols-2 gap-4 gs-reveal-up-delay-1">
-                    <!-- UK Flag Image -->
-                    <div class="space-y-4">
-                        <div class="relative overflow-hidden rounded-lg border border-slate-800 group h-72">
-                            <img src="https://images.unsplash.com/photo-1486299267070-83823f5448dd?w=800&q=80" alt="UK Flag on modern architecture" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#05080f] via-[#05080f]/20 to-transparent"></div>
+                <div class="lg:col-span-6 grid grid-cols-2 gap-6 gs-reveal-up-delay-1">
+                    <div class="space-y-6">
+                        <div class="relative overflow-hidden rounded-lg border border-slate-800 group h-80">
+                            <img src="https://images.unsplash.com/photo-1486299267070-83823f5448dd?w=800&q=80" alt="London Canary Wharf" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#05080f] via-transparent to-transparent"></div>
                             <div class="absolute bottom-4 left-4">
-                                <span class="text-xs font-mono text-white bg-black/60 px-3 py-1.5 rounded border border-slate-700 backdrop-blur-md">London HQ / May 1st</span>
+                                <span class="text-[10px] font-mono text-white bg-black/60 px-3 py-1.5 rounded border border-slate-700 backdrop-blur-md uppercase tracking-tighter">London Headquarters</span>
                             </div>
                         </div>
                     </div>
-                    <!-- Global Infrastructure/Workers Image -->
-                    <div class="space-y-4 pt-12">
-                        <div class="relative overflow-hidden rounded-lg border border-slate-800 group h-72">
-                            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80" alt="Global tech infrastructure team" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#05080f] via-[#05080f]/20 to-transparent"></div>
+                    <div class="space-y-6 pt-16">
+                        <div class="relative overflow-hidden rounded-lg border border-slate-800 group h-80">
+                            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&q=80" alt="Infrastructure Team" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#05080f] via-transparent to-transparent"></div>
                             <div class="absolute bottom-4 left-4">
-                                <span class="text-xs font-mono text-white bg-black/60 px-3 py-1.5 rounded border border-slate-700 backdrop-blur-md">Global Infrastructure Teams</span>
+                                <span class="text-[10px] font-mono text-white bg-black/60 px-3 py-1.5 rounded border border-slate-700 backdrop-blur-md uppercase tracking-tighter">Global Execution Hubs</span>
                             </div>
                         </div>
                     </div>
