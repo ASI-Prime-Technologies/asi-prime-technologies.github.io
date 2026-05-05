@@ -35,7 +35,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; background-color: #05080f; }
         .glass-nav { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .hero-bg-careers { background: linear-gradient(to bottom, rgba(5, 8, 15, 0.85), rgba(5, 8, 15, 1)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat fixed; }
+        .hero-bg-careers { background: linear-gradient(to bottom, rgba(5, 8, 15, 0.85), rgba(5, 8, 15, 1)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2500&q=100') center/cover no-repeat; }
         .text-gradient { background: linear-gradient(to right, #ffffff, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         #preloader { position: fixed; inset: 0; z-index: 9999; background: #05080f; display: flex; justify-content: center; align-items: center; transition: opacity 0.6s cubic-bezier(0.8, 0, 0.2, 1); }
@@ -48,6 +48,21 @@
         .job-card { background: #0b1120; border: 1px solid #1e293b; transition: all 0.3s; }
         .job-card:hover { border-color: #0ea5e9; transform: translateY(-4px); box-shadow: 0 10px 25px -10px rgba(14,165,233,0.2); }
         .value-badge { background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.3); }
+        
+        #path-container {
+    min-height: 300px;
+}
+
+.path-panel {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+.path-panel.hidden {
+    display: none;
+    position: absolute;
+}
     </style>
 </head>
 <body class="antialiased selection:bg-brand-blue selection:text-white bg-grid-pattern">
@@ -369,10 +384,10 @@
         </div>
 
         <!-- Panels Wrapper -->
-        <div class="relative min-h-[520px] md:min-h-[420px]">
+        <div id="path-container" class="relative min-h-[300px]">
 
             <!-- QUANT -->
-            <div class="path-panel grid md:grid-cols-3 gap-6 absolute inset-0" data-path="quant">
+            <div class="path-panel grid md:grid-cols-3 gap-6" data-path="quant">
                 <div class="job-card p-6"><h4 class="text-white font-bold">Profile</h4><p class="text-gray-400 text-sm mt-2">Math, stats, physics. Strong modeling intuition.</p></div>
                 <div class="job-card p-6"><h4 class="text-white font-bold">What You Do</h4><p class="text-gray-400 text-sm mt-2">Build alpha models and deploy strategies.</p></div>
                 <div class="job-card p-6"><h4 class="text-white font-bold">Tools</h4><p class="text-gray-400 text-sm mt-2">Python, ML, time-series systems.</p></div>
@@ -382,7 +397,7 @@
             </div>
 
             <!-- LEGAL -->
-            <div class="path-panel grid md:grid-cols-3 gap-6 absolute inset-0 opacity-0 pointer-events-none" data-path="legal">
+            <div class="path-panel grid md:grid-cols-3 gap-6 hidden" data-path="legal">
                 <div class="job-card p-6"><h4 class="text-white font-bold">Profile</h4><p class="text-gray-400 text-sm mt-2">LLB/LLM with global mindset.</p></div>
                 <div class="job-card p-6"><h4 class="text-white font-bold">What You Do</h4><p class="text-gray-400 text-sm mt-2">Encode regulation into systems.</p></div>
                 <div class="job-card p-6"><h4 class="text-white font-bold">Tools</h4><p class="text-gray-400 text-sm mt-2">Legal + Python + RegTech.</p></div>
@@ -392,7 +407,7 @@
             </div>
 
             <!-- ENGINEERING -->
-            <div class="path-panel grid md:grid-cols-3 gap-6 absolute inset-0 opacity-0 pointer-events-none" data-path="engineering">
+            <div class="path-panel grid md:grid-cols-3 gap-6 hidden" data-path="engineering">
                 <div class="job-card p-6"><h4 class="text-white font-bold">Profile</h4><p class="text-gray-400 text-sm mt-2">Systems & performance engineering.</p></div>
                 <div class="job-card p-6"><h4 class="text-white font-bold">What You Do</h4><p class="text-gray-400 text-sm mt-2">Build low-latency infrastructure.</p></div>
                 <div class="job-card p-6"><h4 class="text-white font-bold">Tools</h4><p class="text-gray-400 text-sm mt-2">C++, Linux, networking.</p></div>
@@ -427,6 +442,15 @@
     </footer>
 
     <script>
+    // Set default active button on load
+document.addEventListener("DOMContentLoaded", () => {
+    const defaultBtn = document.querySelector('.path-btn[data-path="quant"]');
+    if (defaultBtn) {
+        defaultBtn.classList.add("bg-brand-blue", "text-white");
+        defaultBtn.querySelector("span").style.opacity = "0.1";
+    }
+});
+    
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if(mobileBtn) mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -463,43 +487,23 @@
 
 let activePath = "quant";
 
-// Animate switch
 function switchPath(target) {
     if (target === activePath) return;
 
     const currentPanel = document.querySelector(`.path-panel[data-path="${activePath}"]`);
     const nextPanel = document.querySelector(`.path-panel[data-path="${target}"]`);
 
-    // Animate out
-    gsap.to(currentPanel, {
-        opacity: 0,
-        y: 20,
-        duration: 0.4,
-        onComplete: () => {
-            currentPanel.classList.add("pointer-events-none");
+    // Hide current
+    currentPanel.classList.add("hidden");
 
-            // Animate in
-            nextPanel.classList.remove("pointer-events-none");
-            gsap.fromTo(nextPanel,
-                { opacity: 0, y: 20 },
-                {
-                    opacity: 0,
-                    y: 20,
-                    duration: 0.4,
-                    ease: "power2.out",
-                    onStart: () => {
-                        nextPanel.style.opacity = "1";
-                    }
-                }
-            );
+    // Show next
+    nextPanel.classList.remove("hidden");
 
-            // Stagger children
-            gsap.fromTo(nextPanel.children,
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, stagger: 0.05, duration: 0.4 }
-            );
-        }
-    });
+    // Animate next
+    gsap.fromTo(nextPanel.children,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, stagger: 0.05, duration: 0.4 }
+    );
 
     // Update buttons
     pathButtons.forEach(btn => {
@@ -511,10 +515,11 @@ function switchPath(target) {
     activeBtn.classList.add("bg-brand-blue", "text-white");
     activeBtn.querySelector("span").style.opacity = "0.1";
 
-    // Update URL hash
-    history.replaceState(null, "", `#${target}`);
-
+    // Update state
     activePath = target;
+
+    // Update URL
+    history.replaceState(null, "", `#${target}`);
 }
 
 // Click events
@@ -524,13 +529,11 @@ pathButtons.forEach(btn => {
     });
 });
 
-// Load from URL hash
+// Load from hash
 window.addEventListener("load", () => {
     const hash = window.location.hash.replace("#", "");
     if (hash && document.querySelector(`.path-panel[data-path="${hash}"]`)) {
         switchPath(hash);
-    } else {
-        switchPath("quant");
     }
 });
     </script>
