@@ -387,7 +387,7 @@
         <div id="path-container" class="relative min-h-[300px]">
 
             <!-- QUANT -->
-            <div class="path-panel grid md:grid-cols-3 gap-6" data-path="quant">
+            <div class="path-panel grid md:grid-cols-3 gap-6 hidden" data-path="quant">
                 <div class="job-card p-6"><h4 class="text-white font-bold">Profile</h4><p class="text-gray-400 text-sm mt-2">Math, stats, physics. Strong modeling intuition.</p></div>
                 <div class="job-card p-6"><h4 class="text-white font-bold">What You Do</h4><p class="text-gray-400 text-sm mt-2">Build alpha models and deploy strategies.</p></div>
                 <div class="job-card p-6"><h4 class="text-white font-bold">Tools</h4><p class="text-gray-400 text-sm mt-2">Python, ML, time-series systems.</p></div>
@@ -422,7 +422,7 @@
 
     <!-- Application Process -->
     <section class="py-24 bg-[#05080f]">
-        <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="fade-item"><h2 class="text-3xl font-bold mb-4">Hiring Process</h2><ul class="space-y-4 text-gray-300"><li class="flex items-start"><span class="text-brand-blue mr-3">1.</span><span>30‑min call with recruiter</span></li><li class="flex items-start"><span class="text-brand-blue mr-3">2.</span><span>Technical take‑home challenge (no live coding under pressure)</span></li><li class="flex items-start"><span class="text-brand-blue mr-3">3.</span><span>Panel interview with team members (system design / research walkthrough)</span></li><li class="flex items-start"><span class="text-brand-blue mr-3">4.</span><span>Final call with leadership & offer</span></li></ul><p class="text-gray-400 text-sm mt-6">We aim to complete the process in 2‑3 weeks. Feedback given within 48 hours after each stage.</p></div>
                 <div class="fade-item bg-slate-900 p-8 border border-slate-800 rounded-sm"><h3 class="text-white font-bold text-xl mb-4">What We Offer</h3><ul class="space-y-3 text-gray-300"><li>✓ Competitive base + performance bonus</li><li>✓ Generous relocation package & visa sponsorship</li><li>✓ Annual research budget for conferences & hardware</li><li>✓ 25 days holiday + public holidays</li><li>✓ Private health insurance & pension contribution</li><li>✓ Home office stipend and gym membership</li></ul></div>
@@ -537,5 +537,10 @@ window.addEventListener("load", () => {
     }
 });
     </script>
+    <div id="sticky-apply" class="fixed bottom-6 right-6 z-50">
+  <a href="apply.html" class="px-6 py-3 bg-brand-blue text-white font-mono text-xs uppercase tracking-widest shadow-lg">
+    Apply Now
+  </a>
+</div>
 </body>
 </html>
