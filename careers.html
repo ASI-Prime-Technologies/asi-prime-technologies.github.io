@@ -338,6 +338,72 @@
             </div>
         </div>
     </section>
+    
+    <!-- Choose Your Path -->
+    <section class="py-24 bg-slate-950 border-t border-slate-800">
+    <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <div class="text-center mb-16 fade-item">
+            <h2 class="text-brand-blue font-mono text-sm tracking-widest uppercase">Pathways</h2>
+            <h3 class="text-4xl font-bold mt-2">Choose Your Path</h3>
+            <p class="text-gray-400 max-w-2xl mx-auto mt-4">
+                Your trajectory is defined by what you choose to master. Select a path and explore your future inside ASI PRIME.
+            </p>
+        </div>
+
+        <!-- Selector -->
+        <div class="flex justify-center gap-4 mb-16 fade-item flex-wrap">
+            <button class="path-btn px-6 py-3 text-xs font-mono border border-brand-blue text-brand-blue transition-all relative overflow-hidden" data-path="quant">
+                Quant
+                <span class="absolute inset-0 bg-brand-blue opacity-0 transition-opacity"></span>
+            </button>
+            <button class="path-btn px-6 py-3 text-xs font-mono border border-brand-blue text-brand-blue transition-all relative overflow-hidden" data-path="legal">
+                Legal
+                <span class="absolute inset-0 bg-brand-blue opacity-0 transition-opacity"></span>
+            </button>
+            <button class="path-btn px-6 py-3 text-xs font-mono border border-brand-blue text-brand-blue transition-all relative overflow-hidden" data-path="engineering">
+                Engineering
+                <span class="absolute inset-0 bg-brand-blue opacity-0 transition-opacity"></span>
+            </button>
+        </div>
+
+        <!-- Panels Wrapper -->
+        <div class="relative min-h-[300px]">
+
+            <!-- QUANT -->
+            <div class="path-panel grid md:grid-cols-3 gap-6 absolute inset-0" data-path="quant">
+                <div class="job-card p-6"><h4 class="text-white font-bold">Profile</h4><p class="text-gray-400 text-sm mt-2">Math, stats, physics. Strong modeling intuition.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">What You Do</h4><p class="text-gray-400 text-sm mt-2">Build alpha models and deploy strategies.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Tools</h4><p class="text-gray-400 text-sm mt-2">Python, ML, time-series systems.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Comp</h4><p class="text-gray-400 text-sm mt-2">£80K – £300K+</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Trajectory</h4><p class="text-gray-400 text-sm mt-2">Research → Portfolio Lead</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Edge</h4><p class="text-gray-400 text-sm mt-2">Direct capital exposure</p></div>
+            </div>
+
+            <!-- LEGAL -->
+            <div class="path-panel grid md:grid-cols-3 gap-6 absolute inset-0 opacity-0 pointer-events-none" data-path="legal">
+                <div class="job-card p-6"><h4 class="text-white font-bold">Profile</h4><p class="text-gray-400 text-sm mt-2">LLB/LLM with global mindset.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">What You Do</h4><p class="text-gray-400 text-sm mt-2">Encode regulation into systems.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Tools</h4><p class="text-gray-400 text-sm mt-2">Legal + Python + RegTech.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Comp</h4><p class="text-gray-400 text-sm mt-2">£55K – £180K+</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Trajectory</h4><p class="text-gray-400 text-sm mt-2">Analyst → LegalTech Lead</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Edge</h4><p class="text-gray-400 text-sm mt-2">Law × Code × Finance</p></div>
+            </div>
+
+            <!-- ENGINEERING -->
+            <div class="path-panel grid md:grid-cols-3 gap-6 absolute inset-0 opacity-0 pointer-events-none" data-path="engineering">
+                <div class="job-card p-6"><h4 class="text-white font-bold">Profile</h4><p class="text-gray-400 text-sm mt-2">Systems & performance engineering.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">What You Do</h4><p class="text-gray-400 text-sm mt-2">Build low-latency infrastructure.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Tools</h4><p class="text-gray-400 text-sm mt-2">C++, Linux, networking.</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Comp</h4><p class="text-gray-400 text-sm mt-2">£90K – £250K+</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Trajectory</h4><p class="text-gray-400 text-sm mt-2">Engineer → Architect</p></div>
+                <div class="job-card p-6"><h4 class="text-white font-bold">Edge</h4><p class="text-gray-400 text-sm mt-2">Speed at physical limits</p></div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
     <!-- Application Process -->
     <section class="py-24 bg-[#05080f]">
@@ -391,6 +457,82 @@
         });
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => { navbar.style.background = window.scrollY > 50 ? 'rgba(2, 6, 23, 0.95)' : 'rgba(5, 8, 15, 0.85)'; });
+        
+        const pathButtons = document.querySelectorAll('.path-btn');
+const panels = document.querySelectorAll('.path-panel');
+
+let activePath = "quant";
+
+// Animate switch
+function switchPath(target) {
+    if (target === activePath) return;
+
+    const currentPanel = document.querySelector(`.path-panel[data-path="${activePath}"]`);
+    const nextPanel = document.querySelector(`.path-panel[data-path="${target}"]`);
+
+    // Animate out
+    gsap.to(currentPanel, {
+        opacity: 0,
+        y: 20,
+        duration: 0.4,
+        onComplete: () => {
+            currentPanel.classList.add("pointer-events-none");
+
+            // Animate in
+            nextPanel.classList.remove("pointer-events-none");
+            gsap.fromTo(nextPanel,
+                { opacity: 0, y: 20 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    onStart: () => {
+                        nextPanel.style.opacity = "1";
+                    }
+                }
+            );
+
+            // Stagger children
+            gsap.fromTo(nextPanel.children,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, stagger: 0.05, duration: 0.4 }
+            );
+        }
+    });
+
+    // Update buttons
+    pathButtons.forEach(btn => {
+        btn.classList.remove("bg-brand-blue", "text-white");
+        btn.querySelector("span").style.opacity = "0";
+    });
+
+    const activeBtn = document.querySelector(`.path-btn[data-path="${target}"]`);
+    activeBtn.classList.add("bg-brand-blue", "text-white");
+    activeBtn.querySelector("span").style.opacity = "0.1";
+
+    // Update URL hash
+    history.replaceState(null, "", `#${target}`);
+
+    activePath = target;
+}
+
+// Click events
+pathButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        switchPath(btn.getAttribute('data-path'));
+    });
+});
+
+// Load from URL hash
+window.addEventListener("load", () => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash && document.querySelector(`.path-panel[data-path="${hash}"]`)) {
+        switchPath(hash);
+    } else {
+        switchPath("quant");
+    }
+});
     </script>
 </body>
 </html>
