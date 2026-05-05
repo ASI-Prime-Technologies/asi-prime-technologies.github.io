@@ -483,9 +483,9 @@ function switchPath(target) {
             gsap.fromTo(nextPanel,
                 { opacity: 0, y: 20 },
                 {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.5,
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.4,
                     ease: "power2.out",
                     onStart: () => {
                         nextPanel.style.opacity = "1";
