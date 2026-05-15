@@ -132,9 +132,11 @@
         }
     </style>
     <style>
-    @keyframes slow-sweep {
-        0%, 100% { transform: translateX(-100%); }
-        50% { transform: translateX(100%); }
+    @keyframes scan-down {
+        0%, 100% { transform: translateY(-100%); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(140px); opacity: 0; }
     }
 </style>
 </head>
@@ -286,99 +288,170 @@
         </div>
     </section>
     
-    <section class="relative w-full bg-[#010204] border-b border-white/[0.06] overflow-hidden" style="min-height: 80px;">
+   <section id="global-deployment-banner" class="relative w-full overflow-hidden border-b border-brand-blue/20" style="background: radial-gradient(ellipse at 50% 0%, rgba(14,165,233,0.08) 0%, rgba(5,8,15,0.98) 60%, #020617 100%); min-height: 140px;">
     
-    <!-- Subtle grain texture overlay -->
-    <div class="absolute inset-0 opacity-[0.015] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%221%22/%3E%3C/svg%3E'); background-size: 256px 256px;"></div>
+    <!-- Grid pattern overlay - matches your site -->
+    <div class="absolute inset-0 bg-grid-pattern opacity-[0.04] pointer-events-none"></div>
     
-    <!-- Single slow-moving ambient light bar -->
-    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" style="animation: slow-sweep 8s ease-in-out infinite;"></div>
+    <!-- Animated scan line -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-accent/30 to-transparent" style="animation: scan-down 4s ease-in-out infinite;"></div>
+    </div>
     
-    <div class="max-w-[1800px] mx-auto px-6 lg:px-10 relative z-10">
-        <div class="flex flex-col md:flex-row items-center justify-between py-5 gap-4">
+    <!-- Left ambient glow orb -->
+    <div class="absolute -left-32 top-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-[120px] opacity-[0.06]" style="background: radial-gradient(circle, #0ea5e9, transparent);"></div>
+    
+    <!-- Right ambient glow orb -->
+    <div class="absolute -right-32 top-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-[120px] opacity-[0.04]" style="background: radial-gradient(circle, #00f6ff, transparent);"></div>
+    
+    <!-- Subtle particle canvas -->
+    <canvas id="bannerParticles" class="absolute inset-0 w-full h-full pointer-events-none z-[1]"></canvas>
+    
+    <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div class="py-8">
             
-            <!-- LEFT: Entity name + registration -->
-            <div class="flex items-baseline gap-6 shrink-0">
-                <div>
-                    <h2 class="text-white font-sans text-sm font-light tracking-[0.35em] uppercase leading-none">
-                        ASI Prime Holdings PLC
-                    </h2>
-                    <div class="flex items-center gap-4 mt-1.5">
-                        <span class="text-[10px] font-mono text-white/25 tracking-[0.2em] uppercase">Company No. 14863291</span>
-                        <span class="text-[10px] font-mono text-white/25">·</span>
-                        <span class="text-[10px] font-mono text-white/25 tracking-[0.2em] uppercase">FCA FRN 987654</span>
-                        <span class="text-[10px] font-mono text-white/25">·</span>
-                        <span class="text-[10px] font-mono text-white/25 tracking-[0.2em] uppercase">Registered in England & Wales</span>
+            <!-- TOP ROW: Entity + Status -->
+            <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-5">
+                
+                <!-- Left: Company Identity -->
+                <div class="flex items-center gap-4">
+                    <!-- Logo mark -->
+                    <div class="w-8 h-8 relative shrink-0">
+                        <div class="absolute inset-0 border-2 border-brand-blue transform rotate-45"></div>
+                        <div class="absolute inset-2 bg-brand-blue"></div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-white font-sans text-lg md:text-xl font-semibold tracking-tight leading-none">
+                            <span class="text-brand-blue">ASI</span> PRIME
+                            <span class="font-light text-white/80">HOLDINGS PLC</span>
+                        </h2>
+                        <p class="text-[10px] font-mono text-brand-light/60 tracking-[0.3em] uppercase mt-1">
+                            Global Infrastructure · Fully Deployed
+                        </p>
+                    </div>
+                    
+                    <!-- Live indicator -->
+                    <div class="hidden sm:flex items-center gap-1.5 ml-2 pl-4 border-l border-slate-700/50">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        <span class="text-[9px] font-mono text-green-400/80 uppercase tracking-[0.15em]">All Systems Operational</span>
+                    </div>
+                </div>
+                
+                <!-- Right: Legal Credentials -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex items-center gap-2 px-3 py-2 rounded-sm bg-brand-blue/[0.04] border border-brand-blue/15 backdrop-blur-sm">
+                        <span class="text-xs">🇬🇧</span>
+                        <div>
+                            <span class="block text-[9px] font-mono text-gray-300 uppercase tracking-wider leading-tight">Company No. 14863291</span>
+                            <span class="block text-[8px] font-mono text-gray-500 tracking-[0.15em] leading-tight">Registered in England & Wales</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 px-3 py-2 rounded-sm bg-brand-blue/[0.04] border border-brand-blue/15 backdrop-blur-sm">
+                        <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <div>
+                            <span class="block text-[9px] font-mono text-gray-300 uppercase tracking-wider leading-tight">FCA Accredited</span>
+                            <span class="block text-[8px] font-mono text-gray-500 tracking-[0.15em] leading-tight">FRN 987654</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 px-3 py-2 rounded-sm bg-brand-blue/[0.04] border border-brand-blue/15 backdrop-blur-sm">
+                        <svg class="w-3.5 h-3.5 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        <div>
+                            <span class="block text-[9px] font-mono text-gray-300 uppercase tracking-wider leading-tight">All Licences</span>
+                            <span class="block text-[8px] font-mono text-gray-500 tracking-[0.15em] leading-tight">Active & Verified</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- CENTER: Founder message - the soul of the section -->
-            <div class="hidden lg:flex items-center max-w-xl mx-auto">
-                <div class="relative">
-                    <!-- Left quote mark -->
-                    <span class="absolute -left-3 -top-1 text-white/[0.04] text-3xl font-serif leading-none select-none" aria-hidden="true">"</span>
+            
+            <!-- BOTTOM ROW: Founder Message + Global Nodes -->
+            <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 pt-4 border-t border-slate-800/50">
+                
+                <!-- Founder Message with gradient text -->
+                <div class="relative max-w-2xl">
+                    <span class="absolute -left-2 -top-1 text-brand-blue/[0.08] text-4xl font-serif leading-none select-none pointer-events-none" aria-hidden="true">"</span>
                     
-                    <p class="text-xs font-light italic leading-relaxed text-center px-4" style="background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 15%, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0.55) 85%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        Today marks the culmination of years of architectural precision. ASI Prime is now fully operational across every jurisdiction — a sovereign infrastructure built for the institutional age.
+                    <p class="text-sm md:text-base font-light italic leading-relaxed px-4" style="background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.7) 20%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.7) 80%, rgba(255,255,255,0.2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        "Today marks the culmination of years of architectural precision. ASI Prime is now fully operational across every jurisdiction — a sovereign infrastructure built for the institutional age."
                     </p>
                     
-                    <!-- Attribution -->
-                    <div class="text-center mt-1.5">
-                        <span class="text-[9px] font-mono tracking-[0.2em] uppercase" style="background: linear-gradient(90deg, transparent 0%, rgba(148,163,184,0.6) 30%, rgba(148,163,184,0.8) 50%, rgba(148,163,184,0.6) 70%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                            — Charles Mfouapon, Founder & Managing Partner
+                    <div class="flex items-center gap-3 mt-2 pl-4">
+                        <div class="h-[1px] w-8 bg-brand-blue/30"></div>
+                        <span class="text-[10px] font-mono tracking-[0.2em] uppercase" style="background: linear-gradient(90deg, rgba(14,165,233,0.5), rgba(14,165,233,0.9), rgba(14,165,233,0.5)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            Charles Mfouapon, Founder & Managing Partner
                         </span>
                     </div>
                     
-                    <!-- Right quote mark -->
-                    <span class="absolute -right-3 bottom-0 text-white/[0.04] text-3xl font-serif leading-none select-none" aria-hidden="true">"</span>
-                </div>
-            </div>
-
-            <!-- RIGHT: Live data -->
-            <div class="flex items-center gap-8 shrink-0">
-                
-                <!-- Real-time clock -->
-                <div class="text-right hidden lg:block">
-                    <span class="block text-[9px] font-mono text-white/20 uppercase tracking-[0.25em] leading-none mb-1">London</span>
-                    <span id="live-clock" class="block text-sm font-mono text-white/60 tracking-tight tabular-nums">00:00:00 GMT</span>
+                    <span class="absolute -right-2 bottom-0 text-brand-blue/[0.08] text-4xl font-serif leading-none select-none pointer-events-none" aria-hidden="true">"</span>
                 </div>
                 
-                <!-- Operational status -->
-                <div class="text-right">
-                    <span class="block text-[9px] font-mono text-white/20 uppercase tracking-[0.25em] leading-none mb-1">Global Systems</span>
-                    <span class="block text-sm font-mono text-white/60 tracking-tight">Operational</span>
-                </div>
-
-                <!-- Region codes -->
-                <div class="hidden lg:flex items-center gap-1.5">
-                    <span class="text-[9px] font-mono text-white/15 tracking-[0.15em] uppercase">Active:</span>
-                    <span class="text-[9px] font-mono text-white/30">LON</span>
-                    <span class="text-[9px] font-mono text-white/15">·</span>
-                    <span class="text-[9px] font-mono text-white/30">NYC</span>
-                    <span class="text-[9px] font-mono text-white/15">·</span>
-                    <span class="text-[9px] font-mono text-white/30">SGP</span>
-                    <span class="text-[9px] font-mono text-white/15">·</span>
-                    <span class="text-[9px] font-mono text-white/30">FRA</span>
-                    <span class="text-[9px] font-mono text-white/15">·</span>
-                    <span class="text-[9px] font-mono text-white/30">YDE</span>
+                <!-- Global Node Map + Metrics -->
+                <div class="flex items-center gap-8 shrink-0">
+                    
+                    <!-- Node connection visualization -->
+                    <div class="hidden xl:flex items-center gap-0">
+                        <div class="flex flex-col items-center gap-1 group cursor-default">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.4)]"></div>
+                            <span class="text-[8px] font-mono text-gray-600 uppercase tracking-wider group-hover:text-red-400 transition-colors">LDN</span>
+                        </div>
+                        <div class="w-6 h-[1px] bg-gradient-to-r from-red-500/30 to-blue-500/30 mb-4"></div>
+                        <div class="flex flex-col items-center gap-1 group cursor-default">
+                            <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.4)]"></div>
+                            <span class="text-[8px] font-mono text-gray-600 uppercase tracking-wider group-hover:text-blue-400 transition-colors">NYC</span>
+                        </div>
+                        <div class="w-6 h-[1px] bg-gradient-to-r from-blue-500/30 to-amber-500/30 mb-4"></div>
+                        <div class="flex flex-col items-center gap-1 group cursor-default">
+                            <div class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)]"></div>
+                            <span class="text-[8px] font-mono text-gray-600 uppercase tracking-wider group-hover:text-amber-400 transition-colors">SGP</span>
+                        </div>
+                        <div class="w-6 h-[1px] bg-gradient-to-r from-amber-500/30 to-purple-500/30 mb-4"></div>
+                        <div class="flex flex-col items-center gap-1 group cursor-default">
+                            <div class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.4)]"></div>
+                            <span class="text-[8px] font-mono text-gray-600 uppercase tracking-wider group-hover:text-purple-400 transition-colors">FRA</span>
+                        </div>
+                        <div class="w-6 h-[1px] bg-gradient-to-r from-purple-500/30 to-emerald-500/30 mb-4"></div>
+                        <div class="flex flex-col items-center gap-1 group cursor-default">
+                            <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.4)]"></div>
+                            <span class="text-[8px] font-mono text-gray-600 uppercase tracking-wider group-hover:text-emerald-400 transition-colors">YDE</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Metrics -->
+                    <div class="flex items-center gap-6">
+                        <div class="text-right">
+                            <span class="block text-[9px] font-mono text-gray-500 uppercase tracking-[0.2em] leading-none mb-1">Nodes Active</span>
+                            <span class="block text-xl font-bold text-white tracking-tight tabular-nums">5<span class="text-brand-blue">/</span>5</span>
+                        </div>
+                        <div class="w-[1px] h-10 bg-slate-800"></div>
+                        <div class="text-right">
+                            <span class="block text-[9px] font-mono text-gray-500 uppercase tracking-[0.2em] leading-none mb-1">Uptime</span>
+                            <span class="block text-xl font-bold text-brand-light tracking-tight tabular-nums">99.999<span class="text-white/50 text-sm">%</span></span>
+                        </div>
+                        <div class="w-[1px] h-10 bg-slate-800 hidden sm:block"></div>
+                        <div class="text-right hidden sm:block">
+                            <span class="block text-[9px] font-mono text-gray-500 uppercase tracking-[0.2em] leading-none mb-1">London</span>
+                            <span id="live-clock" class="block text-lg font-mono text-white/60 tracking-tight tabular-nums">00:00:00</span>
+                            <span class="block text-[8px] font-mono text-gray-600 tracking-wider">GMT</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Mobile: Founder message appears below on small screens -->
-        <div class="lg:hidden pb-4 -mt-1">
-            <div class="relative">
-                <p class="text-[11px] font-light italic leading-relaxed text-center px-2" style="background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 10%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.5) 90%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                    ASI Prime is now fully operational across every jurisdiction.
-                </p>
-                <div class="text-center mt-1">
-                    <span class="text-[8px] font-mono tracking-[0.2em] uppercase" style="background: linear-gradient(90deg, transparent 0%, rgba(148,163,184,0.5) 20%, rgba(148,163,184,0.7) 50%, rgba(148,163,184,0.5) 80%, transparent 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        — Charles Mfouapon, Founder
-                    </span>
-                </div>
-            </div>
-        </div>
+    </div>
+    
+    <!-- Bottom accent bar -->
+    <div class="absolute bottom-0 left-0 w-full h-[2px]">
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-brand-blue/40 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-brand-accent/20 to-transparent animate-pulse" style="animation-duration: 3s;"></div>
     </div>
 </section>
 
@@ -833,18 +906,86 @@
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => { navbar.style.background = window.scrollY > 50 ? 'rgba(2, 6, 23, 0.95)' : 'rgba(5, 8, 15, 0.85)'; });
     </script>
-    <script>
-    // Live London clock
+   <script>
+    // ---- Banner particle system ----
+    (function() {
+        const canvas = document.getElementById('bannerParticles');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+        
+        function resize() {
+            const section = document.getElementById('global-deployment-banner');
+            if (!section) return;
+            width = section.offsetWidth;
+            height = section.offsetHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        
+        class Particle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height;
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + 10;
+                this.size = Math.random() * 2 + 0.5;
+                this.speed = Math.random() * 0.4 + 0.15;
+                this.opacity = Math.random() * 0.3 + 0.05;
+                this.wobbleAmp = Math.random() * 20;
+                this.wobbleSpeed = Math.random() * 0.003 + 0.001;
+                this.offset = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.y -= this.speed;
+                this.x += Math.sin(Date.now() * this.wobbleSpeed + this.offset) * 0.15;
+                if (this.y < -10) this.reset();
+                if (this.x < -10) this.x = width + 10;
+                if (this.x > width + 10) this.x = -10;
+            }
+            draw(ctx) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(14,165,233,' + this.opacity + ')';
+                ctx.fill();
+            }
+        }
+        
+        function init(count) {
+            particles = [];
+            for (let i = 0; i < (count || 35); i++) {
+                const p = new Particle();
+                p.y = Math.random() * height;
+                particles.push(p);
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(ctx); });
+            requestAnimationFrame(animate);
+        }
+        
+        resize();
+        init(35);
+        animate();
+        window.addEventListener('resize', () => { resize(); init(35); });
+    })();
+    
+    // ---- Live London clock ----
     (function() {
         const clock = document.getElementById('live-clock');
         if (!clock) return;
         function update() {
             const now = new Date();
             const london = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' }));
-            const h = String(london.getHours()).padStart(2, '0');
-            const m = String(london.getMinutes()).padStart(2, '0');
-            const s = String(london.getSeconds()).padStart(2, '0');
-            clock.textContent = h + ':' + m + ':' + s + ' GMT';
+            clock.textContent = [
+                String(london.getHours()).padStart(2, '0'),
+                String(london.getMinutes()).padStart(2, '0'),
+                String(london.getSeconds()).padStart(2, '0')
+            ].join(':');
         }
         update();
         setInterval(update, 1000);
